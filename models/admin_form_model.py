@@ -208,6 +208,8 @@ class GeneralSettings(BaseModel):
     refund_days:int
     kot_flag:str
     modified_by:str
+    custom_receipt_flag:str
+
 
 # =========================================================================================================
 # items.py
@@ -434,6 +436,7 @@ class AddEditSettings(BaseModel):
     refund_days:int|None
     kot_flag:str
     created_by:str
+    custom_sl_flag:str
 
 class AddEditUnit(BaseModel):
     sl_no:int

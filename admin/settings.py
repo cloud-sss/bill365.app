@@ -66,7 +66,7 @@ async def edit_general_settings(data:GeneralSettings):
     current_datetime = datetime.now()
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
     table_name = f"md_receipt_settings"
-    fields = f"rcv_cash_flag='{data.rcv_cash_flag}' ,rcpt_type='{data.rcpt_type}', unit_flag='{data.unit_flag}', cust_inf='{data.cust_inf}', pay_mode='{data.pay_mode}', stock_flag='{data.stock_flag}', price_type='{data.price_type}', refund_days='{data.refund_days}', kot_flag='{data.kot_flag}', modified_by='{data.modified_by}', modified_at='{formatted_dt}'"
+    fields = f"rcv_cash_flag='{data.rcv_cash_flag}' ,custom_sl_flag='{data.custom_receipt_flag}', rcpt_type='{data.rcpt_type}', unit_flag='{data.unit_flag}', cust_inf='{data.cust_inf}', pay_mode='{data.pay_mode}', stock_flag='{data.stock_flag}', price_type='{data.price_type}', refund_days='{data.refund_days}', kot_flag='{data.kot_flag}', modified_by='{data.modified_by}', modified_at='{formatted_dt}'"
     values = None
     where = f"comp_id = {data.comp_id}"
     order = ""

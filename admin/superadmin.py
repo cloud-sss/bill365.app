@@ -247,7 +247,7 @@ async def add_edit_header_footer(data:AddHeaderFooter):
 
 @superadminRouter.get('/S_Admin/select_settings')
 async def select_settings(comp_id:int):
-    select = "a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag"
+    select = "a.comp_id,b.company_name,a.custom_sl_flag,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag"
     table_name = "md_receipt_settings a, md_company b"
     where = f"a.comp_id=b.id and a.comp_id={comp_id}" if comp_id>0 else f"a.comp_id=b.id"
     order = f""
@@ -259,7 +259,7 @@ async def select_settings(comp_id:int):
 async def add_edit_settings(data:AddEditSettings):
     current_datetime = datetime.now()
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-    select = "comp_id,rcv_cash_flag,rcpt_type,gst_flag,gst_type,unit_flag,cust_inf,pay_mode,discount_flag,stock_flag,discount_type,discount_position,price_type,refund_days,kot_flag"
+    select = "comp_id,rcv_cash_flag,rcpt_type,custom_sl_flag,gst_flag,gst_type,unit_flag,cust_inf,pay_mode,discount_flag,stock_flag,discount_type,discount_position,price_type,refund_days,kot_flag"
     table_name = "md_receipt_settings"
     where = f"comp_id={data.comp_id}"
     order = f""
@@ -267,8 +267,8 @@ async def add_edit_settings(data:AddEditSettings):
     res_dt1 = await db_select(select,table_name,where,order,flag)
     if res_dt1["suc"] == 1:
         table_name = f"md_receipt_settings"
-        fields = f"comp_id,rcv_cash_flag,rcpt_type,gst_flag,gst_type,unit_flag,cust_inf,pay_mode,discount_flag,stock_flag,discount_type,discount_position,price_type,refund_days,kot_flag,created_by,created_at" if res_dt1["msg"] == [] else f"rcv_cash_flag='{data.rcv_cash_flag}',rcpt_type='{data.rcpt_type}',gst_flag='{data.gst_flag}',gst_type='{data.gst_type}',unit_flag='{data.unit_flag}',cust_inf='{data.cust_inf}',pay_mode='{data.pay_mode}',discount_flag='{data.discount_flag}',stock_flag='{data.stock_flag}',discount_type='{data.discount_type}',discount_position='{data.discount_position}',price_type='{data.price_type}',refund_days={data.refund_days},kot_flag='{data.kot_flag}',modified_by='{data.created_by}', modified_at='{formatted_dt}'"
-        values = f"{data.comp_id},'{data.rcv_cash_flag}','{data.rcpt_type}','{data.gst_flag}','{data.gst_type}','{data.unit_flag}','{data.cust_inf}','{data.pay_mode}','{data.discount_flag}','{data.stock_flag}','{data.discount_type}','{data.discount_position}','{data.price_type}',{data.refund_days},'{data.kot_flag}','{data.created_by}','{formatted_dt}'" if res_dt1["msg"] == [] else None
+        fields = f"comp_id,rcv_cash_flag,custom_sl_flag,rcpt_type,gst_flag,gst_type,unit_flag,cust_inf,pay_mode,discount_flag,stock_flag,discount_type,discount_position,price_type,refund_days,kot_flag,created_by,created_at" if res_dt1["msg"] == [] else f"rcv_cash_flag='{data.rcv_cash_flag}',rcpt_type='{data.rcpt_type}',gst_flag='{data.gst_flag}',gst_type='{data.gst_type}',unit_flag='{data.unit_flag}',cust_inf='{data.cust_inf}',pay_mode='{data.pay_mode}',discount_flag='{data.discount_flag}',stock_flag='{data.stock_flag}',discount_type='{data.discount_type}',discount_position='{data.discount_position}',price_type='{data.price_type}',refund_days={data.refund_days},kot_flag='{data.kot_flag}',modified_by='{data.created_by}', modified_at='{formatted_dt}'"
+        values = f"{data.comp_id},'{data.rcv_cash_flag}','{data.custom_sl_flag}','{data.rcpt_type}','{data.gst_flag}','{data.gst_type}','{data.unit_flag}','{data.cust_inf}','{data.pay_mode}','{data.discount_flag}','{data.stock_flag}','{data.discount_type}','{data.discount_position}','{data.price_type}',{data.refund_days},'{data.kot_flag}','{data.created_by}','{formatted_dt}'" if res_dt1["msg"] == [] else None
         where = None if res_dt1["msg"] == [] else f"comp_id = {data.comp_id}"
         order = f""
         flag = 0 if res_dt1["msg"] == [] else 1
