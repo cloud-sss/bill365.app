@@ -1,0 +1,20 @@
+.card {
+  border-top-width: 0;
+  border-top-style: solid;
+  border-color: var(--border-color);
+  border-radius: 1rem;
+}
+
+/* Hover: thick colored top border, lift, scale */
+.card:hover {
+  border-top-width: 8px;
+  transform: translateY(-1rem) scale(1.05);
+}
+
+/* Active: thinner border, tighter rounding & shrink */
+.card:active {
+  border-top-width: 4px;
+  border-radius: 1.5rem;
+  transform: scale(0.9);
+  font-weight: 200;
+}
