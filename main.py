@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from api.main import router as apiRouter
-# from admin.main import router as adminRouter
+# from api.main import router as apiRouter
+from admin.main import router as adminRouter
 from fastapi.staticfiles import StaticFiles
 
 # In a file like `config.py` or directly in your main file
@@ -40,8 +40,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(apiRouter)
-# app.include_router(adminRouter)
+# app.include_router(apiRouter)
+app.include_router(adminRouter)
 
 @app.get('/')
 def index():
