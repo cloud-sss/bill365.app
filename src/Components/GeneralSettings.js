@@ -15,6 +15,7 @@ function GeneralSettings() {
   const [refund, setRefund] = useState();
   const { response, callApi } = useAPI();
   const [isCalled, setCalled] = useState(false);
+  const [customReceiptFlag, setCustomReceiptFlagValue] = useState('N');
 
   var comp, resp;
   const handleSubmit = () => {
@@ -31,6 +32,7 @@ function GeneralSettings() {
       price_type: price_type,
       kot_flag: kot_flag == true ? "Y" : "N",
       rcv_cash_flag: receivedFlag == true ? "Y" : "N",
+      custom_receipt_flag: customReceiptFlag,
       refund_days: refund,
       comp_id: +comp,
       modified_by: localStorage.getItem("email_id"),
@@ -51,6 +53,7 @@ function GeneralSettings() {
         setRefund(resp[0]?.refund_days);
         setKot(resp[0]?.kot_flag);
         setPrice(resp[0]?.price_type);
+        setCustomReceiptFlagValue(resp[0]?.custom_sl_flag);
       }
     }
 
@@ -155,7 +158,7 @@ function GeneralSettings() {
           />
         </div>
       </div>
-      <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
+      <div className="grid gap-4 sm:grid-cols-4 sm:gap-6">
         <div className="w-full">
           <label
             htmlFor="outlet"
@@ -208,7 +211,25 @@ function GeneralSettings() {
             <option value="M">Manual</option>
           </select>
         </div>
+          <div className="w-full">
+          <label
+            htmlFor="outlet"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Custom Receipt Flag{" "}
+          </label>
+          <select
+            id="type"
+            name="type"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            value={customReceiptFlag}
+            onChange={(type) => setCustomReceiptFlagValue(type.target.value)}>
+            <option selected="">Select type</option>
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+          </select>
+        </div>
       </div>
+      
       <div className="flex justify-center">
         <button
           type="submit"

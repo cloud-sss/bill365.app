@@ -63,6 +63,7 @@ function ManageSettingsAddEdit() {
         sm_price_type: response?.data?.msg[0].price_type,
         sm_refund_days: +response?.data?.msg[0].refund_days,
         sm_kot_flag: response?.data?.msg[0].kot_flag,
+        sl_flag: response?.data?.msg[0].custom_sl_flag,
       };
       setValues(rsp);
       //  setBill(response?.data?.msg[0].bill_address)
@@ -99,6 +100,7 @@ function ManageSettingsAddEdit() {
     sm_price_type: "",
     sm_refund_days: "",
     sm_kot_flag: "",
+    sl_flag: "N",
   };
 
   const onSubmit = (values) => {
@@ -123,6 +125,7 @@ function ManageSettingsAddEdit() {
       refund_days: +values?.sm_refund_days,
       kot_flag: values?.sm_kot_flag,
       created_by: userId,
+      custom_sl_flag: values?.sl_flag,
     });
   };
 
@@ -519,6 +522,30 @@ function ManageSettingsAddEdit() {
                 formik.touched.sm_refund_days ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.sm_refund_days}
+                  </div>
+                ) : null}
+              </div>
+               <div className="w-full">
+                <label
+                  for="sl_flag"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Custom Receipt SL Flag
+                </label>
+                <select
+                  id="sl_flag"
+                  name="sl_flag"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.sl_flag}>
+                  <option selected="">Custom Receipt SL Flag</option>
+                  <option value="Y">Y</option>
+                  <option value="N">N</option>
+                </select>
+                {formik.errors.sl_flag &&
+                formik.touched.sl_flag ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.sl_flag}
                   </div>
                 ) : null}
               </div>
