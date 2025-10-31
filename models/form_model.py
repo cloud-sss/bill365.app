@@ -182,6 +182,7 @@ class GeneralSettings(BaseModel):
     refund_days:int
     kot_flag:str
     modified_by:str
+    custom_sl_flag:str
 
 class AddItem(BaseModel):
     comp_id:int

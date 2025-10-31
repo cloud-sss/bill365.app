@@ -34,9 +34,10 @@ async def Bill_sum(bill_sum:DashBoard):
 #-------------------------------------------------------------------------------------------------------------
 @repoRouter.post('/recent_bills')
 async def recent_bill(rec_bill:DashBoard):
+    
     conn = connect()
     cursor = conn.cursor()
-    query = f"SELECT a.* FROM td_receipt a, md_user b, md_branch c, md_company d WHERE a.created_by=b.user_id and b.br_id=c.id and b.comp_id=d.id and d.id={rec_bill.comp_id} and c.id={rec_bill.br_id} and a.trn_date='{rec_bill.trn_date}' and a.created_by='{rec_bill.user_id}' and a.receipt_no not in (select receipt_no from td_receipt_cancel_new) ORDER BY created_dt DESC LIMIT 10"
+    query = f"SELECT a.* FROM td_receipt a, md_user b, md_branch c, md_company d WHERE a.created_by=b.user_id and b.br_id=c.id and b.comp_id=d.id  and d.id={rec_bill.comp_id} and c.id={rec_bill.br_id} and a.trn_date='{rec_bill.trn_date}' and a.created_by='{rec_bill.user_id}' and a.receipt_no not in (select receipt_no from td_receipt_cancel_new) ORDER BY created_dt DESC LIMIT 10"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
@@ -51,7 +52,7 @@ async def sale_report(sl_rep:SaleReport):
     conn = connect()
     cursor = conn.cursor()
     # query = f"select a.cust_name, a.phone_no, a.receipt_no, a.trn_date,  count(b.receipt_no)no_of_items, sum(a.price)price, sum(a.discount_amt)discount_amt, sum(a.cgst_amt)cgst_amt, sum(a.sgst_amt)sgst_amt, sum(a.round_off)rount_off, sum(a.amount)net_amt, a.created_by from  td_receipt a,td_item_sale b where a.receipt_no = b.receipt_no  and   a.trn_date between '{sl_rep.from_date}' and '{sl_rep.to_date}' and   b.comp_id = {sl_rep.comp_id} AND   b.br_id = {sl_rep.br_id} group by a.cust_name, a.phone_no, a.receipt_no, a.trn_date, a.created_by"
-    query=f"select a.cust_name, a.phone_no, a.receipt_no, a.trn_date,  count(b.receipt_no)no_of_items, a.price, a.discount_amt, a.cgst_amt, a.sgst_amt,a.round_off, a.net_amt, a.pay_mode, a.created_by from  td_receipt a,td_item_sale b where a.receipt_no = b.receipt_no  and   a.trn_date between '{sl_rep.from_date}' and '{sl_rep.to_date}' and   b.comp_id = {sl_rep.comp_id} AND   b.br_id = {sl_rep.br_id} and a.receipt_no not in (select receipt_no from td_receipt_cancel_new where date(cancelled_dt) between '{sl_rep.from_date}' and '{sl_rep.to_date}') group by a.cust_name, a.phone_no, a.receipt_no, a.trn_date,a.price, a.discount_amt, a.cgst_amt, a.sgst_amt, a.round_off, a.net_amt, a.pay_mode, a.created_by Order by a.trn_date,a.receipt_no"
+    query=f"select a.cust_name, a.phone_no, a.receipt_no, a.rcpt_sl_no, a.trn_date,  count(b.receipt_no)no_of_items, a.price, a.discount_amt, a.cgst_amt, a.sgst_amt,a.round_off, a.net_amt, a.pay_mode, a.created_by from  td_receipt a,td_item_sale b where a.receipt_no = b.receipt_no  and   a.trn_date between '{sl_rep.from_date}' and '{sl_rep.to_date}' and   b.comp_id = {sl_rep.comp_id} AND   b.br_id = {sl_rep.br_id} and a.receipt_no not in (select receipt_no from td_receipt_cancel_new where date(cancelled_dt) between '{sl_rep.from_date}' and '{sl_rep.to_date}') group by a.cust_name, a.phone_no, a.receipt_no, a.trn_date,a.price, a.discount_amt, a.cgst_amt, a.sgst_amt, a.round_off, a.net_amt, a.pay_mode, a.created_by Order by a.trn_date,a.receipt_no"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
@@ -114,7 +115,7 @@ async def item_report(item_rep:ItemReport):
 async def gst_statement(gst_st:GSTStatement):
     conn = connect()
     cursor = conn.cursor()
-    query = f"select distinct a.receipt_no, a.trn_date, (a.price - a.discount_amt)taxable_amt, a.cgst_amt, a.sgst_amt, (a.cgst_amt + a.sgst_amt)total_tax, a.net_amt from td_receipt a, td_item_sale b where a.receipt_no = b.receipt_no and b.comp_id = {gst_st.comp_id} and b.br_id = {gst_st.br_id} and a.created_by = {gst_st.user_id} and (a.cgst_amt + a.sgst_amt) > '0' and a.trn_date BETWEEN '{gst_st.from_date}' and '{gst_st.to_date}'"
+    query = f"select distinct a.receipt_no,a.rcpt_sl_no, a.trn_date, (a.price - a.discount_amt)taxable_amt, a.cgst_amt, a.sgst_amt, (a.cgst_amt + a.sgst_amt)total_tax, a.net_amt from td_receipt a, td_item_sale b where a.receipt_no = b.receipt_no and b.comp_id = {gst_st.comp_id} and b.br_id = {gst_st.br_id} and a.created_by = {gst_st.user_id} and (a.cgst_amt + a.sgst_amt) > '0' and a.trn_date BETWEEN '{gst_st.from_date}' and '{gst_st.to_date}'"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
@@ -179,7 +180,7 @@ async def sale_report(sl_rep:RefundBillReport):
 async def search_bill_by_phone(bill:BillList):
     conn = connect()
     cursor = conn.cursor()
-    query = f"SELECT DISTINCT a.receipt_no, a.trn_date, a.net_amt, a.phone_no FROM td_receipt a, td_item_sale b WHERE a.receipt_no=b.receipt_no AND b.comp_id = {bill.comp_id} AND b.br_id = {bill.br_id} AND a.phone_no = '{bill.phone_no}'"
+    query = f"SELECT DISTINCT a.receipt_no,a.rcpt_sl_no, a.trn_date, a.net_amt, a.phone_no FROM td_receipt a, td_item_sale b WHERE a.receipt_no=b.receipt_no AND b.comp_id = {bill.comp_id} AND b.br_id = {bill.br_id} AND a.phone_no = '{bill.phone_no}'"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
@@ -205,7 +206,7 @@ async def search_bill_by_phone(bill:BillList):
 async def billsearch_by_item(item:SearchByItem):
     conn = connect()
     cursor = conn.cursor()
-    query = f"SELECT a.receipt_no,a.item_id,a.qty,a.price,b.item_name FROM td_item_sale a, md_items b WHERE a.item_id=b.id AND a.comp_id=b.comp_id AND a.comp_id={item.comp_id} AND a.br_id={item.br_id} AND b.id={item.item_id} AND a.trn_date BETWEEN '{item.from_date}' AND '{item.to_date}'"
+    query = f"SELECT a.receipt_no,r.rcpt_sl_no,a.item_id,a.qty,a.price,b.item_name FROM td_item_sale a, md_items b,td_receipt r WHERE a.item_id=b.id AND a.comp_id=b.comp_id AND r.receipt_no=a.receipt_no AND a.comp_id={item.comp_id} AND a.br_id={item.br_id} AND b.id={item.item_id} AND a.trn_date BETWEEN '{item.from_date}' AND '{item.to_date}'"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
@@ -228,7 +229,7 @@ async def billsearch_by_item(item:SearchByItem):
 async def search_bill_by_receipt(bill:SearchByRcpt):
     conn = connect()
     cursor = conn.cursor()
-    query = f"SELECT DISTINCT receipt_no, trn_date, pay_mode, net_amt FROM td_receipt WHERE comp_id = {bill.comp_id} AND br_id = {bill.br_id} AND receipt_no = '{bill.receipt_no}'"
+    query = f"SELECT DISTINCT receipt_no, rcpt_sl_no, trn_date, pay_mode, net_amt FROM td_receipt WHERE comp_id = {bill.comp_id} AND br_id = {bill.br_id} AND receipt_no = '{bill.receipt_no}'"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
@@ -254,7 +255,7 @@ async def search_bill_by_receipt(bill:SearchByRcpt):
 async def search_bill_by_receipt(bill:SearchByName):
     conn = connect()
     cursor = conn.cursor()
-    query = f"SELECT DISTINCT receipt_no, trn_date, pay_mode, net_amt FROM td_receipt WHERE comp_id = {bill.comp_id} AND br_id = {bill.br_id} AND cust_name LIKE '%{bill.cust_name}%'"
+    query = f"SELECT DISTINCT receipt_no,rcpt_sl_no, trn_date, pay_mode, net_amt FROM td_receipt WHERE comp_id = {bill.comp_id} AND br_id = {bill.br_id} AND cust_name LIKE '%{bill.cust_name}%'"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
@@ -325,7 +326,7 @@ async def cancel_report(data:CancelReport):
     conn = connect()
     cursor = conn.cursor()
     
-    query=f"select a.cust_name, a.phone_no, a.receipt_no, a.trn_date, count(b.receipt_no)no_of_items, a.price, a.discount_amt, a.cgst_amt, a.sgst_amt, a.round_off, a.net_amt, a.pay_mode, a.created_by from td_receipt a,td_item_sale b where a.receipt_no = b.receipt_no and b.comp_id = {data.comp_id} AND b.br_id = {data.br_id} and a.receipt_no In (select receipt_no from td_receipt_cancel_new where date(cancelled_dt) between '{data.from_date}' and '{data.to_date}') group by a.cust_name, a.phone_no, a.receipt_no, a.trn_date,a.price, a.discount_amt, a.cgst_amt, a.sgst_amt, a.round_off, a.net_amt, a.pay_mode, a.created_by Order by a.trn_date,a.receipt_no"
+    query=f"select a.cust_name, a.phone_no, a.receipt_no,a,.rcpt_sl_no, a.trn_date, count(b.receipt_no)no_of_items, a.price, a.discount_amt, a.cgst_amt, a.sgst_amt, a.round_off, a.net_amt, a.pay_mode, a.created_by from td_receipt a,td_item_sale b where a.receipt_no = b.receipt_no and b.comp_id = {data.comp_id} AND b.br_id = {data.br_id} and a.receipt_no In (select receipt_no from td_receipt_cancel_new where date(cancelled_dt) between '{data.from_date}' and '{data.to_date}') group by a.cust_name, a.phone_no, a.receipt_no, a.trn_date,a.price, a.discount_amt, a.cgst_amt, a.sgst_amt, a.round_off, a.net_amt, a.pay_mode, a.created_by Order by a.trn_date,a.receipt_no"
 
     cursor.execute(query)
     records = cursor.fetchall()
@@ -349,7 +350,7 @@ async def daybook_report(data:DaybookReport):
     conn = connect()
     cursor = conn.cursor()
     
-    query=f"select receipt_no, trn_date, pay_mode, net_amt, 0 cancelled_amt, created_by, ''cancelled_by From td_receipt where comp_id = {data.comp_id} and br_id = {data.br_id} and trn_date between '{data.from_date}' and '{data.to_date}' UNION select a.receipt_no receipt_no, a.trn_date trn_date, a.pay_mode, 0 net_amt, a.net_amt cancelled_amt, a.created_by created_by, b.cancelled_by cancelled_by From td_receipt a, td_receipt_cancel_new b where a.receipt_no = b.receipt_no and a.comp_id = {data.comp_id} and a.br_id = {data.br_id} and date(b.cancelled_dt) between '{data.from_date}' and '{data.to_date}'"
+    query=f"select receipt_no, rcpt_sl_no, trn_date, pay_mode, net_amt, 0 cancelled_amt, created_by, ''cancelled_by From td_receipt where comp_id = {data.comp_id} and br_id = {data.br_id} and trn_date between '{data.from_date}' and '{data.to_date}' UNION select a.receipt_no receipt_no, a.trn_date trn_date, a.pay_mode, 0 net_amt, a.net_amt cancelled_amt, a.created_by created_by, b.cancelled_by cancelled_by From td_receipt a, td_receipt_cancel_new b where a.receipt_no = b.receipt_no and a.comp_id = {data.comp_id} and a.br_id = {data.br_id} and date(b.cancelled_dt) between '{data.from_date}' and '{data.to_date}'"
 
     cursor.execute(query)
     records = cursor.fetchall()

@@ -10,8 +10,14 @@ from fastapi.security import  OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 from typing import Optional, Dict,List
 from datetime import datetime, timedelta
-from jose import jwt
+# from jose import jwt
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Query
+
+import random
+import requests
+import urllib.parse
+import json
 # testing git
 userRouter = APIRouter()
 # In a file like `config.py` or directly in your main file
@@ -29,28 +35,28 @@ from firebase_admin import credentials, messaging
 cred = credentials.Certificate('key.json')
 firebase_admin.initialize_app(cred)
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+# def create_access_token(data: dict, expires_delta: timedelta | None = None):
+#     to_encode = data.copy()
+#     if expires_delta:
+#         expire = datetime.utcnow() + expires_delta
+#     else:
+#         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+#     to_encode.update({"exp": expire})
+#     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+#     return encoded_jwt
 
-def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None):
-    to_encode = data.copy()
-    # Add a unique identifier for this refresh token
-    jti = str(uuid.uuid4())
-    to_encode.update({"jti": jti})
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
-    to_encode.update({"exp": expire, "iat": datetime.utcnow()})
-    encoded = jwt.encode(to_encode, REFRESH_SECRET_KEY, algorithm=ALGORITHM)
-    return encoded, jti
+# def create_refresh_token(data: dict, expires_delta: Optional[timedelta] = None):
+#     to_encode = data.copy()
+#     # Add a unique identifier for this refresh token
+#     jti = str(uuid.uuid4())
+#     to_encode.update({"jti": jti})
+#     if expires_delta:
+#         expire = datetime.utcnow() + expires_delta
+#     else:
+#         expire = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+#     to_encode.update({"exp": expire, "iat": datetime.utcnow()})
+#     encoded = jwt.encode(to_encode, REFRESH_SECRET_KEY, algorithm=ALGORITHM)
+#     return encoded, jti
 
 
 def send_welcome_notification(fcm_token, title, body, data=None):
@@ -237,12 +243,14 @@ async def update_login_status(data:LoginStatus):
 #-----------------------------------------------------------------------------------------------------------  
 @userRouter.post('/login')
 async def login(data_login:UserLogin):
-    print(data_login.user_id,data_login.fcm_token)
+    # print(data_login.user_id,data_login.fcm_token)
+    print(data_login)
     conn = connect()
     cursor = conn.cursor()
     query = f"SELECT a.*, b.*, c.* FROM md_user a, md_branch b, md_company c WHERE a.user_id='{data_login.user_id}' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type in ('U','M')"
     cursor.execute(query)
     records = cursor.fetchone()
+    print(query)
     # print(cursor.rowcount)
     print(records,"llllllllll")
 
@@ -274,16 +282,16 @@ async def login(data_login:UserLogin):
             conn = connect()
             cursor = conn.cursor()
             query = f"update md_user set fcm_token='{data_login.fcm_token}' where user_id='{data_login.user_id}'"
-            if result2['fcm_token']:
-                message = messaging.Message(
-                    token=result2['fcm_token'],
-                    notification=messaging.Notification(
-                        title="Logout Alert!",
-                        body="Your device will be logged out soon!"
-            ),
-            data= {}
-            )
-                response = messaging.send(message)
+            # if result2['fcm_token']:
+            #     message = messaging.Message(
+            #         token=result2['fcm_token'],
+            #         notification=messaging.Notification(
+            #             title="Logout Alert!",
+            #             body="Your device will be logged out soon!"
+            # ),
+            # data= {}
+            # )
+            #     response = messaging.send(message)
             cursor.execute(query)
             print(query)
             conn.commit()
@@ -311,7 +319,7 @@ async def login(data_login:UserLogin):
 async def logout(flag:LoginFlag):
     conn = connect()
     cursor = conn.cursor()
-
+    print(flag)
     query = f"update md_user set login_flag = 'N' where comp_id={flag.comp_id} and br_id={flag.br_id} and user_id='{flag.user_id}' and user_type in ('U','M')"
 
     cursor.execute(query)
@@ -330,3 +338,21 @@ async def logout(flag:LoginFlag):
         }
 
     return resData
+
+#sending login otp to frontend
+@userRouter.get('/send_otp/{phone_no}') 
+async def OTP(phone_no:int):
+    otp = random.randint(1000, 9999)
+    default_text = f"https://bulksms.sssplsales.in/api/api_http.php?username=SYNERGIC&password=SYN@526RGC&senderid=SYNGIC&to={phone_no}&text=OTP for mobile verification is {otp}. This code is valid for 5 minutes. Please do not share this OTP with anyone.-SYNGIC&route=Informative&type=text"
+    try:
+        response = requests.get(default_text)
+        send_msg = response.text
+    except Exception as e:
+        send_msg = f"Error sending SMS: {str(e)}"
+    return {
+        "suc": 1,
+        "msg": send_msg,
+        "otp": otp
+    }
+    
+    

@@ -55,18 +55,31 @@ async def register(rcpt:list[Receipt]):
                 resData = {"status":1, "data":receipt}
         else:
             resData = {"status":-1, "data":"Data not inserted in item_sale"}
+
+    conn = connect()
+    cursor = conn.cursor()
+    query = f"SELECT ifnull(max(rcpt_sl_no), 0)+1 as rcpt_sl_no FROM `td_receipt` WHERE comp_id={i.comp_id} AND br_id={i.br_id}"
+    cursor.execute(query)
+    records = cursor.fetchall()
+    result_sl_no = createResponse(records, cursor.column_names, 1)
+    conn.close()
+    cursor.close()
+
+    print(result_sl_no,"llllllllllllllllll")
     
     conn = connect()
     cursor = conn.cursor()
     print(rcpt[0],"tttttttttttttttt")
     phn_no1 = f",'{rcpt[0].phone_no}'" if rcpt[0].phone_no != "" else ",'0000000000'"
-    query = f"INSERT INTO td_receipt (receipt_no, comp_id, br_id, trn_date, price, discount_amt, cgst_amt, sgst_amt, amount, round_off, net_amt, pay_mode, received_amt, pay_dtls, cust_name, phone_no, rcv_cash_flag, gst_flag, gst_type, discount_flag, discount_type, discount_position, created_by, created_dt) VALUES ('{receipt}', {rcpt[0].comp_id}, {rcpt[0].br_id},'{formatted_datetime}',{rcpt[0].tprice},{rcpt[0].tdiscount_amt},{tcgst_amt},{tsgst_amt},{rcpt[0].amount},{rcpt[0].round_off},{rcpt[0].net_amt},'{rcpt[0].pay_mode}','{rcpt[0].received_amt}','{rcpt[0].pay_dtls}','{rcpt[0].cust_name}' {phn_no1},'{rcpt[0].rcv_cash_flag}','{rcpt[0].gst_flag}', '{rcpt[0].gst_type}','{rcpt[0].discount_flag}','{rcpt[0].discount_type}','{rcpt[0].discount_position}','{rcpt[0].created_by}','{formatted_datetime}')"
+    query = f"INSERT INTO td_receipt (receipt_no, rcpt_sl_no, comp_id, br_id, trn_date, price, discount_amt, cgst_amt, sgst_amt, amount, round_off, net_amt, pay_mode, received_amt, pay_dtls, cust_name, phone_no, rcv_cash_flag, gst_flag, gst_type, discount_flag, discount_type, discount_position, created_by, created_dt) VALUES ('{receipt}', {result_sl_no[0]['rcpt_sl_no']}, {rcpt[0].comp_id}, {rcpt[0].br_id},'{formatted_datetime}',{rcpt[0].tprice},{rcpt[0].tdiscount_amt},{tcgst_amt},{tsgst_amt},{rcpt[0].amount},{rcpt[0].round_off},{rcpt[0].net_amt},'{rcpt[0].pay_mode}','{rcpt[0].received_amt}','{rcpt[0].pay_dtls}','{rcpt[0].cust_name}' {phn_no1},'{rcpt[0].rcv_cash_flag}','{rcpt[0].gst_flag}', '{rcpt[0].gst_type}','{rcpt[0].discount_flag}','{rcpt[0].discount_type}','{rcpt[0].discount_position}','{rcpt[0].created_by}','{formatted_datetime}')"
     print(query)
     cursor.execute(query)
     conn.commit()
     conn.close()
     cursor.close()
     # print(rcpt[0].pay_mode,"tttttttttt")
+    resData= {"status":1, "data":receipt,"rcpt_sl_no":result_sl_no[0]['rcpt_sl_no']}
+
     if cursor.rowcount==1:
         try:
             if rcpt[0].kot_flag == 'Y':
@@ -87,7 +100,7 @@ async def register(rcpt:list[Receipt]):
                     conn.close()
                     cursor.close()
                     if cursor.rowcount>0:
-                        ResData = {"status":1, "data":resData, "kot_no":result[0]}
+                        ResData = {"status":1, "data":resData, "kot_no":result[0],"rcpt_sl_no":result_sl_no[0]['rcpt_sl_no']}
                     else:
                         ResData = {"status":1, "data":"Data not inserted in kot table"}
 
@@ -95,7 +108,7 @@ async def register(rcpt:list[Receipt]):
                     ResData = {"status":1, "data":"Error While generating kot no."}
 
             else:
-                ResData = {"status":1, "data":resData}
+                ResData = {"status":1, "data":resData,"rcpt_sl_no":result_sl_no[0]['rcpt_sl_no']}
         except:
             print("!!!!!!!!!!Error in kot!!!!!!!!!!!!!")
 
@@ -192,7 +205,7 @@ async def register(rcpt:list[Receipt]):
 async def show_bill(recp_no:int):
     conn = connect()
     cursor = conn.cursor()
-    query = f"SELECT a.receipt_no, a.comp_id, a.br_id, a.item_id, a.trn_date, a.price, a.dis_pertg, a.discount_amt, a.cgst_prtg, a.cgst_amt, a.sgst_prtg, a.sgst_amt, a.qty, a.created_by, a.created_dt, a.modified_by, a.modified_dt, b.price AS tprice, b.discount_amt AS tdiscount_amt, b.cgst_amt AS tcgst_amt, b.sgst_amt AS tsgst_amt, b.amount, b.round_off, b.net_amt, b.pay_mode, b.received_amt, b.pay_dtls, b.cust_name, b.phone_no, b.rcv_cash_flag, b.gst_flag, b.gst_type, b.discount_flag, b.discount_type, b.discount_position, b.created_by AS tcreated_by, b.created_dt AS tcreated_dt, b.modified_by AS tmodified_by, b.modified_dt AS tmodified_dt, c.item_name FROM td_item_sale a, td_receipt b, md_items c WHERE a.receipt_no=b.receipt_no and a.trn_date=b.trn_date and a.item_id=c.id and a.receipt_no={recp_no}"
+    query = f"SELECT a.receipt_no, b.rcpt_sl_no, a.comp_id, a.br_id, a.item_id, a.trn_date, a.price, a.dis_pertg, a.discount_amt, a.cgst_prtg, a.cgst_amt, a.sgst_prtg, a.sgst_amt, a.qty, a.created_by, a.created_dt, a.modified_by, a.modified_dt, b.price AS tprice, b.discount_amt AS tdiscount_amt, b.cgst_amt AS tcgst_amt, b.sgst_amt AS tsgst_amt, b.amount, b.round_off, b.net_amt, b.pay_mode, b.received_amt, b.pay_dtls, b.cust_name, b.phone_no, b.rcv_cash_flag, b.gst_flag, b.gst_type, b.discount_flag, b.discount_type, b.discount_position, b.created_by AS tcreated_by, b.created_dt AS tcreated_dt, b.modified_by AS tmodified_by, b.modified_dt AS tmodified_dt, c.item_name FROM td_item_sale a, td_receipt b, md_items c WHERE a.receipt_no=b.receipt_no and a.trn_date=b.trn_date and a.item_id=c.id and a.receipt_no={recp_no}"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
