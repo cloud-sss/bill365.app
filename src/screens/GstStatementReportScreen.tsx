@@ -12,7 +12,7 @@ import { usePaperColorScheme } from "../theme/theme"
 import { DataTable, Text } from "react-native-paper"
 import DatePicker from "react-native-date-picker"
 import ButtonPaper from "../components/ButtonPaper"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import normalize from "react-native-normalize"
 import { formattedDate } from "../utils/dateFormatter"
 import { loginStorage } from "../storage/appStorage"
@@ -20,6 +20,8 @@ import { GstStatement } from "../models/api_types"
 import SurfacePaper from "../components/SurfacePaper"
 import { useBluetoothPrint } from "../hooks/printables/useBluetoothPrint"
 import useGstStatementReport from "../hooks/api/useGstStatementReport"
+import { AppStoreContext } from "../models/custom_types"
+import { AppStore } from "../context/AppContext"
 
 function GstStatementReportScreen() {
   const theme = usePaperColorScheme()
@@ -30,7 +32,8 @@ function GstStatementReportScreen() {
   const { printGstStatement } = useBluetoothPrint()
 
   const [gstStatement, setGstStatement] = useState<GstStatement[]>(() => [])
-
+      const { receiptSettings } = useContext<AppStoreContext>(AppStore)
+  
   const [fromDate, setFromDate] = useState(() => new Date())
   const [toDate, setToDate] = useState(() => new Date())
   const [openFromDate, setOpenFromDate] = useState(() => false)
@@ -188,9 +191,9 @@ function GstStatementReportScreen() {
               return (
                 <DataTable.Row key={i}>
                   <DataTable.Cell>
-                    {item?.receipt_no
+                    {receiptSettings?.custom_sl_flag === "N" ?item?.receipt_no
                       ?.toString()
-                      ?.substring(item?.receipt_no?.toString()?.length - 4)}
+                      ?.substring(item?.receipt_no?.toString()?.length - 4):item?.rcpt_sl_no}
                   </DataTable.Cell>
                   <DataTable.Cell numeric>{item?.cgst_amt}</DataTable.Cell>
                   <DataTable.Cell numeric>{item?.sgst_amt}</DataTable.Cell>

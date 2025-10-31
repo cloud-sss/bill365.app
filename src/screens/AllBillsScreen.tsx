@@ -152,7 +152,8 @@ function AllBillsScreen() {
             : 0,
           billedSaleData[0]?.cust_name,
           billedSaleData[0]?.phone_no,
-          billedSaleData[0]?.receipt_no,
+          receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+
           billedSaleData[0]?.pay_mode,
           false,
           false,
@@ -178,7 +179,8 @@ function AllBillsScreen() {
               : 0,
             billedSaleData[0]?.cust_name,
             billedSaleData[0]?.phone_no,
-            billedSaleData[0]?.receipt_no,
+            receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+
             billedSaleData[0]?.pay_mode,
             false,
             false,
@@ -199,7 +201,8 @@ function AllBillsScreen() {
               : 0,
             billedSaleData[0]?.cust_name,
             billedSaleData[0]?.phone_no,
-            billedSaleData[0]?.receipt_no,
+            receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+
             billedSaleData[0]?.pay_mode,
             false,
             false,
@@ -333,7 +336,7 @@ function AllBillsScreen() {
           {billsArray?.map((item, i) => (
             <List.Item
               key={i}
-              title={`Bill ${item?.receipt_no}`}
+              title={`Bill ${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no}`}
               description={`₹${item?.net_amt}`}
               onPress={() => {
                 loginStore?.mode !== "C"

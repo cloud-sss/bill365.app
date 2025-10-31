@@ -215,9 +215,9 @@ function DaybookReportScreen() {
                                             {index + 1}
                                         </DataTable.Cell>
                                         <DataTable.Cell>
-                                            {item?.receipt_no
+                                            {receiptSettings?.custom_sl_flag === "N" ? item?.receipt_no
                                                 ?.toString()
-                                                ?.substring(item?.receipt_no?.toString()?.length - 4)}
+                                                ?.substring(item?.receipt_no?.toString()?.length - 4):item?.rcpt_sl_no}
                                         </DataTable.Cell>
                                         <DataTable.Cell>
                                             {item?.net_amt}

@@ -1,3 +1,4 @@
+import { loginStorage } from "../storage/appStorage"
 import { BASE_URL, BASE_URL_SMS } from "./config"
 
 export const ADDRESSES = {
@@ -96,6 +97,7 @@ export const ADDRESSES = {
   */
   BILL_SMS: `${BASE_URL_SMS}/api/bill_sms`,
 
-  SEND_OTP2: `${BASE_URL_SMS}/sms_api/send_otp.php`,
+  SEND_OTP2: `${BASE_URL}/api/send_otp`,
+
   BILL_SMS2: `${BASE_URL_SMS}/sms_api/bill_sms.php`,
 }

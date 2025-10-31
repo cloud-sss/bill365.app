@@ -14,7 +14,7 @@ import { usePaperColorScheme } from "../theme/theme"
 import { DataTable, Searchbar, Text } from "react-native-paper"
 import DatePicker from "react-native-date-picker"
 import ButtonPaper from "../components/ButtonPaper"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import normalize from "react-native-normalize"
 import { formattedDate } from "../utils/dateFormatter"
 import { loginStorage } from "../storage/appStorage"
@@ -35,6 +35,8 @@ import useCalculations from "../hooks/useCalculations"
 import useShowBill from "../hooks/api/useShowBill"
 import DialogBoxForReprint from "../components/DialogBoxForReprint"
 import useCancelBill from "../hooks/api/useCancelBill"
+import { AppStoreContext } from "../models/custom_types"
+import { AppStore } from "../context/AppContext"
 
 function SearchBillsByItemScreen() {
   const isFocused = useIsFocused()
@@ -82,7 +84,8 @@ function SearchBillsByItemScreen() {
 
   const [isLoading, setIsLoading] = useState(() => false)
   const [isDisabled, setIsDisabled] = useState(() => false)
-
+  const { receiptSettings } = useContext<AppStoreContext>(AppStore)
+  
   const formattedFromDate = formattedDate(fromDate)
   const formattedToDate = formattedDate(toDate)
 
@@ -453,7 +456,8 @@ function SearchBillsByItemScreen() {
                   key={i}
                   onPress={() => handleBillListClick(item?.receipt_no)}>
                   <DataTable.Cell>
-                    {item?.receipt_no?.toString()}
+                    {receiptSettings?.custom_sl_flag === "N"
+                      ? item?.receipt_no?.toString():item?.rcpt_sl_no}
                   </DataTable.Cell>
                   <DataTable.Cell numeric>{item?.qty}</DataTable.Cell>
                   <DataTable.Cell numeric>₹{item?.price}</DataTable.Cell>

@@ -351,9 +351,10 @@ function RefundReprintScreen() {
                 <DataTable.Cell>{item?.phone_no}</DataTable.Cell> */}
                                     {/* <DataTable.Cell>{new Date(item?.trn_date).toLocaleDateString("en-GB")}</DataTable.Cell> */}
                                     <DataTable.Cell>
-                                        {item?.refund_rcpt_no
+                                        {receiptSettings?.custom_sl_flag === "N"
+                                            ? item?.refund_rcpt_no
                                             ?.toString()
-                                            ?.substring(item?.refund_rcpt_no?.toString()?.length - 4)}
+                                            ?.substring(item?.refund_rcpt_no?.toString()?.length - 4):item?.rcpt_sl_no}
                                     </DataTable.Cell>
                                     <DataTable.Cell numeric>{item?.no_of_items}</DataTable.Cell>
                                     <DataTable.Cell numeric>{item?.price}</DataTable.Cell>

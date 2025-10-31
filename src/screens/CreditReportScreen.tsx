@@ -222,7 +222,7 @@ function CreditReportScreen() {
                                 totalDue += item?.due_amt
                                 totalNetAmount += item?.net_amt
                                 return (
-                                    <DataTable.Row key={item?.receipt_no}>
+                                    <DataTable.Row key={receiptSettings?.custom_sl_flag === "N" ? item?.receipt_no:item?.rcpt_sl_no}>
                                         <DataTable.Cell
                                             onPress={() => ToastAndroid.show(`${new Date(item?.trn_date).toLocaleDateString("en-GB")}`, ToastAndroid.SHORT)}>
                                             {new Date(item?.trn_date).toLocaleDateString("en-GB")}

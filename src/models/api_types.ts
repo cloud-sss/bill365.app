@@ -54,6 +54,7 @@ export type UpdateLoginFlagResponse = {
 }
 
 export type ReceiptSettingsData = {
+  custom_sl_flag: string
   comp_id: number
   rcpt_type: "B" | "S" | "P"
   rcpt_flag: "Y" | "N"
@@ -117,6 +118,7 @@ export type GeneralSettingsEditCredentials = {
   price_type: "A" | "M"
   refund_days: number
   modified_by: string
+  custom_sl_flag: string
 }
 
 export type DiscountSettingsEditCredentials = {
@@ -172,6 +174,7 @@ export type UnitData = {
 export type SaleInsertData = {
   status: number
   data: {
+    rcpt_sl_no: any
     status: number
     data: number
   }
@@ -191,6 +194,7 @@ export type BillSummaryData = {
 }
 
 export type RecentBillsData = {
+  rcpt_sl_no: any
   receipt_no: number
   trn_date: string
   price: number
@@ -211,6 +215,8 @@ export type RecentBillsData = {
   modified_dt: null
   gst_flag: "Y" | "N"
   discount_type: "P" | "A"
+  custom_sl_flag: "Y" | "N"
+  custom_sl_no: number
 }
 
 export type ShowBillResponseData = {
@@ -220,6 +226,7 @@ export type ShowBillResponseData = {
 }
 
 export type ShowBillData = {
+  rcpt_sl_no: number
   receipt_no: number
   comp_id: number
   br_id: number
@@ -315,6 +322,7 @@ export type SearchBillsData = {
 }
 
 export type SearchedBills = {
+  rcpt_sl_no: any
   receipt_no: number
   trn_date: string
   price: number
@@ -341,6 +349,7 @@ export type SaleReportData = {
 }
 
 export type SaleReport = {
+  rcpt_sl_no: number
   cust_name: string
   phone_no: string
   receipt_no: number
@@ -497,6 +506,7 @@ export type GstStatementData = {
 }
 
 export type GstStatement = {
+  rcpt_sl_no: number
   receipt_no: number
   trn_date: string
   taxable_amt: number
@@ -621,6 +631,7 @@ export type CancelledBillsReportResponse = {
 }
 
 export type CancelledBillsReportData = {
+  "rcpt_sl_no": number
   "cust_name": string
   "phone_no": string
   "receipt_no": number
@@ -642,6 +653,7 @@ export type DaybookReportResponse = {
 }
 
 export type DaybookReportData = {
+  "rcpt_sl_no": number
   "receipt_no": number
   "trn_date": string
   "pay_mode": string
@@ -720,6 +732,7 @@ export type RefundReportResponse = {
 }
 
 export type RefundReportData = {
+  rcpt_sl_no: number
   cust_name: string
   phone_no: string
   refund_rcpt_no: number
@@ -851,6 +864,7 @@ export type SearchBillsByItemResponse = {
 }
 
 export type SearchBillsByItemData = {
+  rcpt_sl_no: number
   receipt_no: number
   item_id: number
   qty: number
@@ -864,6 +878,7 @@ export type CreditReportResponse = {
 }
 
 export type CreditReportResponseData = {
+  "rcpt_sl_no": number,
   "trn_date": string
   "phone_no": string
   "receipt_no": number

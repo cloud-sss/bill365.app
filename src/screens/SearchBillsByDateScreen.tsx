@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import {
   StyleSheet,
   ScrollView,
@@ -114,6 +114,13 @@ function SearchBillsByDateScreen() {
     // )
     handleRePrintReceipt(false)
   }
+
+  useEffect(() => {
+    if (receiptSettings) {
+      // setGstFlag(receiptSettings.gst_flag)
+      console.log(receiptSettings,'ffff')
+    }
+  }, [receiptSettings])
 
   const handleRePrintReceipt = (cancelFlag: boolean) => {
     if (billedSaleData.length > 0) {
@@ -341,7 +348,7 @@ function SearchBillsByDateScreen() {
                 color: theme.colors.vanillaSecondary,
               }}
               key={i}
-              title={`Bill ${item?.receipt_no}`}
+              title={`Bill ${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no}`}
               description={`₹${item?.net_amt}`}
               onPress={() => handleBillListClick(item?.receipt_no)}
               left={props => <List.Icon {...props} icon="basket" />}

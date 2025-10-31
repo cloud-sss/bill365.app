@@ -5,13 +5,9 @@ import { SendOtpCredentials, SendOtpResponse } from "../../models/api_types"
 export default function useSendOtp2() {
     const getOtp = async (otpCreds: SendOtpCredentials) => {
         return new Promise<PromiseLike<SendOtpResponse>>((resolve, reject) => {
-            axios
-                .get(`${ADDRESSES.SEND_OTP2}`, {
-                    params: {
-                        comp_id: otpCreds.comp_id,
-                        phone: otpCreds.phone
-                    }
-                })
+            axios              
+                .get(`${ADDRESSES.SEND_OTP2}/${otpCreds.phone}`, 
+                   )
                 .then(res => {
                     console.log("OTP Response:", res.data);
                     resolve(res.data)

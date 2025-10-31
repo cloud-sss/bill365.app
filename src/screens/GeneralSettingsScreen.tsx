@@ -68,6 +68,10 @@ export default function GeneralSettingsScreen() {
     receiptSettings?.unit_flag,
   )
 
+   const [custom_sl_flag, setCust_sl_flag] = useState(
+    receiptSettings?.custom_sl_flag,
+  )
+
   let receiptTypeArr = [
     {
       icon: "cloud-print-outline",
@@ -96,6 +100,11 @@ export default function GeneralSettingsScreen() {
   let payModeArr = [
     { icon: "check-outline", title: "Allow", func: () => setPayMode("Y") },
     { icon: "close-outline", title: "Deny", func: () => setPayMode("N") },
+  ]
+
+   let custom_sl_flagArr = [
+    { icon: "check-outline", title: "On", func: () => setCust_sl_flag("Y") },
+    { icon: "close-outline", title: "Off", func: () => setCust_sl_flag("N") },
   ]
 
   let priceAutoManualArr = [
@@ -132,7 +141,6 @@ export default function GeneralSettingsScreen() {
     let editedGeneralSettings: GeneralSettingsEditCredentials = {
       comp_id: loginStore?.comp_id,
       rcpt_type: rcptType,
-      // rcpt_flag: receiptFlag,
       rcv_cash_flag: cashFlag,
       stock_flag: stockFlag,
       cust_inf: customerInfo,
@@ -142,6 +150,7 @@ export default function GeneralSettingsScreen() {
       modified_by: loginStore?.user_name,
       unit_flag: unitFlag,
       refund_days: refundTime,
+      custom_sl_flag: custom_sl_flag
     }
 
     console.log("==========+++++++++++=+===+++++++++======", editedGeneralSettings)
@@ -339,6 +348,26 @@ export default function GeneralSettingsScreen() {
             }}
             descriptionStyle={{
               color: payMode === "Y" ? theme.colors.green : theme.colors.error,
+            }}
+          />
+           <Divider />
+          <List.Item
+            title="Custom Receipt"
+            description={
+              custom_sl_flag === "Y"
+                ? "On"
+                : custom_sl_flag === "N"
+                  ? "Off"
+                  : "Error Occurred!"
+            }
+            left={props => (
+              <List.Icon {...props} icon="receipt" />
+            )}
+            right={props => {
+              return <MenuPaper menuArrOfObjects={custom_sl_flagArr} />
+            }}
+            descriptionStyle={{
+              color: custom_sl_flag === "Y" ? theme.colors.green : theme.colors.error,
             }}
           />
           <Divider />

@@ -33,6 +33,8 @@ import useCalculations from "../hooks/useCalculations"
 import useCancelBill from "../hooks/api/useCancelBill"
 import useSearchBillsByReceipt from "../hooks/api/useSearchBillsByReceipt"
 import useSearchBillsByCustomerName from "../hooks/api/useSearchBillsByCustomerName"
+import { AppStoreContext } from "../models/custom_types"
+import { AppStore } from "../context/AppContext"
 
 function CancelBillsScreen() {
   const theme = usePaperColorScheme()
@@ -64,10 +66,8 @@ function CancelBillsScreen() {
   const [discountType, setDiscountType] = useState<"P" | "A">()
 
   const [billedSaleData, setBilledSaleData] = useState<ShowBillData[]>(() => [])
-  const [fetchedBillsData, setFetchedBillsData] = useState<
-    CommonSearchResponseData[]
-  >(() => [])
-
+  const [fetchedBillsData, setFetchedBillsData] = useState(() => [])
+  const { receiptSettings } = useContext<AppStoreContext>(AppStore)
   const [checked, setChecked] = useState<string>(() => "R")
   const [isLoading, setIsLoading] = useState(() => false)
   const [isDisabled, setIsDisabled] = useState(() => false)
@@ -511,7 +511,7 @@ function CancelBillsScreen() {
               }}
               key={i}
               title={`${item?.trn_date}`}
-              description={`${item?.receipt_no}`}
+              description={`${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no} - ₹${item?.net_amt}`}
               onPress={() => handleBillListClick(item?.receipt_no)}
               left={props => <List.Icon {...props} icon="basket" />}
               right={props => (

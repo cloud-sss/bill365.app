@@ -44,7 +44,7 @@ import DialogBox from "../components/DialogBox"
 import normalize, { SCREEN_HEIGHT, SCREEN_WIDTH } from "react-native-normalize"
 import ScrollableListContainer from "../components/ScrollableListContainer"
 import { loginStorage } from "../storage/appStorage"
-import { CalculatorShowBillData, LoginData, LoginDataMessage, RecentBillsData, ShowBillData } from "../models/api_types"
+import { CalculatorShowBillData, LoginData, LoginDataMessage, ReceiptSettingsData, RecentBillsData, ShowBillData } from "../models/api_types"
 import { AppStore } from "../context/AppContext"
 import useBillSummary from "../hooks/api/useBillSummary"
 import useRecentBills from "../hooks/api/useRecentBills"
@@ -61,6 +61,7 @@ import useCalculations from "../hooks/useCalculations"
 import DialogBoxForReprint from "../components/DialogBoxForReprint"
 import DialogForBillsInCalculatorMode from "../components/DialogForBillsInCalculatorMode"
 import { AppStoreContext } from "../models/custom_types"
+import useReceiptSettings from "../hooks/api/useReceiptSettings"
 
 function HomeScreen() {
   const theme = usePaperColorScheme()
@@ -70,6 +71,7 @@ function HomeScreen() {
   let version = DeviceInfo.getVersion()
 
   const { handleGetReceiptSettings } = useContext<AppStoreContext>(AppStore)
+  const { fetchReceiptSettings } = useReceiptSettings()
 
   const { fetchBillSummary } = useBillSummary()
   const { fetchRecentBills } = useRecentBills()
@@ -95,7 +97,8 @@ function HomeScreen() {
   //   console.error("Failed to parse login-data:", error)
   //   loginStore = {}
   // }
-
+  const [receiptSettings, setReceiptSettings] = useState<ReceiptSettingsData>()
+// ]
   const [isExtended, setIsExtended] = useState<boolean>(() => true)
 
   const [totalBills, setTotalBills] = useState<number | undefined>(
@@ -109,6 +112,7 @@ function HomeScreen() {
   const [currentReceiptNo, setCurrentReceiptNo] = useState<number | undefined>(
     () => undefined,
   )
+  const [cust_sl_flag, setCust_sl_flag] = useState<"Y" | "N">()
   const [cancelledBillStatus, setCancelledBillStatus] = useState<"Y" | "N">()
   const [gstFlag, setGstFlag] = useState<"Y" | "N">()
   const [gstType, setGstType] = useState<"I" | "E">()
@@ -142,8 +146,27 @@ function HomeScreen() {
 
   useEffect(() => {
     SplashScreen.hide()
-
+    
     return () => SplashScreen.hide()
+  }, [])
+ const handleGetReceiptSettingsForHome = async () => {
+    const loginStore = JSON.parse(loginStorage.getString("login-data"))
+
+    const companyId = loginStore.comp_id
+    await fetchReceiptSettings(companyId)
+      .then(res => {
+        setReceiptSettings(res[0])
+        console.log("receiptSettingsData", res[0])
+      })
+      .catch(err => {
+        ToastAndroid.show(
+          "Error fetching Receipt Settings.",
+          ToastAndroid.SHORT,
+        )
+      })
+  }
+  useEffect(() => {
+    handleGetReceiptSettingsForHome()
   }, [])
 
   const onRefresh = useCallback(() => {
@@ -192,7 +215,7 @@ function HomeScreen() {
             : 0,
           billedSaleData[0]?.cust_name,
           billedSaleData[0]?.phone_no,
-          billedSaleData[0]?.receipt_no,
+          receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
           billedSaleData[0]?.pay_mode,
           false,
           false,
@@ -218,7 +241,8 @@ function HomeScreen() {
               : 0,
             billedSaleData[0]?.cust_name,
             billedSaleData[0]?.phone_no,
-            billedSaleData[0]?.receipt_no,
+            receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+
             billedSaleData[0]?.pay_mode,
             false,
             false,
@@ -239,7 +263,8 @@ function HomeScreen() {
               : 0,
             billedSaleData[0]?.cust_name,
             billedSaleData[0]?.phone_no,
-            billedSaleData[0]?.receipt_no,
+            receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+
             billedSaleData[0]?.pay_mode,
             false,
             false,
@@ -258,7 +283,9 @@ function HomeScreen() {
       ToastAndroid.show("Some error while re-printing in Calculate mode.", ToastAndroid.SHORT)
     })
   }
-
+  useEffect(() => {
+    console.log("CALLED GST FLAG HOME SCREEN:", loginStore)
+  }, [])
   const handleGetBillSummary = async () => {
     setLoading(true)
     await fetchBillSummary(
@@ -321,7 +348,6 @@ function HomeScreen() {
   useEffect(() => {
     handleGetBillSummary()
     handleGetRecentBills()
-
     handleGetVersion()
   }, [isFocused])
 
@@ -487,7 +513,7 @@ function HomeScreen() {
               {recentBills?.map((item, i) => (
                 <List.Item
                   key={i}
-                  title={`Bill ${item?.receipt_no}`}
+                  title={`Bill  ${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no}`}
                   description={`₹${item?.net_amt}`}
                   onPress={() => {
                     loginStore?.mode !== "C"

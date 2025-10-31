@@ -82,6 +82,7 @@ const CustomerDetailsFillScreen = () => {
   const [discountBillwise, setDiscountBillwise] = useState<number>(() => 0)
 
   let receiptNumber: number | undefined = undefined
+  let rcpt_sl_no: number | undefined = undefined
   let kotNumber: number | undefined = undefined
 
   const [checked, setChecked] = useState<string>(() => "C")
@@ -233,9 +234,11 @@ const CustomerDetailsFillScreen = () => {
         console.log("filteredData====filteredData", filteredData)
 
         console.log("res.data.status===================", res.data.status)
+        console.log("res.data===================", res.data)
         if (res.data.status === 1) {
           receiptNumber = res?.data?.data
           kotNumber = res?.kot_no?.kot_no
+          rcpt_sl_no = res?.data?.rcpt_sl_no
 
           console.log(
             "=========== receiptNumber = res?.data?.data ============",
@@ -357,7 +360,7 @@ const CustomerDetailsFillScreen = () => {
           finalCashAmount,
           customerName,
           customerMobileNumber,
-          receiptNumber,
+          receiptSettings?.custom_sl_flag=='N'? receiptNumber: rcpt_sl_no,
           checked,
           kotNumber,
           params?.table_no
