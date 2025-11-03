@@ -184,8 +184,7 @@ async def search_bill_by_phone(bill:BillList):
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
-    conn.close()
-    cursor.close()
+    
     if cursor.rowcount>0:
         resData = {
             "status":1,
@@ -196,7 +195,8 @@ async def search_bill_by_phone(bill:BillList):
             "status":0,
             "data":[]
         }
-
+    conn.close()
+    cursor.close()
     return resData
 
 # Search Bills by item name
@@ -210,8 +210,7 @@ async def billsearch_by_item(item:SearchByItem):
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
-    conn.close()
-    cursor.close()
+    
     if cursor.rowcount>0:
         resData= {
         "status":1, 
@@ -221,6 +220,8 @@ async def billsearch_by_item(item:SearchByItem):
         "status":0,
         "data":[]
         }
+    conn.close()
+    cursor.close()
     return resData
 #==================================================================================================
 # Search by Receipt No
@@ -233,8 +234,7 @@ async def search_bill_by_receipt(bill:SearchByRcpt):
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
-    conn.close()
-    cursor.close()
+    
     if cursor.rowcount>0:
         resData = {
             "status":1,
@@ -245,7 +245,8 @@ async def search_bill_by_receipt(bill:SearchByRcpt):
             "status":0,
             "data":[]
         }
-
+    conn.close()
+    cursor.close()
     return resData
 
 #==================================================================================================
@@ -259,8 +260,7 @@ async def search_bill_by_receipt(bill:SearchByName):
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
-    conn.close()
-    cursor.close()
+    
     if cursor.rowcount>0:
         resData = {
             "status":1,
@@ -271,7 +271,8 @@ async def search_bill_by_receipt(bill:SearchByName):
             "status":0,
             "data":[]
         }
-
+    conn.close()
+    cursor.close()
     return resData
 
 #=================================================================================================
