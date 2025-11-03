@@ -90,10 +90,15 @@ async def add_category(add_cat:AddCategory):
         resData={
             "status":1,
             "data":"Category Added Successfully"
+            
         }
+        conn.close()
+        cursor.close()
     else:
         resData={
             "status":0,
             "data":"Category Not Added"
         }
+        conn.close()
+        cursor.close()
     return resData
