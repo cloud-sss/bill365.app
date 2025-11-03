@@ -350,7 +350,7 @@ async def daybook_report(data:DaybookReport):
     conn = connect()
     cursor = conn.cursor()
     
-    query=f"select receipt_no, rcpt_sl_no, trn_date, pay_mode, net_amt, 0 cancelled_amt, created_by, ''cancelled_by From td_receipt where comp_id = {data.comp_id} and br_id = {data.br_id} and trn_date between '{data.from_date}' and '{data.to_date}' UNION select a.receipt_no receipt_no, a.trn_date trn_date, a.pay_mode, 0 net_amt, a.net_amt cancelled_amt, a.created_by created_by, b.cancelled_by cancelled_by From td_receipt a, td_receipt_cancel_new b where a.receipt_no = b.receipt_no and a.comp_id = {data.comp_id} and a.br_id = {data.br_id} and date(b.cancelled_dt) between '{data.from_date}' and '{data.to_date}'"
+    query=f"select receipt_no, rcpt_sl_no, trn_date, pay_mode, net_amt, 0 cancelled_amt, created_by, ''cancelled_by From td_receipt where comp_id = {data.comp_id} and br_id = {data.br_id} and trn_date between '{data.from_date}' and '{data.to_date}' UNION select a.receipt_no receipt_no, a.rcpt_sl_no rcpt_sl_no,a.trn_date trn_date, a.pay_mode, 0 net_amt, a.net_amt cancelled_amt, a.created_by created_by, b.cancelled_by cancelled_by From td_receipt a, td_receipt_cancel_new b where a.receipt_no = b.receipt_no and a.comp_id = {data.comp_id} and a.br_id = {data.br_id} and date(b.cancelled_dt) between '{data.from_date}' and '{data.to_date}'"
 
     cursor.execute(query)
     records = cursor.fetchall()
