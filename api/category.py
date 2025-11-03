@@ -17,14 +17,16 @@ async def category_list(comp_id:int):
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
-    conn.close()
-    cursor.close()
+    # conn.close()
+    # cursor.close()
     if cursor.rowcount>0:
         res_dt={"status":1, "msg":result}
-       
+        conn.close()
+        cursor.close()
     else:
         res_dt={"status":0, "msg":[]}
-        
+        conn.close()
+        cursor.close()
     return res_dt
 
 #==========================================================================================================
@@ -84,21 +86,16 @@ async def add_category(add_cat:AddCategory):
     query = f"INSERT INTO md_category(comp_id, category_name, created_by, created_at) VALUES ({add_cat.comp_id}, '{add_cat.category_name}', '{add_cat.created_by}', '{formatted_dt}')"
     cursor.execute(query)
     conn.commit()
-    # conn.close()
-    # cursor.close()
+    conn.close()
+    cursor.close()
     if cursor.rowcount>0:
         resData={
             "status":1,
             "data":"Category Added Successfully"
-            
         }
-        conn.close()
-        cursor.close()
     else:
         resData={
             "status":0,
             "data":"Category Not Added"
         }
-        conn.close()
-        cursor.close()
     return resData
