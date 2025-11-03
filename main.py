@@ -28,8 +28,8 @@ origins = [ "*" ]
 #    "https://admin.bill365.app"
 # ]
 
-# if __name__ == "__main__":
-  # uvicorn.run("main:app", host="0.0.0.0", port=3007, reload=True)
+if __name__ == "__main__":
+  uvicorn.run("main:app", host="0.0.0.0", port=3007, reload=True)
   # uvicorn.run("main:app", host="0.0.0.0", port=3007, reload=True, ssl_keyfile='./cert/private-key.pem', ssl_certfile='./cert/apibilling.pem')
 
 app.add_middleware(
