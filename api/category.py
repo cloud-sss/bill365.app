@@ -18,6 +18,7 @@ async def category_list(comp_id:int):
     print(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
+    print(result)
     conn.close()
     cursor.close()
     if cursor.rowcount>0:
