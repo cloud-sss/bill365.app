@@ -34,9 +34,10 @@ async def register(rcpt:list[Receipt]):
 
         cursor.execute(query)
         conn.commit()
-        conn.close()
-        cursor.close()
+       
         if cursor.rowcount>0:
+            conn.close()
+            cursor.close()
             if i.stock_flag=='Y':
                 conn = connect()
                 cursor = conn.cursor()
@@ -45,9 +46,10 @@ async def register(rcpt:list[Receipt]):
 
                 cursor.execute(query)
                 conn.commit()
-                conn.close()
-                cursor.close()
+                
                 if cursor.rowcount==1:
+                    conn.close()
+                    cursor.close()
                     resData = {"status":1, "data":receipt}
                 else:
                     resData = {"status":0, "data":'error while updating stock'}
@@ -75,12 +77,13 @@ async def register(rcpt:list[Receipt]):
     print(query)
     cursor.execute(query)
     conn.commit()
-    conn.close()
-    cursor.close()
+    
     # print(rcpt[0].pay_mode,"tttttttttt")
     resData= {"status":1, "data":receipt,"rcpt_sl_no":result_sl_no[0]['rcpt_sl_no']}
 
     if cursor.rowcount==1:
+        conn.close()
+        cursor.close()
         try:
             if rcpt[0].kot_flag == 'Y':
                 conn = connect()
@@ -89,9 +92,10 @@ async def register(rcpt:list[Receipt]):
                 cursor.execute(query)
                 records = cursor.fetchall()
                 result = createResponse(records, cursor.column_names, 1)
-                conn.close()
-                cursor.close()
+                
                 if cursor.rowcount>0:
+                    conn.close()
+                    cursor.close()
                     conn = connect()
                     cursor = conn.cursor()
                     query = f"INSERT INTO td_kot (kot_no,kot_date,receipt_no,table_no) VALUES ({result[0]['kot_no']},'{formatted_datetime}','{receipt}',{rcpt[0].table_no})"
