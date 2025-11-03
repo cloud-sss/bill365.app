@@ -23,6 +23,7 @@ async def category_list(comp_id:int):
         res_dt={"status":1, "msg":result}
     else:
         res_dt={"status":0, "msg":[]}
+    print(res_dt)
     return res_dt
 
 #==========================================================================================================
