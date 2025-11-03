@@ -84,8 +84,8 @@ async def add_category(add_cat:AddCategory):
     query = f"INSERT INTO md_category(comp_id, category_name, created_by, created_at) VALUES ({add_cat.comp_id}, '{add_cat.category_name}', '{add_cat.created_by}', '{formatted_dt}')"
     cursor.execute(query)
     conn.commit()
-    conn.close()
-    cursor.close()
+    # conn.close()
+    # cursor.close()
     if cursor.rowcount>0:
         resData={
             "status":1,
