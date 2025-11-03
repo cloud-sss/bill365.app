@@ -68,7 +68,7 @@ def send_welcome_notification(fcm_token, title, body, data=None):
     )
     # Send the message
     response = messaging.send(message)
-    print('Successfully sent message:', response)
+    # print('Successfully sent message:', response)
 
 class ConnectionManager:
     def __init__(self):
@@ -138,7 +138,7 @@ async def verify(phone_no:int):
     query = f"SELECT COUNT(*)phone_no FROM md_user WHERE user_id=phone_no AND user_type in ('U','M') AND phone_no={phone_no}"
     cursor.execute(query)
     records = cursor.fetchall()
-    print(records)
+    # print(records)
     result = createResponse(records, cursor.column_names, 1)
     conn.close()
     cursor.close()
@@ -160,7 +160,7 @@ async def verify(phone_no:int):
     query = f"SELECT COUNT(*)active_flag FROM md_user WHERE active_flag='N' AND user_id={phone_no}"
     cursor.execute(query)
     records = cursor.fetchall()
-    print(records)
+    # print(records)
     # result = createResponse(records, cursor.column_names, 1)
     conn.close()
     cursor.close()
@@ -186,7 +186,7 @@ async def register(data:CreatePIN):
     conn.commit()
     conn.close()
     cursor.close()
-    print(cursor.rowcount)
+    # print(cursor.rowcount)
     if cursor.rowcount==1:
         resData= {"status":1, "data":"Pin inserted"}
     else:
@@ -244,18 +244,18 @@ async def update_login_status(data:LoginStatus):
 @userRouter.post('/login')
 async def login(data_login:UserLogin):
     # print(data_login.user_id,data_login.fcm_token)
-    print(data_login)
+    # print(data_login)
     conn = connect()
     cursor = conn.cursor()
     query = f"SELECT a.*, b.*, c.* FROM md_user a, md_branch b, md_company c WHERE a.user_id='{data_login.user_id}' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type in ('U','M')"
     cursor.execute(query)
     records = cursor.fetchone()
-    print(query)
+    # print(query)
     # print(cursor.rowcount)
-    print(records,"llllllllll")
+    # print(records,"llllllllll")
 
     if cursor.rowcount>0:
-        print(len(records),"oooooooooo")
+        # print(len(records),"oooooooooo")
         result = createResponse(records, cursor.column_names, 0)
         conn.close()
         cursor.close()
@@ -275,10 +275,10 @@ async def login(data_login:UserLogin):
         cursor.execute(query)
         records = cursor.fetchone()
         result2 = createResponse(records, cursor.column_names, 0)
-        print(result1['no_of_user'],'no_of_user')
-        print(result2['fcm_token'],'old_fcm_token')
+        # print(result1['no_of_user'],'no_of_user')
+        # print(result2['fcm_token'],'old_fcm_token')
         if data_login.fcm_token != result2['fcm_token']:
-            print('inside else if')
+            # print('inside else if')
             conn = connect()
             cursor = conn.cursor()
             query = f"update md_user set fcm_token='{data_login.fcm_token}' where user_id='{data_login.user_id}'"
@@ -293,12 +293,12 @@ async def login(data_login:UserLogin):
             # )
             #     response = messaging.send(message)
             cursor.execute(query)
-            print(query)
+            # print(query)
             conn.commit()
             conn.close()
             cursor.close()
 
-        print(result['max_user'],'max_user')
+        # print(result['max_user'],'max_user')
         if cursor.rowcount>0:
             if result1['no_of_user'] < result['max_user']:
                 res_dt = {"suc": 1, "msg": result, "user": result1['no_of_user']+1}
@@ -319,7 +319,7 @@ async def login(data_login:UserLogin):
 async def logout(flag:LoginFlag):
     conn = connect()
     cursor = conn.cursor()
-    print(flag)
+    # print(flag)
     query = f"update md_user set login_flag = 'N' where comp_id={flag.comp_id} and br_id={flag.br_id} and user_id='{flag.user_id}' and user_type in ('U','M')"
 
     cursor.execute(query)
