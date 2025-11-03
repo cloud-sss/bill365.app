@@ -15,6 +15,7 @@ async def category_list(comp_id:int):
     cursor = conn.cursor()
     query = f"SELECT sl_no, category_name, catg_picture FROM md_category WHERE comp_id={comp_id}"
     cursor.execute(query)
+    print(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
     conn.close()
