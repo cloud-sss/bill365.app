@@ -6,9 +6,9 @@ from api.main import router as apiRouter
 from fastapi.staticfiles import StaticFiles
 
 # In a file like `config.py` or directly in your main file
-SECRET_KEY = "your-secret-key"  # Replace with a strong, randomly generated key
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+# SECRET_KEY = "your-secret-key"  # Replace with a strong, randomly generated key
+# ALGORITHM = "HS256"
+# ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # import ssl
 # testing git
 app = FastAPI()
@@ -28,8 +28,8 @@ origins = [ "*" ]
 #    "https://admin.bill365.app"
 # ]
 
-if __name__ == "__main__":
-  uvicorn.run("main:app", host="0.0.0.0", port=3007, reload=True)
+# if __name__ == "__main__":
+  # uvicorn.run("main:app", host="0.0.0.0", port=3007, reload=True)
   # uvicorn.run("main:app", host="0.0.0.0", port=3007, reload=True, ssl_keyfile='./cert/private-key.pem', ssl_certfile='./cert/apibilling.pem')
 
 app.add_middleware(
