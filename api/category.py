@@ -17,16 +17,12 @@ async def category_list(comp_id:int):
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
-    # conn.close()
-    # cursor.close()
+    conn.close()
+    cursor.close()
     if cursor.rowcount>0:
         res_dt={"status":1, "msg":result}
-        conn.close()
-        cursor.close()
     else:
         res_dt={"status":0, "msg":[]}
-        conn.close()
-        cursor.close()
     return res_dt
 
 #==========================================================================================================
