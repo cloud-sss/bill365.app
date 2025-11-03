@@ -209,8 +209,8 @@ async def show_bill(recp_no:int):
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
-    conn.close()
-    cursor.close()
+    # conn.close()
+    # cursor.close()
     if cursor.rowcount>0:
         try:
             conn1 = connect()
@@ -242,6 +242,8 @@ async def show_bill(recp_no:int):
         "cancel_flag":"N",
         "data":[]
         }
+    conn.close()
+    cursor.close()
     return resData
 
 
