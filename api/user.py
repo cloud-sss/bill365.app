@@ -274,7 +274,7 @@ async def login(data_login:UserLogin):
         records = cursor.fetchone()
         result2 = createResponse(records, cursor.column_names, 0)
         print(result2,'result2')
-        if data_login.fcm_token != result2['fcm_token']:
+        if result2 and data_login.fcm_token != result2['fcm_token']:
             # print('inside else if')
             conn = connect()
             cursor = conn.cursor()
