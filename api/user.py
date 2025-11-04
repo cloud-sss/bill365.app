@@ -269,7 +269,7 @@ async def login(data_login:UserLogin):
 
         conn = connect()
         cursor = conn.cursor()
-        query = f"select fcm_token from md_user where comp_id = {result['comp_id']} AND user_id='{data_login.user_id}' AND user_type in ('U','M') and login_flag = 'Y'"
+        query = f"select fcm_token from md_user where comp_id = {result['comp_id']} AND user_id='{data_login.user_id}' AND user_type in ('U','M')"
         cursor.execute(query)
         print(query,'query')
         records = cursor.fetchone()
