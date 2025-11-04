@@ -271,7 +271,7 @@ async def login(data_login:UserLogin):
         cursor = conn.cursor()
         query = f"select fcm_token from md_user where comp_id = {result['comp_id']} AND user_id='{data_login.user_id}' AND user_type in ('U','M')"
         cursor.execute(query)
-        print(query,'query')
+        # print(query,'query')
         records = cursor.fetchone()
         result2 = createResponse(records, cursor.column_names, 0)
         if result2 and data_login.fcm_token != result2['fcm_token']:
