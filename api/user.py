@@ -263,11 +263,12 @@ async def login(data_login:UserLogin):
 
         conn = connect()
         cursor = conn.cursor()
-        print(result['comp_id'],'comp_id')
+        # print(result['comp_id'],'comp_id')
         query = f"select count(*)no_of_user from md_user where comp_id={result['comp_id']}"
         cursor.execute(query)
         records = cursor.fetchone()
         result1 = createResponse(records, cursor.column_names, 0)
+        print(result1,'result1')
         conn.close()
         cursor.close()
 
