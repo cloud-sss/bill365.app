@@ -268,6 +268,7 @@ async def login(data_login:UserLogin):
         cursor.execute(query)
         records = cursor.fetchone()
         result1 = createResponse(records, cursor.column_names, 0)
+        print(query,'requested query')
         print(result1,'result1')
         conn.close()
         cursor.close()
