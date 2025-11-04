@@ -36,8 +36,8 @@ async def edit_items(edit_item:EditItem):
     conn.commit()
     conn.close()
     cursor.close()
-    print(query,"[[[[[[]]]]]]")
-    print(cursor.rowcount)
+    # print(query,"[[[[[[]]]]]]")
+    # print(cursor.rowcount)
     # print(query)
     if cursor.rowcount>0:
         resData= {
@@ -62,7 +62,7 @@ async def add_items(add_item:AddItem):
     conn.commit()
     conn.close()
     cursor.close()
-    print(cursor.rowcount)
+    # print(cursor.rowcount)
     # print(query)
     if cursor.rowcount>0:
         conn1 = connect()

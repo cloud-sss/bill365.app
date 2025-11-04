@@ -49,7 +49,7 @@ async def edit_header_footer(edit:EditHeaderFooter):
     conn.commit()
     conn.close()
     cursor.close()
-    print(cursor.rowcount)
+    # print(cursor.rowcount)
     # print(query)
     if cursor.rowcount>0:
         resData= {
@@ -74,7 +74,7 @@ async def edit_discount_settings(rcp_set:DiscountSettings):
     conn.commit()
     conn.close()
     cursor.close()
-    print(cursor.rowcount)
+    # print(cursor.rowcount)
     if cursor.rowcount>0:
         resData= {  
         "status":1,
@@ -99,7 +99,7 @@ async def edit_gst_settings(rcp_set:GSTSettings):
     conn.commit()
     conn.close()
     cursor.close()
-    print(cursor.rowcount)
+    # print(cursor.rowcount)
     if cursor.rowcount>0:
         resData= {  
         "status":1,
@@ -124,7 +124,7 @@ async def edit_general_settings(rcp_set:GeneralSettings):
     conn.commit()
     conn.close()
     cursor.close()
-    print(cursor.rowcount)
+    # print(cursor.rowcount)
     if cursor.rowcount>0:
         resData= {  
         "status":1,

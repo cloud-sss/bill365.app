@@ -47,11 +47,11 @@ async def calculator(rcpt:list[CalReceipt]):
         
         conn = connect()
         cursor = conn.cursor()
-        print(rcpt[0],"tttttttttttttttt")
+        # print(rcpt[0],"tttttttttttttttt")
         
         query = f"INSERT INTO td_receipt (receipt_no, comp_id, br_id, trn_date, price, amount, round_off, net_amt, received_amt, created_by, created_dt) VALUES ('{receipt}', {rcpt[0].comp_id}, {rcpt[0].br_id},'{curr_date}',{rcpt[0].tprice},{rcpt[0].tprice},{rcpt[0].round_off},{rcpt[0].net_amt},{rcpt[0].tprice},'{rcpt[0].created_by}','{formatted_datetime}')"
 
-        print(query)
+        # print(query)
         cursor.execute(query)
         conn.commit()
         conn.close()

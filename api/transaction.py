@@ -67,14 +67,14 @@ async def register(rcpt:list[Receipt]):
     conn.close()
     cursor.close()
 
-    print(result_sl_no,"llllllllllllllllll")
+    # print(result_sl_no,"llllllllllllllllll")
     
     conn = connect()
     cursor = conn.cursor()
-    print(rcpt[0],"tttttttttttttttt")
+    # print(rcpt[0],"tttttttttttttttt")
     phn_no1 = f",'{rcpt[0].phone_no}'" if rcpt[0].phone_no != "" else ",'0000000000'"
     query = f"INSERT INTO td_receipt (receipt_no, rcpt_sl_no, comp_id, br_id, trn_date, price, discount_amt, cgst_amt, sgst_amt, amount, round_off, net_amt, pay_mode, received_amt, pay_dtls, cust_name, phone_no, rcv_cash_flag, gst_flag, gst_type, discount_flag, discount_type, discount_position, created_by, created_dt) VALUES ('{receipt}', {result_sl_no[0]['rcpt_sl_no']}, {rcpt[0].comp_id}, {rcpt[0].br_id},'{formatted_datetime}',{rcpt[0].tprice},{rcpt[0].tdiscount_amt},{tcgst_amt},{tsgst_amt},{rcpt[0].amount},{rcpt[0].round_off},{rcpt[0].net_amt},'{rcpt[0].pay_mode}','{rcpt[0].received_amt}','{rcpt[0].pay_dtls}','{rcpt[0].cust_name}' {phn_no1},'{rcpt[0].rcv_cash_flag}','{rcpt[0].gst_flag}', '{rcpt[0].gst_type}','{rcpt[0].discount_flag}','{rcpt[0].discount_type}','{rcpt[0].discount_position}','{rcpt[0].created_by}','{formatted_datetime}')"
-    print(query)
+    # print(query)
     cursor.execute(query)
     conn.commit()
     
@@ -200,7 +200,7 @@ async def register(rcpt:list[Receipt]):
         conn.close()
         cursor.close()
 
-    print(values) 
+    # print(values) 
     return ResData
 
 #Select Bill
@@ -225,7 +225,7 @@ async def show_bill(recp_no:int):
             result1 = createResponse(records1, cursor1.column_names, 1)
             conn1.close()
             cursor1.close()
-            print(result1[0]["Count"])
+            # print(result1[0]["Count"])
             if result1[0]["Count"]>0:
                 resData = {"status":1,
                             "cancel_flag":"Y", 
