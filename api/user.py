@@ -271,12 +271,10 @@ async def login(data_login:UserLogin):
         cursor = conn.cursor()
         query = f"select fcm_token from md_user where comp_id = {result['comp_id']} AND user_id='{data_login.user_id}' AND user_type in ('U','M') and login_flag = 'Y'"
         cursor.execute(query)
+        print(query,'query')
         records = cursor.fetchone()
-        print(records,'records')
         result2 = createResponse(records, cursor.column_names, 0)
-        print(result2,'result2')
         if result2 and data_login.fcm_token != result2['fcm_token']:
-            # print('inside else if')
             conn = connect()
             cursor = conn.cursor()
             query = f"update md_user set fcm_token='{data_login.fcm_token}' where user_id='{data_login.user_id}'"
