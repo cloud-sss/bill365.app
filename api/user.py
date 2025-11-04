@@ -291,11 +291,12 @@ async def login(data_login:UserLogin):
             cursor.execute(query)
             # print(query)
             conn.commit()
-            conn.close()
-            cursor.close()
+            
 
         # print(result['max_user'],'max_user')
         if cursor.rowcount>0:
+            conn.close()
+            cursor.close()
             if result1['no_of_user'] < result['max_user']:
                 res_dt = {"suc": 1, "msg": result, "user": result1['no_of_user']+1}
                
