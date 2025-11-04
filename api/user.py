@@ -252,11 +252,12 @@ async def login(data_login:UserLogin):
     records = cursor.fetchone()
     # print(query)
     # print(cursor.rowcount)
-    print(records,"llllllllll")
+    # print(records,"llllllllll")
 
     if cursor.rowcount>0:
         # print(len(records),"oooooooooo")
         result = createResponse(records, cursor.column_names, 0)
+        print(result,'result')
         conn.close()
         cursor.close()
 
