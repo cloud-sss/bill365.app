@@ -250,26 +250,20 @@ async def login(data_login:UserLogin):
     query = f"SELECT a.*, b.*, c.* FROM md_user a, md_branch b, md_company c WHERE a.user_id='{data_login.user_id}' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type in ('U','M')"
     cursor.execute(query)
     records = cursor.fetchone()
-    # print(query)
-    # print(cursor.rowcount)
-    # print(records,"llllllllll")
+   
 
     if cursor.rowcount>0:
-        # print(len(records),"oooooooooo")
         result = createResponse(records, cursor.column_names, 0)
-        # print(result,'result')
         conn.close()
         cursor.close()
 
         conn = connect()
         cursor = conn.cursor()
-        # print(result['comp_id'],'comp_id')
         query = f"select count(*)no_of_user from md_user where comp_id={result['comp_id']}"
         cursor.execute(query)
         records = cursor.fetchone()
         result1 = createResponse(records, cursor.column_names, 0)
-        print(query,'requested query')
-        print(result1,'result1')
+      
         conn.close()
         cursor.close()
 
@@ -279,8 +273,7 @@ async def login(data_login:UserLogin):
         cursor.execute(query)
         records = cursor.fetchone()
         result2 = createResponse(records, cursor.column_names, 0)
-        # print(result1['no_of_user'],'no_of_user')
-        # print(result2['fcm_token'],'old_fcm_token')
+        print(result2,'result2')
         if data_login.fcm_token != result2['fcm_token']:
             # print('inside else if')
             conn = connect()
