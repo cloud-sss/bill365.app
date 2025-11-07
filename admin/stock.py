@@ -63,9 +63,9 @@ async def add_edit_stock(data:StockIn):
     where = None
     flag = 0 
     res_dt = await db_Insert(table_name,fields,values,where,flag)
-
+    print(res_dt,'before if')
     if res_dt["suc"]>0:
-
+        print('inside if')
         select = "stock"
         table_name = "td_stock"
         where = f"comp_id = {data.comp_id} and br_id = {data.br_id} and item_id = {data.item_id}"
