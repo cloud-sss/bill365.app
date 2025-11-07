@@ -65,9 +65,20 @@ async def add_edit_stock(data:StockIn):
     res_dt = await db_Insert(table_name,fields,values,where,flag)
 
     if res_dt["suc"]>0:
+
+        select = "stock"
+        table_name = "td_stock"
+        where = f"comp_id = {data.comp_id} and br_id = {data.br_id} and item_id = {data.item_id}"
+        # order = 'GROUP BY a.id'
+        order = f""
+        flag = 1
+        res_dt = await db_select(select,table_name,where,order,flag)
+        print(res_dt,"<<<<<<<<<<<<<")
+        new_stock = 0
+        new_stock = data.qty+res_dt["msg"][0]["stock"] if res_dt["suc"]>0 else data.qty
     
         table_name = "td_stock"
-        fields = f"stock = (stock+{data.qty}), modified_by = '{data.created_by}', modified_dt = '{formatted_dt}'"
+        fields = f"stock = {new_stock}, modified_by = '{data.created_by}', modified_dt = '{formatted_dt}'"
         values = None
         where = f"comp_id = {data.comp_id} AND br_id = {data.br_id} AND item_id = {data.item_id}" if data.br_id>0 else f"comp_id = {data.comp_id} AND item_id = {data.item_id}"
         flag = 1 
