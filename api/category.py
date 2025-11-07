@@ -40,6 +40,7 @@ async def categorywise_item_list(catg:SearchByCategory):
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
+    print(result)
     
     if cursor.rowcount>0:
         res_dt={"status":1, "msg":result}
