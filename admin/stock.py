@@ -59,7 +59,7 @@ async def add_edit_stock(data:StockIn):
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
     table_name = "td_stock_in"
     fields = "comp_id,br_id,in_date,item_id,in_price,in_cgst,in_sgst,qty,created_by,created_at"
-    values = f"{data.comp_id},{data.br_id},date('{formatted_dt}'),{data.item_id},{data.in_price},{data.in_cgst},{data.in_sgst},{data.qty},'{data.created_by}','{formatted_dt}'"
+    values = f"{data.comp_id},{data.br_id},'{formatted_dt}',{data.item_id},{data.in_price},{data.in_cgst},{data.in_sgst},{data.qty},'{data.created_by}','{formatted_dt}'"
     where = None
     flag = 0 
     res_dt = await db_Insert(table_name,fields,values,where,flag)
