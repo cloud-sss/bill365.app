@@ -78,7 +78,7 @@ async def add_edit_stock(data:StockIn):
     new_stock = data.qty+res_dt["msg"][0]["stock"] if res_dt["suc"]>0 else data.qty
     
     table_name = "td_stock"
-    fields = f"stock = {new_stock}, modified_by = '{data.created_by}', modified_dt = '{formatted_dt}'"
+    fields = f"stock = {new_stock}"
     values = None
     where = f"comp_id = {data.comp_id} AND br_id = {data.br_id} AND item_id = {data.item_id}" if data.br_id>0 else f"comp_id = {data.comp_id} AND item_id = {data.item_id}"
     flag = 1 
