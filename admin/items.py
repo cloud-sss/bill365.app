@@ -25,7 +25,6 @@ async def item_list(data:CompId):
     order = f''
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
-    print(res_dt)
     return res_dt
 
 # ==================================================================================================
