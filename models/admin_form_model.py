@@ -467,3 +467,8 @@ class Item(BaseModel):
     comp_id: int
     catg_id: int
     item_id: list = []
+
+class RenewalReport(BaseModel):
+    from_date:date
+    to_date:date
+    comp_id:int

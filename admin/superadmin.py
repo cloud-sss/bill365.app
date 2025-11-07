@@ -4,7 +4,7 @@ import mysql.connector
 from pathlib import Path
 from models.master_model import createResponse
 from models.masterApiModel import db_select, db_Insert
-from models.admin_form_model import AddEditLocation,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
+from models.admin_form_model import AddEditLocation,RenewalReport,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
 from utils import get_hashed_password,verify_password
 from datetime import datetime
 from typing import Annotated, Union, Optional
@@ -643,6 +643,17 @@ async def catg_list(comp_id:int):
     select = f"sl_no catg_id,category_name"
     table_name = "md_category"
     where = f"comp_id = {comp_id}"
+    order = f''
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
+    return res_dt
+
+@superadminRouter.post('/S_Admin/renewal_report')
+async def catg_list(comp_id:RenewalReport):
+  
+    select = f"company_name,address,contact_person,phone_no,email_id,max_user,max_outlet,last_billing,DATE_ADD(last_billing, INTERVAL 1 YEAR)next_bill_date,sales_person,active_flag"
+    table_name = "md_category"
+    where = f"comp_id = {comp_id.comp_id} and last_billing BETWEEN '{comp_id.from_date}' AND '{comp_id.to_date}'"
     order = f''
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)

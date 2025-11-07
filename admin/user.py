@@ -22,6 +22,16 @@ async def user_list(data:UserList):
     res_dt = await db_select(select,table_name,where,order,flag)
     return res_dt
 
+@userRouter.post('/company_list')
+async def user_list(data:UserList):
+    select = "*"
+    table_name = "md_company"
+    where = f""
+    order = f''
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
+    return res_dt
+
 # Verify Phone no and active status
 #------------------------------------------------------------------------------------------------------
 @userRouter.post('/user_login')
