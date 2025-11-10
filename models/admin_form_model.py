@@ -405,8 +405,16 @@ class AddEditOutletS(BaseModel):
     phone_no:int | None
     email_id:str | None
 
+class AddEditOutletSList(BaseModel):
+    br_id:int
+    branch_name:str
+    branch_address:str | None
+    contact_person:str | None
+    phone_no:int | None
+    email_id:str | None
+
 class OutletList(BaseModel):
-    outletDt:List[AddEditOutletS]
+    outletDt:List[AddEditOutletSList]
     created_by:str
     comp_id:int
 
