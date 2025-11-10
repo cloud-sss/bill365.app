@@ -215,9 +215,9 @@ async def add__edit_outlet(data:OutletList):
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
     table_name = "md_branch"
     for outlet in data.outletDt:
-        fields = f"comp_id, branch_name, branch_address, location, contact_person, phone_no, email_id, created_by, created_dt"    
+        fields = f"comp_id, branch_name, branch_address, contact_person, phone_no, email_id, created_by, created_dt"    
 
-        values =f"{data.comp_id}, '{outlet.branch_name}', '{outlet.branch_address}', {outlet.location}, '{outlet.contact_person}', {outlet.phone_no}, '{outlet.email_id}', '{data.created_by}', '{formatted_dt}'"
+        values =f"{data.comp_id}, '{outlet.branch_name}', '{outlet.branch_address}', '{outlet.contact_person}', {outlet.phone_no}, '{outlet.email_id}', '{data.created_by}', '{formatted_dt}'"
 
         where = None 
 
