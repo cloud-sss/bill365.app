@@ -4,7 +4,7 @@ import mysql.connector
 from pathlib import Path
 from models.master_model import createResponse
 from models.masterApiModel import db_select, db_Insert
-from models.admin_form_model import AddEditLocation,RenewalReport,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
+from models.admin_form_model import AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
 from utils import get_hashed_password,verify_password
 from datetime import datetime
 from typing import Annotated, Union, Optional
@@ -201,6 +201,27 @@ async def add__edit_outlet(data:AddEditOutletS):
     where = f"comp_id={data.comp_id} and id={data.br_id}" if data.br_id>0 else None 
 
     flag = 1 if data.br_id>0 else 0
+
+    res_dt = await db_Insert(table_name,fields,values,where,flag)
+
+    return res_dt
+
+
+
+
+@superadminRouter.post('/S_Admin/add_edit_outlet_list')
+async def add__edit_outlet(data:OutletList):
+    current_datetime = datetime.now()
+    formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+    table_name = "md_branch"
+    for outlet in data.outletDt:
+        fields = f"comp_id, branch_name, branch_address, location, contact_person, phone_no, email_id, created_by, created_dt"    
+
+        values =f"{outlet.comp_id}, '{outlet.branch_name}', '{outlet.branch_address}', {outlet.location}, '{outlet.contact_person}', {outlet.phone_no}, '{outlet.email_id}', '{outlet.created_by}', '{formatted_dt}'"
+
+        where = None 
+
+        flag = 0
 
     res_dt = await db_Insert(table_name,fields,values,where,flag)
 

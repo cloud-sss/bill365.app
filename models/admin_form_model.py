@@ -404,7 +404,12 @@ class AddEditOutletS(BaseModel):
     contact_person:str | None
     phone_no:int | None
     email_id:str | None
+
+class OutletList(BaseModel):
+    outletDt:List[AddEditOutletS]
     created_by:str
+    comp_id:int
+
 
 # -------------------Manage Header Footer-------------------
 
