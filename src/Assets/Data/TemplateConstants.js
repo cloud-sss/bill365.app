@@ -107,4 +107,21 @@ export const reportHeaders = {
     ],
     span: 3,
   },
+    renewalreport: {
+    title: "Renewal Report",
+    headers: [
+      { name: "company_name", value: "Company Name" },
+      { name: "address", value: "Address" },
+      { name: "contact_person", value: "Contact Person" },
+      { name: "email_id", value: "Email Id" },
+      { name: "max_user", value: "Max. User" },
+      { name: "last_billing", value: "Last Billing" },
+      { name: "next_bill_date", value: "Next Billing" },
+      { name: "sales_person", value: "Sales Person" },
+      { name: "active_flag", value: "Active" },
+      { name: "max_outlet", value: "Max. Outlet" },
+    ],
+    span: 0,
+  },
+
 };

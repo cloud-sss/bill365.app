@@ -11,6 +11,12 @@ import { Democontext, loadingContext } from "./Context/Democontext";
 import Loader from "./Components/Loader";
 import Noresult from "./Screens/Noresult/Noresult";
 import Bill from "./Screens/Bill/Bill";
+import OnboardingComp from "./Screens/SuperAdmin/Onboarding/OnboardingComp";
+import OnboardingForm from "./Screens/SuperAdmin/Onboarding/OnboardingForm";
+const RepComp =lazy(()=>import("./Screens/SuperAdmin/Reports/RepComp"))
+// import RepComp from "./Screens/SuperAdmin/Reports/RepComp";
+// import RenewReport from "./Screens/SuperAdmin/Reports/RenewReport";
+const RenewReport =lazy(()=>import("./Screens/SuperAdmin/Reports/RenewReport"))
 
 const CategorywiseItemsComp = lazy(() =>
   import("./Screens/SuperAdmin/CategorywiseItems/CategorywiseItemsComp")
@@ -339,6 +345,29 @@ const router = createBrowserRouter([
                   },
                 ],
               },
+               {
+                path: "onboard",
+                element: <OnboardingComp />,
+                children: [
+                  {
+                    path: "onboard_form",
+                    element: <OnboardingForm />,
+                  },
+                 
+                ],
+              },
+              {
+            path: "report",
+
+            element: <RepComp />,
+            children: [
+              {
+                path: "renewalreport",
+                element: <RenewReport />,
+              },
+             
+            ],
+          },
               {
                 path: "manageoutlets",
                 element: <ManageOutletsComp />,

@@ -1,16 +1,22 @@
+
+
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import useAPI from "../../../Hooks/useApi";
-import { Message } from "../../../Components/Message";
-import { DurationMessage } from "../../../Components/DurationMessage";
-import Backbtn from "../../../Components/Backbtn";
+import useAPI from "../../Hooks/useApi";
+import { Message } from "../../Components/Message";
+import { DurationMessage } from "../../Components/DurationMessage";
+import Backbtn from "../../Components/Backbtn";
 import axios from "axios";
-import { url } from "../../../Address/baseURL";
+import { url } from "../../Address/baseURL";
 
-function ManageShopsAddEdit() {
-  const params = useParams();
+
+function ShopDetails({ submit_shop }) {
+    const handleSubmit = () => { submit_shop() }
+
+  
+const params = useParams();
   const { response, callApi } = useAPI();
   const navigation = useNavigate();
 
@@ -55,12 +61,11 @@ function ManageShopsAddEdit() {
         sh_email_id: response?.data?.msg[0].email_id,
         sh_active_flag: response?.data?.msg[0].active_flag,
         sh_contact_person: response?.data?.msg[0].contact_person,
-        sh_sales_person: response?.data?.msg[0].sales_person,
-        sh_last_billing: response?.data?.msg[0].last_billing,
         sh_max_user: response?.data?.msg[0].max_user,
-        sh_max_outlet: response?.data?.msg[0].max_outlet,
-        sh_web_portal: response?.data?.msg[0].web_portal,
-        sh_mode: response?.data?.msg[0].mode,
+        // sh_web_portal: response?.data?.msg[0].web_portal,
+        sh_web_portal: 'Y',
+        // sh_mode: response?.data?.msg[0].mode,
+        sh_mode: 'N',
         sh_location: response?.data?.msg[0].location
           ? response?.data?.msg[0].location
           : "", //etao ami korechhi ebong beshhhhhh korechhiiiiiii
@@ -92,9 +97,6 @@ function ManageShopsAddEdit() {
     sh_location: "",
     sh_active_flag: "",
     sh_max_user: "",
-    sh_max_outlet: "",
-    sh_sales_person: "",
-    sh_last_billing: "",
     sh_web_portal: "",
     sh_contact_person: "",
     sh_mode: "",
@@ -113,15 +115,12 @@ function ManageShopsAddEdit() {
       contact_person: values?.sh_contact_person,
       phone_no: +values?.sh_phone_no,
       email_id: values?.sh_email_id,
-      // logo: "",
-      web_portal: values?.sh_web_portal,
+      
+      web_portal: 'Y',
       active_flag: values?.sh_active_flag,
       max_user: +values?.sh_max_user,
       user_id: userId,
-      mode: values?.sh_mode,
-      last_billing: values?.sh_last_billing,
-      max_outlet: +values?.sh_max_outlet,
-      sales_person: values?.sh_sales_person,
+      mode: 'N',
     });
   };
 
@@ -133,10 +132,7 @@ function ManageShopsAddEdit() {
     // sh_email_id: Yup.string().required("Email is required."),
     sh_active_flag: Yup.string().required("Active Flag is required."),
     sh_max_user: Yup.number().min(0).max(20).required("Max user is required."),
-    sh_max_outlet: Yup.number().min(0).required("Max outlet is required."),
-    sh_sales_person: Yup.string().required("Sales person is required."),
-    sh_web_portal: Yup.string().required("Web Portal is required."),
-    sh_last_billing: Yup.string().required("Last billing date is required."),
+    // sh_web_portal: Yup.string().required("Web Portal is required."),
   });
 
   const [formValues, setValues] = useState(initialValues);
@@ -150,7 +146,6 @@ function ManageShopsAddEdit() {
   });
   return (
     <>
-      <Backbtn />
 
       <section class="bg-white dark:bg-gray-900">
         <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
@@ -328,53 +323,6 @@ function ManageShopsAddEdit() {
                   </div>
                 ) : null}
               </div>
-
-              <div class="w-full">
-                <label
-                  for="sh_max_user"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Max Outlet
-                </label>
-                <input
-                  type="number"
-                  name="sh_max_outlet"
-                  id="sh_max_outlet"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.sh_max_outlet}
-                  placeholder="Max number of outlet"
-                  required=""
-                />
-                {formik.errors.sh_max_outlet && formik.touched.sh_max_outlet ? (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.sh_max_outlet}
-                  </div>
-                ) : null}
-              </div>
-              <div class="w-full">
-                <label
-                  for="sh_sales_person"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Sales Person
-                </label>
-                <input
-                  type="text"
-                  name="sh_sales_person"
-                  id="sh_sales_person"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.sh_sales_person}
-                  placeholder="Sales Person"
-                  required=""
-                />
-                {formik.errors.sh_sales_person && formik.touched.sh_sales_person ? (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.sh_sales_person}
-                  </div>
-                ) : null}
-              </div>
               <div class="w-full">
                 <label
                   for="sh_contact_person"
@@ -426,29 +374,7 @@ function ManageShopsAddEdit() {
                   </div>
                 ) : null}
               </div>
-<div class="w-full sm:col-span-2">
-                <label
-                  for="sh_last_billing"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Last Billing
-                </label>
-                <input
-                  type="date"
-                  name="sh_last_billing"
-                  id="sh_last_billing"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.sh_last_billing}
-                  placeholder="Last Billing Date"
-                  required=""
-                />
-                {formik.errors.sh_last_billing && formik.touched.sh_last_billing ? (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.sh_last_billing}
-                  </div>
-                ) : null}
-              </div>
+
               <div class="sm:col-span-2">
                 <label
                   for="sh_address"
@@ -472,26 +398,24 @@ function ManageShopsAddEdit() {
                 ) : null}
               </div>
             </div>
-            <div className="flex justify-center">
-              {params.id == 0 && (
+ <div className="flex justify-center items-center gap-2">
                 <button
-                  type="reset"
-                  onClick={formik.handleReset}
-                  className="inline-flex mr-3 bg-white items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-blue-900 border border-blue-900 bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                  Reset
+                    onClick={() => handleSubmit()}
+                    type="submit"
+                    className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                    Next
                 </button>
-              )}
-              <button
-                type="submit"
-                className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                Submit
-              </button>
             </div>
           </form>
         </div>
       </section>
     </>
   );
-}
 
-export default ManageShopsAddEdit;
+}
+           
+        
+
+
+
+export default ShopDetails

@@ -17,6 +17,10 @@ function App() {
               itemSelectedBg: "#E2E2F3",
               itemSelectedColor: "#404198",
             },
+            Radio:{
+              buttonSolidCheckedBg: "#404198",
+
+            },
             Tabs: {
               inkBarColor: "#404198",
               itemColor: "#404198",

@@ -32,6 +32,7 @@ import {
   PushpinOutlined,
   ContainerOutlined,
   SolutionOutlined,
+  DeliveredProcedureOutlined,
 } from "@ant-design/icons";
 import { Divider, Menu, Switch } from "antd";
 import IMG from "../Assets/Images/mainlogo.png";
@@ -79,6 +80,7 @@ function SidebarComp() {
         </div>
       ),
     },
+  
 
     {
       key: "sub1",
@@ -576,6 +578,7 @@ function SidebarComp() {
         />
       ),
       children: [
+       
         {
           key: "115",
           icon: <DashboardOutlined />,
@@ -590,6 +593,52 @@ function SidebarComp() {
             </div>
           ),
         },
+
+         {
+      key: "rep33",
+      label: "Report",
+      icon: (
+        <FileSearchOutlined
+          className={
+            location.pathname.includes("superadmin")
+              ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+              : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+          }
+        />
+      ),
+      children: [
+       
+        {
+          key: "ren-rep",
+          icon: <DashboardOutlined />,
+          label: (
+            <div
+              className={
+                location.pathname.includes("home")
+                  ? "font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+              }>
+              <Link to={"SuperAdmin/report/renewalreport"}>Renewal Report</Link>
+            </div>
+          ),
+        }
+      ]
+    },
+    //        {
+    //   key: "onboard",
+    //   icon: <DeliveredProcedureOutlined  />,
+    //   label: (
+    //     <div
+    //       className={
+    //         location.pathname.includes("onboard_form")
+    //           ? " flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+    //           : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+    //       }>
+    //       <Link to={"superadmin/onboard/onboard_form"}>Onboard</Link>
+    //     </div>
+    //   ),
+    // },
+    // children:[
         {
           key: "15",
           icon: (
@@ -820,6 +869,8 @@ function SidebarComp() {
             </div>
           ),
         },
+
+      // ],
         {
           key: "21",
           icon: (
@@ -1030,6 +1081,8 @@ function SidebarComp() {
         },
       ],
     },
+
+    
   ];
   const showDrawer = () => {
     setOpen(true);
@@ -1082,7 +1135,7 @@ function SidebarComp() {
               items={
                 userType !== "S"
                   ? items.filter((item) => item.key !== "sub33")
-                  : items.filter((item) => item.key === "sub33")
+                  : items.filter((item) => item.key === "sub33" || item.key==="rep33")
               }
             />
           </div>

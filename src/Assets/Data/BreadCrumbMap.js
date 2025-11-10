@@ -66,4 +66,6 @@ export const pathMap = {
   stockedit: "Edit stock",
   category: "Categories",
   categoryedit: "Add/Edit categories",
+  onboard:"Onboarding",
+  onboard_form: "Onboarding Form",
 };

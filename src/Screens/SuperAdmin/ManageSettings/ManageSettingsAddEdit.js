@@ -525,11 +525,11 @@ function ManageSettingsAddEdit() {
                   </div>
                 ) : null}
               </div>
-               <div className="w-full">
+               <div className="sm:col-span-2">
                 <label
                   for="sl_flag"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Custom Receipt SL Flag
+                  Custom Receipt Serial No. Flag
                 </label>
                 <select
                   id="sl_flag"
@@ -538,9 +538,9 @@ function ManageSettingsAddEdit() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.sl_flag}>
-                  <option selected="">Custom Receipt SL Flag</option>
-                  <option value="Y">Y</option>
-                  <option value="N">N</option>
+                  <option selected="">Custom Receipt Serial No. Flag</option>
+                  <option value="Y">On</option>
+                  <option value="N">Off</option>
                 </select>
                 {formik.errors.sl_flag &&
                 formik.touched.sl_flag ? (

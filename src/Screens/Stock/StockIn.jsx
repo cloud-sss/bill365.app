@@ -120,9 +120,12 @@ function StockIn() {
       comp_id: +comp,
       br_id: +values?.st_br_id,
       item_id: +values?.st_item_id,
-      in_price: +values?.st_in_price,
-      in_cgst: +values?.st_in_cgst,
-      in_sgst: +values?.st_in_sgst,
+      // in_price: +values?.st_in_price,
+      in_price: 0,
+      // in_cgst: +values?.st_in_cgst,
+      in_cgst: 0,
+      // in_sgst: +values?.st_in_sgst,
+      in_sgst: 0,
       qty: +values?.st_qty,
       created_by: userId,
     });
@@ -162,7 +165,7 @@ function StockIn() {
           </h2>
           <form onSubmit={formik.handleSubmit}>
             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-              <div>
+              <div className="sm:col-span-2">
                 <label
                   for="st_br_id"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -214,7 +217,7 @@ function StockIn() {
                   </div>
                 ) : null}
               </div>
-              <div className="w-full">
+              {/* <div className="w-full">
                 <label
                   for="st_in_price"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -283,7 +286,7 @@ function StockIn() {
                     {formik.errors.st_in_sgst}
                   </div>
                 ) : null}
-              </div>
+              </div> */}
               <div class="w-full">
                 <label
                   for="st_qty"
