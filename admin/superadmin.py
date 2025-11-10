@@ -223,7 +223,7 @@ async def add__edit_outlet(data:OutletList):
 
         flag = 0
 
-    res_dt = await db_Insert(table_name,fields,values,where,flag)
+        res_dt = await db_Insert(table_name,fields,values,where,flag)
 
     return res_dt
 
