@@ -653,7 +653,7 @@ async def catg_list(comp_id:RenewalReport):
   
     select = f"company_name,address,contact_person,phone_no,email_id,max_user,max_outlet,last_billing,DATE_ADD(last_billing, INTERVAL 1 YEAR)next_bill_date,sales_person,active_flag"
     table_name = "md_company"
-    where = f"id = {comp_id.comp_id} and last_billing BETWEEN '{comp_id.from_date}' AND '{comp_id.to_date}'"
+    where = f"id = {comp_id.comp_id} and last_billing BETWEEN '{comp_id.from_date}' AND '{comp_id.to_date}'" if comp_id.comp_id>0 else f"last_billing BETWEEN '{comp_id.from_date}' AND '{comp_id.to_date}'"
     order = f''
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
