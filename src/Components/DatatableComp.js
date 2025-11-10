@@ -15,7 +15,7 @@ function DatatableComp({ headers, data, span, totals }) {
     <ColumnGroup>
       <Row>
         <Column
-          footer="Totals:"
+          footer={span?"Totals:":""}
           colSpan={span}
           footerStyle={{ textAlign: "center" }}
         />

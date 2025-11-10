@@ -624,20 +624,20 @@ function SidebarComp() {
         }
       ]
     },
-    //        {
-    //   key: "onboard",
-    //   icon: <DeliveredProcedureOutlined  />,
-    //   label: (
-    //     <div
-    //       className={
-    //         location.pathname.includes("onboard_form")
-    //           ? " flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
-    //           : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-    //       }>
-    //       <Link to={"superadmin/onboard/onboard_form"}>Onboard</Link>
-    //     </div>
-    //   ),
-    // },
+           {
+      key: "onboard",
+      icon: <DeliveredProcedureOutlined  />,
+      label: (
+        <div
+          className={
+            location.pathname.includes("onboard_form")
+              ? " flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+              : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+          }>
+          <Link to={"superadmin/onboard/onboard_form"}>Onboard</Link>
+        </div>
+      ),
+    },
     // children:[
         {
           key: "15",

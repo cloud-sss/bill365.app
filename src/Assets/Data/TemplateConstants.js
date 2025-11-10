@@ -110,10 +110,10 @@ export const reportHeaders = {
     renewalreport: {
     title: "Renewal Report",
     headers: [
-      { name: "company_name", value: "Company Name" },
+      { name: "company_name", value: "Store" },
       { name: "address", value: "Address" },
       { name: "contact_person", value: "Contact Person" },
-      { name: "email_id", value: "Email Id" },
+      { name: "email_id", value: "Email" },
       { name: "max_user", value: "Max. User" },
       { name: "last_billing", value: "Last Billing" },
       { name: "next_bill_date", value: "Next Billing" },

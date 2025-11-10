@@ -23,7 +23,7 @@ function ManageOutletsAddEdit() {
   const [outlets, setOutlets] = useState(() => []);
   const [shops, setShops] = useState(() => []);
   const [locations, setLocations] = useState(() => []);
-
+  
   var comp, userId;
 
   //   useEffect(() => {
@@ -68,7 +68,9 @@ function ManageOutletsAddEdit() {
         Message("error", err);
       });
   }, []);
-
+  const handleDtChange=(index)=>{
+    console.log("changed");
+  }
   useEffect(() => {
     // console.log(response, Array.isArray(response?.data?.msg));
     if (Array.isArray(response?.data?.msg)) {

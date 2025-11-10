@@ -13,10 +13,10 @@ import { url } from "../../Address/baseURL";
 
 
 function ShopDetails({ submit_shop }) {
-    const handleSubmit = () => { submit_shop() }
+  const handleSubmit = (values) => { submit_shop(values) }
 
-  
-const params = useParams();
+
+  const params = useParams();
   const { response, callApi } = useAPI();
   const navigation = useNavigate();
 
@@ -28,17 +28,8 @@ const params = useParams();
   const [c_bill, setBill] = useState("");
   const [locations, setLocations] = useState(() => []);
 
-  var comp, userId;
 
   useEffect(() => {
-    console.log(params);
-    comp = localStorage.getItem("comp_id");
-    if (params.id > 0) callApi(`/admin/S_Admin/select_shop?id=${params.id}`, 0);
-    // setDataSet(response?.data?.msg)
-  }, [isCalled]);
-
-  useEffect(() => {
-    // callApi(`/admin/S_Admin/select_location`, 0);
     axios
       .get(`${url}/admin/S_Admin/select_location`)
       .then((res) => {
@@ -49,90 +40,49 @@ const params = useParams();
         Message("error", err);
       });
   }, []);
-
-  useEffect(() => {
-    console.log(response, Array.isArray(response?.data?.msg));
-    if (Array.isArray(response?.data?.msg)) {
-      console.log(response);
-      const rsp = {
-        sh_company_name: response?.data?.msg[0].company_name,
-        sh_address: response?.data?.msg[0].address,
-        sh_phone_no: response?.data?.msg[0].phone_no,
-        sh_email_id: response?.data?.msg[0].email_id,
-        sh_active_flag: response?.data?.msg[0].active_flag,
-        sh_contact_person: response?.data?.msg[0].contact_person,
-        sh_max_user: response?.data?.msg[0].max_user,
-        // sh_web_portal: response?.data?.msg[0].web_portal,
-        sh_web_portal: 'Y',
-        // sh_mode: response?.data?.msg[0].mode,
-        sh_mode: 'N',
-        sh_location: response?.data?.msg[0].location
-          ? response?.data?.msg[0].location
-          : "", //etao ami korechhi ebong beshhhhhh korechhiiiiiii
-      };
-      setValues(rsp);
-      //  setBill(response?.data?.msg[0].bill_address)
-      //  setDel(response?.data?.msg[0].delivery_address)
-      console.log(rsp);
-    }
-    // setDataSet(response?.data?.msg)
-    if (response?.data?.suc == 0 || response?.data?.msg.length <= 0) {
-      Message("error", "Something went wrong!");
-    } else {
-      if (isCalled && response?.data?.suc == 1) {
-        setCalled(false);
-        DurationMessage();
-        setTimeout(() => {
-          navigation("/home/superadmin/manageshops/view");
-        }, 4500);
-      }
-    }
-  }, [response]);
-
   const initialValues = {
     sh_company_name: "",
     sh_address: "",
     sh_phone_no: "",
     sh_email_id: "",
-    sh_location: "",
     sh_active_flag: "",
     sh_max_user: "",
     sh_web_portal: "",
     sh_contact_person: "",
     sh_mode: "",
+    sh_max_outlet: "",
+    sh_sales_person: "",
+    sh_last_billing: "",
   };
 
   const onSubmit = (values) => {
     setCalled(true);
-    console.log(values, params.id);
+    console.log(values);
+    handleSubmit(values)
     // comp = localStorage.getItem("comp_id");
-    userId = localStorage.getItem("user_id");
-    callApi("/admin/S_Admin/add_edit_shop", 1, {
-      id: +params.id,
-      company_name: values?.sh_company_name,
-      address: values?.sh_address,
-      location: values?.sh_location ? +values?.sh_location : 0, //ami korechhi besh korechhi
-      contact_person: values?.sh_contact_person,
-      phone_no: +values?.sh_phone_no,
-      email_id: values?.sh_email_id,
-      
-      web_portal: 'Y',
-      active_flag: values?.sh_active_flag,
-      max_user: +values?.sh_max_user,
-      user_id: userId,
-      mode: 'N',
-    });
+    // callApi("/admin/S_Admin/add_edit_shop", 1, {
+    //   id: +params.id,
+    //   company_name: values?.sh_company_name,
+    //   address: values?.sh_address,
+    //   location: values?.sh_location ? +values?.sh_location : 0, //ami korechhi besh korechhi
+    //   contact_person: values?.sh_contact_person,
+    //   phone_no: +values?.sh_phone_no,
+    //   email_id: values?.sh_email_id,
+    //   web_portal: 'Y',
+    //   active_flag: values?.sh_active_flag,
+    //   max_user: +values?.sh_max_user,
+    //   user_id: userId,
+    //   mode: 'N',
+    // });
   };
 
   const validationSchema = Yup.object({
     sh_company_name: Yup.string().required("Shop Name is required."),
-    // sh_address: Yup.string().required("Company Address is required."),
-    // sh_location: Yup.string().required("Location is required."),
-    // sh_phone_no: Yup.string().required("Phone no. is required."),
-    // sh_email_id: Yup.string().required("Email is required."),
     sh_active_flag: Yup.string().required("Active Flag is required."),
     sh_max_user: Yup.number().min(0).max(20).required("Max user is required."),
-    // sh_web_portal: Yup.string().required("Web Portal is required."),
+    sh_sales_person: Yup.string().required("Sales person is required."),
+    sh_web_portal: Yup.string().required("Web Portal is required."),
+    sh_last_billing: Yup.string().required("Last billing date is required."),
   });
 
   const [formValues, setValues] = useState(initialValues);
@@ -145,13 +95,11 @@ const params = useParams();
     validateOnMount: true,
   });
   return (
-    <>
-
       <section class="bg-white dark:bg-gray-900">
-        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-          <h2 class="mb-4 text-xl font-bold text-blue-900 dark:text-white">
-            {params.id == 0 ? "Add a new shop" : "Update shop"}
-          </h2>
+        <div class="py-4 px-4 mx-auto max-w-2xl">
+          {/* <h2 class="mb-4 text-xl font-bold text-blue-900 dark:text-white">
+           New shop
+          </h2> */}
           <form onSubmit={formik.handleSubmit}>
             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
@@ -172,7 +120,7 @@ const params = useParams();
                   required=""
                 />
                 {formik.errors.sh_company_name &&
-                formik.touched.sh_company_name ? (
+                  formik.touched.sh_company_name ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.sh_company_name}
                   </div>
@@ -201,34 +149,7 @@ const params = useParams();
                   </div>
                 ) : null}
               </div>
-              <div>
-                <label
-                  for="sh_location"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Location
-                </label>
-                <select
-                  id="sh_location"
-                  name="sh_location"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.sh_location}>
-                  <option selected="">Select Location</option>
-                  {locations?.map((item, i) => (
-                    <option key={i} value={item?.sl_no}>
-                      {item?.location_name}
-                    </option>
-                  ))}
-                  {/* <option value="Y">Yes</option>
-                  <option value="N">No</option> */}
-                </select>
-                {formik.errors.sh_location && formik.touched.sh_location ? (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.sh_location}
-                  </div>
-                ) : null}
-              </div>
+              
               <div>
                 <label
                   for="sh_active_flag"
@@ -247,7 +168,7 @@ const params = useParams();
                   <option value="N">No</option>
                 </select>
                 {formik.errors.sh_active_flag &&
-                formik.touched.sh_active_flag ? (
+                  formik.touched.sh_active_flag ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.sh_active_flag}
                   </div>
@@ -323,6 +244,53 @@ const params = useParams();
                   </div>
                 ) : null}
               </div>
+
+              <div class="w-full">
+                <label
+                  for="sh_max_user"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Max Outlet
+                </label>
+                <input
+                  type="number"
+                  name="sh_max_outlet"
+                  id="sh_max_outlet"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.sh_max_outlet}
+                  placeholder="Max number of outlet"
+                  required=""
+                />
+                {formik.errors.sh_max_outlet && formik.touched.sh_max_outlet ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.sh_max_outlet}
+                  </div>
+                ) : null}
+              </div>
+              <div class="w-full">
+                <label
+                  for="sh_sales_person"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Sales Person
+                </label>
+                <input
+                  type="text"
+                  name="sh_sales_person"
+                  id="sh_sales_person"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.sh_sales_person}
+                  placeholder="Sales Person"
+                  required=""
+                />
+                {formik.errors.sh_sales_person && formik.touched.sh_sales_person ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.sh_sales_person}
+                  </div>
+                ) : null}
+              </div>
               <div class="w-full">
                 <label
                   for="sh_contact_person"
@@ -341,7 +309,7 @@ const params = useParams();
                   required=""
                 />
                 {formik.errors.sh_contact_person &&
-                formik.touched.sh_contact_person ? (
+                  formik.touched.sh_contact_person ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.sh_contact_person}
                   </div>
@@ -374,7 +342,29 @@ const params = useParams();
                   </div>
                 ) : null}
               </div>
-
+              <div class="w-full">
+                <label
+                  for="sh_last_billing"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Last Billing
+                </label>
+                <input
+                  type="date"
+                  name="sh_last_billing"
+                  id="sh_last_billing"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.sh_last_billing}
+                  placeholder="Last Billing Date"
+                  required=""
+                />
+                {formik.errors.sh_last_billing && formik.touched.sh_last_billing ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.sh_last_billing}
+                  </div>
+                ) : null}
+              </div>
               <div class="sm:col-span-2">
                 <label
                   for="sh_address"
@@ -398,23 +388,23 @@ const params = useParams();
                 ) : null}
               </div>
             </div>
- <div className="flex justify-center items-center gap-2">
-                <button
-                    onClick={() => handleSubmit()}
-                    type="submit"
-                    className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                    Next
-                </button>
+            <div className="flex justify-center items-center gap-2">
+              <button
+                // onClick={() => handleSubmit()}
+                type="submit"
+                className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                Next
+              </button>
             </div>
           </form>
+
         </div>
       </section>
-    </>
   );
 
 }
-           
-        
+
+
 
 
 
