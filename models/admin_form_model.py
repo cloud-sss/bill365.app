@@ -368,6 +368,9 @@ class AddEditCompany(BaseModel):
     web_portal:Optional[str] = None
     active_flag:str
     max_user:int
+    max_outlet:int
+    sales_person:str
+    last_billing:date
     user_id:str
 
 # ---------------Manage User--------------------

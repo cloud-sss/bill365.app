@@ -90,8 +90,8 @@ async def add_edit_shop(data:AddEditCompany):
     current_datetime = datetime.now()
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
     table_name = f"md_company"
-    fields = f"company_name='{data.company_name}', mode='{data.mode}', address='{data.address}', location={data.location}, contact_person='{data.contact_person}', phone_no={data.phone_no}, email_id='{data.email_id}',web_portal='{data.web_portal}',active_flag='{data.active_flag}',max_user={data.max_user},modified_by='{data.user_id}', modified_dt='{formatted_dt}'" if data.id>0 else f"company_name,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user,created_by, created_dt"
-    values = None if data.id>0 else f"'{data.company_name}','{data.address}',{data.location},'{data.contact_person}',{data.phone_no},'{data.email_id}','{data.web_portal}','{data.active_flag}',{data.max_user},'{data.user_id}', '{formatted_dt}'"
+    fields = f"company_name='{data.company_name}',sales_person='{data.sales_person}',last_billing='{data.last_billing}',max_outlet={data.max_outlet}, mode='{data.mode}', address='{data.address}', location={data.location}, contact_person='{data.contact_person}', phone_no={data.phone_no}, email_id='{data.email_id}',web_portal='{data.web_portal}',active_flag='{data.active_flag}',max_user={data.max_user},modified_by='{data.user_id}', modified_dt='{formatted_dt}'" if data.id>0 else f"company_name,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user,created_by, created_dt,max_outlet,sales_person,last_billing"
+    values = None if data.id>0 else f"'{data.company_name}','{data.address}',{data.location},'{data.contact_person}',{data.phone_no},'{data.email_id}','{data.web_portal}','{data.active_flag}',{data.max_user},'{data.user_id}', '{formatted_dt}',{data.max_outlet},'{data.sales_person}','{data.last_billing}'"
     where = f"id = {data.id}" if data.id>0 else None
     order = ""
     flag = 1 if data.id>0 else 0
