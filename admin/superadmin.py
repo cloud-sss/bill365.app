@@ -166,7 +166,7 @@ async def add_edit_user(data:userList):
         select = "id"
         table_name = "md_branch"
         where = f"comp_id={data.comp_id} and phone_no={user.phone_no}"
-        order = f"ORDER BY user_type"
+        order = f""
         flag = 1
         res_dt = await db_select(select,table_name,where,order,flag)
         print('res_dt=',res_dt)
