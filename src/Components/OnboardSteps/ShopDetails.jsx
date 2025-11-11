@@ -22,36 +22,17 @@ function ShopDetails({ submit_shop,data }) {
   const navigation = useNavigate();
 
   // const [resp,setRestp]=useState()
-  const [isReport, setIsReport] = useState(false);
   const [isCalled, setCalled] = useState(false);
-  const [dataSet, setDataSet] = useState();
-  const [c_del, setDel] = useState("");
-  const [c_bill, setBill] = useState("");
-  const [locations, setLocations] = useState(() => []);
 
 
-  useEffect(() => {
-    axios
-      .get(`${url}/admin/S_Admin/select_location`)
-      .then((res) => {
-        setLocations(res?.data?.msg);
-        console.log(res);
-      })
-      .catch((err) => {
-        Message("error", err);
-      });
-  }, []);
   const initialValues = {
     sh_company_name: data?.sh_company_name || "",
     sh_address: data?.sh_address || "",
     sh_location: data?.sh_location || "",  
     sh_phone_no: data?.sh_phone_no ||  "",
     sh_email_id: data?.sh_email_id || "",
-    sh_active_flag: data?.sh_active_flag || "",
     sh_max_user: data?.sh_max_user || "",
-    sh_web_portal: data?.sh_web_portal || "",
     sh_contact_person: data?.sh_contact_person || "",
-    sh_mode: data?.sh_mode || "N",
     sh_max_outlet: data?.sh_max_outlet || "",
     sh_sales_person: data?.sh_sales_person || "",
     sh_last_billing: data?.sh_last_billing || "",
@@ -80,10 +61,8 @@ function ShopDetails({ submit_shop,data }) {
 
   const validationSchema = Yup.object({
     sh_company_name: Yup.string().required("Shop Name is required."),
-    sh_active_flag: Yup.string().required("Active Flag is required."),
     sh_max_user: Yup.number().min(0).max(20).required("Max user is required."),
     sh_sales_person: Yup.string().required("Sales person is required."),
-    sh_web_portal: Yup.string().required("Web Portal is required."),
     sh_last_billing: Yup.string().required("Last billing date is required."),
   });
 
@@ -128,54 +107,7 @@ function ShopDetails({ submit_shop,data }) {
                   </div>
                 ) : null}
               </div>
-              <div>
-                <label
-                  for="sh_web_portal"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Web Portal
-                </label>
-                <select
-                  id="sh_web_portal"
-                  name="sh_web_portal"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.sh_web_portal}>
-                  <option selected="">Select Web Portal</option>
-                  <option value="Y">Yes</option>
-                  <option value="N">No</option>
-                </select>
-                {formik.errors.sh_web_portal && formik.touched.sh_web_portal ? (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.sh_web_portal}
-                  </div>
-                ) : null}
-              </div>
-              
-              <div>
-                <label
-                  for="sh_active_flag"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Active Flag
-                </label>
-                <select
-                  id="sh_active_flag"
-                  name="sh_active_flag"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.sh_active_flag}>
-                  <option selected="">Select Active Flag</option>
-                  <option value="Y">Yes</option>
-                  <option value="N">No</option>
-                </select>
-                {formik.errors.sh_active_flag &&
-                  formik.touched.sh_active_flag ? (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.sh_active_flag}
-                  </div>
-                ) : null}
-              </div>
+           
               <div class="w-full">
                 <label
                   for="sh_email_id"
@@ -318,33 +250,8 @@ function ShopDetails({ submit_shop,data }) {
                 ) : null}
               </div>
 
-              <div className="w-full">
-                <label
-                  for="sh_mode"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Mode
-                </label>
-                <select
-                  disabled={params.id == 0}
-                  id="sh_mode"
-                  name="sh_mode"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.sh_mode}>
-                  {/* <option>Select Mode</option> */}
-                  <option selected value="N">
-                    Normal
-                  </option>
-                  <option value="C">Calculator</option>
-                </select>
-                {formik.errors.sh_mode && formik.touched.sh_mode ? (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.sh_mode}
-                  </div>
-                ) : null}
-              </div>
-              <div class="w-full">
+            
+              <div class="w-full sm:col-span-2">
                 <label
                   for="sh_last_billing"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

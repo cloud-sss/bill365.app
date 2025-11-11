@@ -6,20 +6,24 @@ import DatatableAdv from "../../../Components/DatatableAdv";
 import axios from "axios";
 import { url } from "../../../Address/baseURL";
 import { Message } from "../../../Components/Message";
-import { use } from "react";
+import { Spin } from "antd";
+import { LocalDiningOutlined } from "@mui/icons-material";
 function RenewReport() {
   const[dataSet,setDataSet]=React.useState()
   const[dataSetCopy,setDataSetCopy]=React.useState()
   const[search,setSearch]=React.useState("")
   const[fromDt,setFromDt]=React.useState("")
   const[toDt,setToDt]=React.useState("")
+  const [loading,setLoading]=React.useState(false)
    const onLoad = () => {
+    setLoading(true)
    axios
       .get(`${url}/admin/S_Admin/renewal_report`)
       .then((res) => {
         setDataSet(res?.data?.msg);
         setDataSetCopy(res?.data?.msg);
         console.log(res);
+        setLoading(false)
       })
       .catch((err) => {
         Message("error", err);
@@ -66,6 +70,9 @@ function RenewReport() {
         title={"Manage Shops"}
         btnText={"Add shop"}
       />
+      <Spin indicator={
+        <LocalDiningOutlined style={{ fontSize: 70, color: "#404198" }} spin />
+      } spinning={loading} >
       <section class="dark:bg-gray-900 p-3 ">
         <div class="mx-auto w-full ">
           <div className="my-3 flex justify-end grid-cols-4 gap-4">
@@ -135,6 +142,8 @@ function RenewReport() {
           </div>
         </div>
       </section>
+      </Spin>
+
       {/*  */}
     </div>
   );

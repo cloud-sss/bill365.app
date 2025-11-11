@@ -37,7 +37,13 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
   };
 
   const handleSubmit = () => {
+    if(outlets.filter(item=>item.branch_name.trim()==="").length==0 || outlets.filter(item=>item.phone_no.trim()==="").length==0){
     submit_outlet(outlets);
+    }
+    else{
+      console.log('else')
+      Message("error","Please fill all the required fields before proceeding.")
+    }
   };
 
   useEffect(() => {
@@ -86,9 +92,14 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
     setOutlets(data);
   };
   const onSubmit = (values) => {
+  console.log(outlets.filter(item=>item.branch_name.trim()==="").length)
+  if(outlets.filter(item=>item.branch_name.trim()==="").length==0){
     setCalled(true);
     console.log(values);
     handleSubmit(values)
+  }else{
+    Message("error","Please fill all the outlet names before proceeding.")
+  }
     // callApi("/admin/S_Admin/add_edit_outlet", 1, {
 
 
@@ -170,6 +181,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
                   placeholder="Enter Outlet Name"
                   required=""
                 />
+                {item.branch_name.trim()==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Outlet name is required.</p>}
 
               </div>
               <div class="sm:col-span-2">
@@ -230,6 +242,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
                   placeholder="98500XXXXX"
                   required=""
                 />
+                {item.phone_no.trim()==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Phone no. is required.</p>}
 
               </div>
               <div class="w-full">

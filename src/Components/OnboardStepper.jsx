@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckCircleFilled, FileProtectOutlined, GlobalOutlined, SettingOutlined, ShopOutlined } from '@ant-design/icons';
+import { CheckCircleFilled, FileProtectOutlined, GlobalOutlined, SettingOutlined, ShopOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Tooltip } from '@mui/material';
 import { Divider } from 'antd';
 function OnboardStepper({ step }) {
@@ -33,6 +33,16 @@ function OnboardStepper({ step }) {
                 <li class={step >= 3 ? styleStemActive : styleStemInactive}>
                     <span class={step >= 3 ? styleNodeActive : styleNodeInactive}>
 
+                        <Tooltip title="User Details">
+
+                            <UserAddOutlined />
+                        </Tooltip>
+
+                    </span>
+                </li>
+                <li class={step >= 4 ? styleStemActive : styleStemInactive}>
+                    <span class={step >= 4 ? styleNodeActive : styleNodeInactive}>
+
                         <Tooltip title="Header/Footer Details">
 
                             <FileProtectOutlined />
@@ -41,11 +51,11 @@ function OnboardStepper({ step }) {
                     </span>
                 </li>
                 <li class={"flex items-center w-full"}>
-                    <span class={step >=4 ? styleNodeActive : styleNodeInactive}>
+                    <span class={step >=5 ? styleNodeActive : styleNodeInactive}>
 
                         <Tooltip title="Settings">
 
-                           {step<=4 ?<SettingOutlined />:<CheckCircleFilled style={{ color: '#3b82f6' }} /> }
+                           {step<=5 ?<SettingOutlined />:<CheckCircleFilled style={{ color: '#3b82f6' }} /> }
                         </Tooltip>
                     </span>
                 </li>
