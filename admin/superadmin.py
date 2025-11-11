@@ -4,7 +4,7 @@ import mysql.connector
 from pathlib import Path
 from models.master_model import createResponse
 from models.masterApiModel import db_select, db_Insert
-from models.admin_form_model import AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
+from models.admin_form_model import userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
 from utils import get_hashed_password,verify_password
 from datetime import datetime
 from typing import Annotated, Union, Optional
@@ -151,6 +151,32 @@ async def add_edit_user(data:AddEditUser):
     order = ""
     flag = 1 if data.id>0 else 0
     res_dt = await db_Insert(table_name,fields,values,where,flag)
+    
+    return res_dt
+
+
+
+@superadminRouter.post('/S_Admin/add_edit_user_list')
+async def add_edit_user(data:userList):
+    current_datetime = datetime.now()
+    formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
+    for user in data.userDt:
+        
+        select = "id"
+        table_name = "md_branch"
+        where = f"comp_id={data.comp_id} and phone_no={user.phone_no}"
+        order = f"ORDER BY user_type"
+        flag = 1
+        res_dt = await db_select(select,table_name,where,order,flag)
+
+        table_name = f"md_user"
+        fields = f"comp_id,br_id,user_name,user_type,user_id,phone_no,device_id,active_flag,login_flag,created_by, created_dt"
+        values = f"{data.comp_id},{res_dt['msg'][0]['id']},'{user.user_name}','{user.user_type}','{user.phone_no}','{user.phone_no}','0','Y','N','{data.created_by}', '{formatted_dt}'"
+        where = None
+        order = ""
+        flag =  0
+        res_dt = await db_Insert(table_name,fields,values,where,flag)
     
     return res_dt
 

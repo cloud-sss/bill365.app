@@ -389,6 +389,17 @@ class AddEditUser(BaseModel):
     login_flag:str
     created_by:str
 
+class AddEditUserList(BaseModel):
+    user_name:str
+    user_type:str
+    phone_no:int
+
+
+class userList(BaseModel):
+    userDt:List[AddEditUserList]
+    created_by:str
+    comp_id:int
+
 # ---------------Manage Outlets---------------
 
 class OneOutlet(BaseModel):
