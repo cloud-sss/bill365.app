@@ -7,22 +7,23 @@ import { DurationMessage } from "../../Components/DurationMessage";
 import { Message } from "../../Components/Message";
 import { useNavigate } from "react-router-dom";
 
-function HeaderFooterDetails({ submit_headerfooter, reset_headerfooter }) {
+function HeaderFooterDetails({ submit_headerfooter, reset_headerfooter,data }) {
 const handleSubmit = (values) => { submit_headerfooter(values) }
 const handleReset = () => { reset_headerfooter() }
 const { response, callApi } = useAPI();
+  console.log(data);
   const [isCalled, setCalled] = useState(false);
   const navigation = useNavigate();
 
-  const [f1, setF1] = useState(false);
-  const [f2, setF2] = useState(false);
-  const [f3, setF3] = useState(false);
-  const [f4, setF4] = useState(false);
+  const [f1, setF1] = useState(data?.on_off_flag1=='Y'? true:false);
+  const [f2, setF2] = useState(data?.on_off_flag2=='Y'? true:false);
+  const [f3, setF3] = useState(data?.on_off_flag3=='Y'? true:false);
+  const [f4, setF4] = useState(data?.on_off_flag4=='Y'? true:false);
 
-  const [f1Text, setF1Text] = useState("");
-  const [f2Text, setF2Text] = useState("");
-  const [f3Text, setF3Text] = useState("");
-  const [f4Text, setF4Text] = useState("");
+  const [f1Text, setF1Text] = useState(data?.header1 || "");
+  const [f2Text, setF2Text] = useState(data?.header2 || "");
+  const [f3Text, setF3Text] = useState(data?.footer1 || "");
+  const [f4Text, setF4Text] = useState(data?.footer2 || "");
   var comp;
 //   useEffect(() => {
 //     if (!isCalled) {
@@ -238,7 +239,7 @@ const { response, callApi } = useAPI();
                 onClick={()=>handleSettings()}
                 type="submit"
                 className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                Next
+                Save & Next
             </button>
             </div>
         </div>

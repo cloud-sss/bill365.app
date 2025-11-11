@@ -21,6 +21,9 @@ function App() {
               buttonSolidCheckedBg: "#404198",
 
             },
+            Spin:{
+              colorPrimary: "#404198",
+            },
             Tabs: {
               inkBarColor: "#404198",
               itemColor: "#404198",

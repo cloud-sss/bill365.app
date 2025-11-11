@@ -1,12 +1,12 @@
 import React from 'react'
 import { Result } from 'antd';
 
-function ConfirmationPage() {
+function ConfirmationPage({lastID}) {
   return (
      <Result
     status="success"
     title="Successfully Onboarded"
-    subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+    subTitle={`Store with ID: ${lastID} has been saved in our system.`}
     
   />
   )

@@ -8,16 +8,20 @@ import ConfirmationPage from '../../../Components/OnboardSteps/ConfirmationPage'
 import { url } from '../../../Address/baseURL';
 import axios from 'axios';
 import { Message } from '../../../Components/Message';
+import { Spin } from 'antd';
 
 function OnboardingForm() {
     const [step, setStep] = React.useState(1);
-   
+    const [loading,setLoading] = React.useState(false);
     const [shopData, setShopData] = React.useState({});
     const [outletData, setOutletData] = React.useState({});
     const [headerFooterData, setHeaderFooterData] = React.useState({});
     const [settingsData, setSettingsData] = React.useState({});
-
+    const [lastId,setLastId] = React.useState(null);
+    const [loadingMessage,setLoadingMessage] = React.useState("");
     const submitOnboarding = (values) => {
+        setLoading(true);
+        setLoadingMessage("Submitting onboarding data...");
         axios.post(url + "/admin/S_Admin/add_edit_shop", {
             id: 0,
             company_name: shopData?.sh_company_name,
@@ -37,7 +41,8 @@ function OnboardingForm() {
         }).then(res => {
             console.log(res)
             if (res?.data?.suc == 1) {
-                Message("success", "Outlet added successfully!")
+                setLoadingMessage("Shop added successfully!")
+                setLastId(res?.data?.lastId);
                 axios.post(url + "/admin/S_Admin/add_edit_outlet_list", {
                     comp_id: +res?.data?.lastId,
                     outletDt:outletData,
@@ -45,13 +50,14 @@ function OnboardingForm() {
                 }).then(res2 => {
                     console.log(res2)
                     if (res2?.data?.suc == 1) {
-                        Message("success", "Header/Footer added successfully!")
+                        setLoadingMessage("Outlet added successfully!")
+                        // Messagesuccess", "Header/Footer added successfully!")
                         axios.post(url + "/admin/S_Admin/add_edit_header_footer", {
                             comp_id: +res?.data?.lastId,
-                            on_off_flag1: headerFooterData.f1 == true ? "Y" : "N",
-                            on_off_flag2: headerFooterData.f2 == true ? "Y" : "N",
-                            on_off_flag3: headerFooterData.f3 == true ? "Y" : "N",
-                            on_off_flag4: headerFooterData.f4 == true ? "Y" : "N",
+                            on_off_flag1: headerFooterData.on_off_flag1,
+                            on_off_flag2: headerFooterData.on_off_flag2,
+                            on_off_flag3: headerFooterData.on_off_flag3,
+                            on_off_flag4: headerFooterData.on_off_flag4,
                             header1: headerFooterData.header1,
                             header2: headerFooterData.header2,
                             footer1: headerFooterData.footer1,
@@ -60,7 +66,7 @@ function OnboardingForm() {
                         }).then(res3 => {
                             console.log(res3)
                             if (res3?.data?.suc == 1) {
-                                Message("success", "Settings added successfully!")
+                                setLoadingMessage("Header/Footer added successfully!")
                                 axios.post(url + "/admin/S_Admin/add_edit_settings",{
                                     comp_id: +res?.data?.lastId,
                                     rcv_cash_flag: values?.sm_rcv_cash_flag,
@@ -85,8 +91,10 @@ function OnboardingForm() {
                                 }).then(res4 => {
                                     console.log(res4)
                                     if (res4?.data?.suc == 1) {
+                                        setLoadingMessage("Settings added successfully!")
                                         Message("success", "Onboarding completed successfully!")
                                         setStep(5);
+                                        setLoading(false);
                                     }
                                 }).catch(err => {
                                     console.log(err)
@@ -115,11 +123,13 @@ function OnboardingForm() {
                 {step == 1 ? 'Shop Details' : step == 2 ? 'Outlet Details' : step == 3 ? 'Header/Footer Details' : 'Settings'}
 
             </div>
-            {step == 1 && <ShopDetails submit_shop={(values) => { setStep(2); console.log('values=', values); setShopData(values) }} />}
-            {step == 2 && <OutletDetails limit={outletData?.sh_max_outlet} submit_outlet={(values) => { setStep(3); console.log('values=', values); setOutletData(values) }} reset_outlet={() => setStep(1)} />}
-            {step == 3 && <HeaderFooterDetails submit_headerfooter={(values) => { setStep(4); console.log('values=', values); setHeaderFooterData(values) }} reset_headerfooter={() => setStep(2)} />}
+            <Spin spinning={loading} tip={loadingMessage}>
+            {step == 1 && <ShopDetails data={shopData} submit_shop={(values) => { setStep(2); console.log('values=', values); setShopData(values) }} />}
+            {step == 2 && <OutletDetails data={outletData} limit={shopData?.sh_max_outlet} submit_outlet={(values) => { setStep(3); console.log('values=', values); setOutletData(values) }} reset_outlet={() => setStep(1)} />}
+            {step == 3 && <HeaderFooterDetails data={headerFooterData} submit_headerfooter={(values) => { setStep(4); console.log('values=', values); setHeaderFooterData(values) }} reset_headerfooter={() => setStep(2)} />}
             {step == 4 && <SettingsDetails submit_settings={(values) => { console.log('values=', values); setSettingsData(values); submitOnboarding(values)  }} reset_settings={() => setStep(3)} />}
-            {step == 5 && <ConfirmationPage />}
+            {step == 5 && <ConfirmationPage lastId={lastId} />}
+            </Spin>
 
 
         </>

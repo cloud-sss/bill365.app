@@ -3,13 +3,8 @@ import { useParams, useNavigate } from "react-router";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import useAPI from "../../Hooks/useApi";
-import { Message } from "../../Components/Message";
-import { DurationMessage } from "../../Components/DurationMessage";
-import axios from "axios";
-import { url } from "../../Address/baseURL";
-import Backbtn from "../../Components/Backbtn";
 
-function SettingsDetails({ submit_settings,reset_settings }) {
+function SettingsDetails({ submit_settings,reset_settings,data }) {
     const handleSubmit = (values) => { submit_settings(values) }
     const handleReset = () => { reset_settings() }
  const params = useParams();
@@ -72,21 +67,21 @@ function SettingsDetails({ submit_settings,reset_settings }) {
 
   const initialValues = {
     // sm_comp_id: "",
-    sm_rcv_cash_flag: "",
-    sm_rcpt_type: "",
-    sm_gst_flag: "",
-    sm_gst_type: "",
-    sm_unit_flag: "",
-    sm_cust_inf: "",
-    sm_pay_mode: "",
-    sm_discount_flag: "",
-    sm_stock_flag: "",
-    sm_discount_type: "",
-    sm_discount_position: "",
-    sm_price_type: "",
-    sm_refund_days: "",
-    sm_kot_flag: "",
-    sl_flag: "N",
+    sm_rcv_cash_flag: data?.sm_rcv_cash_flag || "",
+    sm_rcpt_type: data?.sm_rcpt_type || "",
+    sm_gst_flag: data?.sm_gst_flag || "",
+    sm_gst_type: data?.sm_gst_type || "",
+    sm_unit_flag: data?.sm_unit_flag || "",
+    sm_cust_inf: data?.sm_cust_inf || "",
+    sm_pay_mode: data?.sm_pay_mode || "",
+    sm_discount_flag: data?.sm_discount_flag || "",
+    sm_stock_flag: data?.sm_stock_flag || "",
+    sm_discount_type: data?.sm_discount_type || "",
+    sm_discount_position: data?.sm_discount_position || "",
+    sm_price_type: data?.sm_price_type || "",
+    sm_refund_days: data?.sm_refund_days || "",
+    sm_kot_flag: data?.sm_kot_flag || "",
+    sl_flag: data?.sl_flag || "N",
   };
 
   const onSubmit = (values) => {
@@ -546,7 +541,7 @@ function SettingsDetails({ submit_settings,reset_settings }) {
                     // onClick={() => handleSubmit()}
                     type="submit"
                     className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                    Next
+                    Save
                 </button>
             </div>
             </form>

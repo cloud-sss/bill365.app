@@ -10,11 +10,12 @@ import { DurationMessage } from "../../Components/DurationMessage";
 import Backbtn from "../../Components/Backbtn";
 import axios from "axios";
 import { url } from "../../Address/baseURL";
+import { use } from "react";
 
 
-function ShopDetails({ submit_shop }) {
+function ShopDetails({ submit_shop,data }) {
   const handleSubmit = (values) => { submit_shop(values) }
-
+  console.log(data);
 
   const params = useParams();
   const { response, callApi } = useAPI();
@@ -41,20 +42,21 @@ function ShopDetails({ submit_shop }) {
       });
   }, []);
   const initialValues = {
-    sh_company_name: "",
-    sh_address: "",
-    sh_phone_no: "",
-    sh_email_id: "",
-    sh_active_flag: "",
-    sh_max_user: "",
-    sh_web_portal: "",
-    sh_contact_person: "",
-    sh_mode: "",
-    sh_max_outlet: "",
-    sh_sales_person: "",
-    sh_last_billing: "",
+    sh_company_name: data?.sh_company_name || "",
+    sh_address: data?.sh_address || "",
+    sh_location: data?.sh_location || "",  
+    sh_phone_no: data?.sh_phone_no ||  "",
+    sh_email_id: data?.sh_email_id || "",
+    sh_active_flag: data?.sh_active_flag || "",
+    sh_max_user: data?.sh_max_user || "",
+    sh_web_portal: data?.sh_web_portal || "",
+    sh_contact_person: data?.sh_contact_person || "",
+    sh_mode: data?.sh_mode || "N",
+    sh_max_outlet: data?.sh_max_outlet || "",
+    sh_sales_person: data?.sh_sales_person || "",
+    sh_last_billing: data?.sh_last_billing || "",
   };
-
+  useEffect(() => {}, []);
   const onSubmit = (values) => {
     setCalled(true);
     console.log(values);
@@ -88,7 +90,7 @@ function ShopDetails({ submit_shop }) {
   const [formValues, setValues] = useState(initialValues);
   console.log(formValues);
   const formik = useFormik({
-    initialValues: params.id > 0 ? formValues : initialValues,
+    initialValues, 
     onSubmit,
     validationSchema,
     enableReinitialize: true,
@@ -393,7 +395,7 @@ function ShopDetails({ submit_shop }) {
                 // onClick={() => handleSubmit()}
                 type="submit"
                 className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                Next
+                Save & Next
               </button>
             </div>
           </form>
