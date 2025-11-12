@@ -50,12 +50,21 @@ function OnboardStepper({ step }) {
 
                     </span>
                 </li>
-                <li class={"flex items-center w-full"}>
+                <li class={step >= 5 ? styleStemActive : styleStemInactive}>
                     <span class={step >=5 ? styleNodeActive : styleNodeInactive}>
 
                         <Tooltip title="Settings">
 
-                           {step<=5 ?<SettingOutlined />:<CheckCircleFilled style={{ color: '#3b82f6' }} /> }
+                           <SettingOutlined />
+                        </Tooltip>
+                    </span>
+                </li>
+                  <li class={"flex items-center w-full"}>
+                    <span class={step >=6 ? styleNodeActive : styleNodeInactive}>
+
+                        <Tooltip title="Confirmation">
+
+                        <CheckCircleFilled /> 
                         </Tooltip>
                     </span>
                 </li>

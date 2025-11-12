@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import { reportHeaders } from "../../../Assets/Data/TemplateConstants";
-import { useLocation } from "react-router-dom";
 import HeaderLayout from "../../../Components/HeaderLayout";
 import DatatableAdv from "../../../Components/DatatableAdv";
 import axios from "axios";
 import { url } from "../../../Address/baseURL";
 import { Message } from "../../../Components/Message";
 import { Spin } from "antd";
-import { LocalDiningOutlined } from "@mui/icons-material";
+import { ReloadOutlined } from "@ant-design/icons";
+
 function RenewReport() {
   const[dataSet,setDataSet]=React.useState()
   const[dataSetCopy,setDataSetCopy]=React.useState()
@@ -70,9 +69,8 @@ function RenewReport() {
         title={"Manage Shops"}
         btnText={"Add shop"}
       />
-      <Spin indicator={
-        <LocalDiningOutlined style={{ fontSize: 70, color: "#404198" }} spin />
-      } spinning={loading} >
+      <Spin indicator={<ReloadOutlined style={{ fontSize: 20, color: "#404198" }} spin
+/>      } spinning={loading} >
       <section class="dark:bg-gray-900 p-3 ">
         <div class="mx-auto w-full ">
           <div className="my-3 flex justify-end grid-cols-4 gap-4">

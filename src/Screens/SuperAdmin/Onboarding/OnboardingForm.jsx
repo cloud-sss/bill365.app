@@ -148,8 +148,8 @@ function OnboardingForm() {
             </div>
             <Spin spinning={loading} indicator={<ReloadOutlined style={{ fontSize: 20, color: "#404198" }} spin />} tip={loadingMessage}>
                 {step == 1 && <ShopDetails data={shopData} submit_shop={(values) => { setStep(2); console.log('values=', values); setShopData(values) }} />}
-                {step == 2 && <OutletDetails data={outletData} limit={shopData?.sh_max_outlet} submit_outlet={(values) => { setStep(3); console.log('values=', values); setOutletData(values) }} reset_outlet={() => setStep(1)} />}
-                {step == 3 && <UserDetails outletData={outletData} adminData={{user_name:'',phone_no:shopData?.phone_no,user_type:'A'}} data={userData} submit_user={(values) => { setStep(4); console.log('values=', values); setUserData(values) }} reset_user={() => setStep(2)} />}
+                {step == 2 && <OutletDetails data={outletData} shopData={shopData} limit={shopData?.sh_max_outlet} submit_outlet={(values) => { setStep(3); console.log('values=', values); setOutletData(values) }} reset_outlet={() => setStep(1)} />}
+                {step == 3 && <UserDetails outletData={outletData} data={userData} submit_user={(values) => { setStep(4); console.log('values=', values); setUserData(values) }} reset_user={() => setStep(2)} />}
                 {step == 4 && <HeaderFooterDetails data={headerFooterData} submit_headerfooter={(values) => { setStep(5); console.log('values=', values); setHeaderFooterData(values) }} reset_headerfooter={() => setStep(3)} />}
                 {step == 5 && <SettingsDetails submit_settings={(values) => { console.log('values=', values); setSettingsData(values); submitOnboarding(values) }} reset_settings={() => setStep(4)} />}
                 {step == 6 && <ConfirmationPage lastId={lastId} goToStepOne={() => setStep(1)} />}

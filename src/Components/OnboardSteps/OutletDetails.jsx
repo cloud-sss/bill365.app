@@ -10,10 +10,10 @@ import { url } from "../../Address/baseURL";
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { Alert } from "antd";
 
-function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
+function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
   const params = useParams();
   const { response, callApi } = useAPI();
-  console.log(data)
+  console.log(data,shopData)
   console.log("limit=", limit);
   // const [resp,setRestp]=useState()
   const [isReport, setIsReport] = useState(false);
@@ -23,15 +23,15 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
   const [c_bill, setBill] = useState("");
   const [outlets, setOutlets] = useState(() => data?.length>0 ? data:[ {
     br_id: 0,
-    branch_name: "",
-    branch_address: "",
-    contact_person: "",
-    phone_no: "",
-    email_id: "",
+    branch_name: shopData?.sh_company_name,
+    branch_address: shopData?.sh_address,
+    contact_person: shopData?.sh_contact_person,
+    phone_no: shopData?.sh_phone_no,
+    email_id: shopData?.sh_email_id
   }]);
   const [shops, setShops] = useState(() => []);
   const [locations, setLocations] = useState(() => []);
-
+  console.log(outlets)
   const handleReset = () => {
     reset_outlet();
   };
@@ -151,17 +151,17 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
         {/* <h2 class="mb-4 text-xl font-bold text-blue-900 dark:text-white">
             {params.id == 0 ? "Add Outlet" : "Update outlet"}
           </h2> */}
-          <Alert message={`A maximum of ${limit} outlets can be added.`} type="warning" />
+          <Alert message={`A maximum of ${limit} outlet(s) can be added.`} type="warning" />
         <form onSubmit={formik.handleSubmit}>
 
+          {/* {outlets.slice(0, limit).map((item, i) => ( */}
           {outlets.map((item, i) => (
-
-            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 flex justify-center items-center">
+           
+           <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 flex justify-center items-center">
               <div className="col-span-2"></div>
               <div className="col-span-2 gap-4 flex justify-end items-center">
                 {outlets.length<limit && <button className="rounded-full bg-blue-900 h-8 w-8 text-white" onClick={() => addDt()}><PlusOutlined /></button>}
                 {outlets.length > 1 && <button className="rounded-full bg-white border-blue-900 border-2 h-8 w-8 text-blue-900" onClick={() => removeDt(i)}><MinusOutlined /></button>}
-                {/* <button><SubtractsOneOutlined/></button> */}
               </div>
               <div class="w-full sm:col-span-2">
                 <label
@@ -181,7 +181,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
                   placeholder="Enter Outlet Name"
                   required=""
                 />
-                {item.branch_name.trim()==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Outlet name is required.</p>}
+                {item?.branch_name?.trim()==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Outlet name is required.</p>}
 
               </div>
               <div class="sm:col-span-2">
@@ -242,7 +242,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
                   placeholder="98500XXXXX"
                   required=""
                 />
-                {item.phone_no.trim()==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Phone no. is required.</p>}
+                {item?.phone_no==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Phone no. is required.</p>}
 
               </div>
               <div class="w-full">
@@ -267,7 +267,8 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
               </div>
             </div>
           ))}
-
+            {/* {outlets.length>limit &&           <Alert className="my-4" message={`Mismatch in no. of outlets!`} type="error" />} */}
+          
           <div className='flex justify-center gap-2 mx-auto items-center'>
             <button
               type="reset"
@@ -276,12 +277,13 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data}) {
               Previous
             </button>
 
-            <button
+           <button
               onClick={() => handleSubmit()}
               type="submit"
               className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
               Save & Next
             </button>
+
           </div>
         </form>
       </div>

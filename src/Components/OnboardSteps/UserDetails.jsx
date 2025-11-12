@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Message } from "../../Components/Message";
 
-function UserDetails({ data, submit_user, reset_user, outletData,adminData }) {
-    console.log(outletData?.map(item=>[item,adminData]))
+function UserDetails({ data, submit_user, reset_user, outletData }) {
     const [users, setUsers] = useState(() => outletData);
 
     const handleReset = () => {
