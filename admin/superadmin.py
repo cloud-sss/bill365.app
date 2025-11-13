@@ -89,7 +89,7 @@ async def select_shop(id:int):
 async def select_shop(search:SearchShop):
     select = "id,company_name,sales_person,last_billing,max_outlet,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user"
     table_name = "md_company"
-    where = f"company_name={search.company_name}" 
+    where = f"company_name='%{search.company_name}%'" 
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
