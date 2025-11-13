@@ -180,6 +180,9 @@ class SearchByItem(BaseModel):
 class PrintBill(BaseModel):
     recp_no:int
 
+class SearchShop(BaseModel):
+    company_name:str
+
 # ===========================================================================================================
 # Settings.py
 
