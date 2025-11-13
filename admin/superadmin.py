@@ -84,6 +84,17 @@ async def select_shop(id:int):
     res_dt = await db_select(select,table_name,where,order,flag)
     return res_dt
 
+
+@superadminRouter.post('/S_Admin/search_shop')
+async def select_shop(search:str):
+    select = "id,company_name,sales_person,last_billing,max_outlet,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user"
+    table_name = "md_company"
+    where = f"company_name={search}" 
+    order = f""
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
+    return res_dt
+
 # -------------------Add And Edit Shop-----------------
 @superadminRouter.post('/S_Admin/add_edit_shop')
 async def add_edit_shop(data:AddEditCompany):
