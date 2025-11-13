@@ -4,7 +4,7 @@ import mysql.connector
 from pathlib import Path
 from models.master_model import createResponse
 from models.masterApiModel import db_select, db_Insert
-from models.admin_form_model import userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
+from models.admin_form_model import SearchShop,userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
 from utils import get_hashed_password,verify_password
 from datetime import datetime
 from typing import Annotated, Union, Optional
@@ -86,10 +86,10 @@ async def select_shop(id:int):
 
 
 @superadminRouter.post('/S_Admin/search_shop')
-async def select_shop(search:str):
+async def select_shop(search:SearchShop):
     select = "id,company_name,sales_person,last_billing,max_outlet,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user"
     table_name = "md_company"
-    where = f"company_name={search}" 
+    where = f"company_name={search.company_name}" 
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
