@@ -13,6 +13,8 @@ import Noresult from "./Screens/Noresult/Noresult";
 import Bill from "./Screens/Bill/Bill";
 import OnboardingComp from "./Screens/SuperAdmin/Onboarding/OnboardingComp";
 import OnboardingForm from "./Screens/SuperAdmin/Onboarding/OnboardingForm";
+import ManageCategoryOnboardView from "./Screens/SuperAdmin/ManageItemsOnboard/ManageCategoryOnboardView";
+const ManageItemsOnboardComp = lazy(()=>import("./Screens/SuperAdmin/ManageItemsOnboard/ManageItemsOnboardComp"));
 const RepComp =lazy(()=>import("./Screens/SuperAdmin/Reports/RepComp"))
 // import RepComp from "./Screens/SuperAdmin/Reports/RepComp";
 // import RenewReport from "./Screens/SuperAdmin/Reports/RenewReport";
@@ -364,6 +366,16 @@ const router = createBrowserRouter([
               {
                 path: "renewalreport",
                 element: <RenewReport />,
+              },
+             
+            ],
+             path: "manageitems",
+
+            element: <ManageItemsOnboardComp />,
+            children: [
+              {
+                path: "categories",
+                element: <ManageCategoryOnboardView />,
               },
              
             ],

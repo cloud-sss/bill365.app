@@ -638,6 +638,37 @@ function SidebarComp() {
         </div>
       ),
     },
+
+       {
+      key: "m-i",
+      label: "Manage Items",
+      icon: (
+        <FileSearchOutlined
+          className={
+            location.pathname.includes("superadmin")
+              ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+              : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+          }
+        />
+      ),
+      children: [
+       
+        {
+          key: "man-cat",
+          icon: <DashboardOutlined />,
+          label: (
+            <div
+              className={
+                location.pathname.includes("home")
+                  ? "font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+              }>
+              <Link to={"SuperAdmin/manageitems/categories"}>Manage Categories</Link>
+            </div>
+          ),
+        }
+      ]
+    },
     // children:[
         {
           key: "15",
