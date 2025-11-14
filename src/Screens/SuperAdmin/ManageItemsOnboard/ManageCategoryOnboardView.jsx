@@ -6,6 +6,7 @@ import { url } from "../../../Address/baseURL";
 import CATEGORIES from "../../../Assets/Images/categories.png"
 import { LoadingOutlined } from "@ant-design/icons";
 import { Message } from "../../../Components/Message";
+import { useNavigate } from "react-router-dom";
 
 function ManageCategoryOnboardView() {
     const op = useRef(null);
@@ -15,6 +16,7 @@ function ManageCategoryOnboardView() {
     const [categoryList, setCategoryList] = useState([])
     const [typing, setTyping] = useState(false)
     const [loading, setLoading] = useState(false)
+    const navigation = useNavigate()
     useEffect(() => {
         if (search.length > 2) {
             axios.post(url + '/admin/S_Admin/search_shop', { company_name: search }).then(res => {
@@ -112,6 +114,7 @@ function ManageCategoryOnboardView() {
                                 {shops.length == 0 && !loading && <span> No Shops Found! </span>}
                             </OverlayPanel>
                             <button type="button"
+                                onClick={() => navigation('/home/SuperAdmin/manageitems/categoriesadd')}
                                 class="flex items-center bg-white h-10 w-10 rounded-full justify-center px-4 py-4 text-sm font-medium text-blue-900 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                                 <AddOutlined />
                             </button>
