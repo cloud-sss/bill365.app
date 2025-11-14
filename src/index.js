@@ -11,9 +11,11 @@ import { Democontext, loadingContext } from "./Context/Democontext";
 import Loader from "./Components/Loader";
 import Noresult from "./Screens/Noresult/Noresult";
 import Bill from "./Screens/Bill/Bill";
-import OnboardingComp from "./Screens/SuperAdmin/Onboarding/OnboardingComp";
-import OnboardingForm from "./Screens/SuperAdmin/Onboarding/OnboardingForm";
-import ManageCategoryOnboardView from "./Screens/SuperAdmin/ManageItemsOnboard/ManageCategoryOnboardView";
+const OnboardingComp = lazy(()=>import("./Screens/SuperAdmin/Onboarding/OnboardingComp"));
+const OnboardingForm = lazy(()=>import("./Screens/SuperAdmin/Onboarding/OnboardingForm"));
+// import OnboardingComp from./Screens/SuperAdmin/Onboarding/OnboardingForm";
+const ManageCategoryOnboardView = lazy(()=>import ("./Screens/SuperAdmin/ManageItemsOnboard/ManageCategoryOnboardView"));
+const ManageCategoryOnboardAdd =lazy(()=>import("./Screens/SuperAdmin/ManageItemsOnboard/ManageCategoryOnboardAdd"));
 const ManageItemsOnboardComp = lazy(()=>import("./Screens/SuperAdmin/ManageItemsOnboard/ManageItemsOnboardComp"));
 const RepComp =lazy(()=>import("./Screens/SuperAdmin/Reports/RepComp"))
 // import RepComp from "./Screens/SuperAdmin/Reports/RepComp";
@@ -376,6 +378,10 @@ const router = createBrowserRouter([
               {
                 path: "categories",
                 element: <ManageCategoryOnboardView />,
+              },
+               {
+                path: "categoriesadd",
+                element: <ManageCategoryOnboardAdd />,
               },
              
             ],
