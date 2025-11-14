@@ -11,11 +11,18 @@ import { Image } from "antd";
 import Backbtn from "../../../Components/Backbtn";
 import { url } from "../../../Address/baseURL";
 import { DurationMessage } from "../../../Components/DurationMessage";
+import { OverlayPanel } from 'primereact/overlaypanel';
+import { LoadingOutlined } from "@ant-design/icons";
 
 const CROP_AREA_ASPECT = 1 / 1;
 
 function ManageCategoryOnboardAdd() {
   const navigation = useNavigate();
+    const op = useRef(null);
+    const [search,setSearch] = useState("")
+    const [shopID,setShopID] = useState(0)
+    const [typing,setTyping] = useState(false)
+    const [loading,setLoading] = useState(false)
 
   const [visible, setVisible] = useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -96,15 +103,24 @@ function ManageCategoryOnboardAdd() {
     } else {
       if (isCalled && response?.data?.suc == 1) {
         setCalled(false);
-        // Message("success", "Success!");
-        DurationMessage();
-        setTimeout(() => {
-          navigation("/home/superadmin/managecategories/view");
-        }, 4500);
+        Message('success', 'Successfully updated')
+        setCatgName('')
+        setRemoteImg('')
+        setCroppedImage('')
       }
     }
   }, [response]);
+   useEffect(() => {
+        if (search.length > 2) {
+            axios.post(url + '/admin/S_Admin/search_shop', { company_name: search }).then(res => {
+                setShops(res?.data?.msg)
+                console.log(res)
+            }).catch(err => { })
 
+        }
+       
+
+    }, [search])
   const imageSubmit = () => {
     setCalled(true);
     if (catgName) {
@@ -116,8 +132,8 @@ function ManageCategoryOnboardAdd() {
       );
       var data = new FormData();
       if (croppedImage) data.append("file", file);
-      data.append("comp_id", +compId);
-      data.append("catg_id", +params.id);
+      data.append("comp_id", +shopID);
+      data.append("catg_id", 0);
       data.append("category_name", catgName);
       data.append("created_by", userId);
 
@@ -143,7 +159,7 @@ function ManageCategoryOnboardAdd() {
             {params.id > 0 ? "Update category" : "Add category"}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div className="sm:col-span-2">
+            {/* <div className="sm:col-span-2">
               <label
                 htmlFor="brand"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -169,7 +185,61 @@ function ManageCategoryOnboardAdd() {
                   Shop Name is required
                 </div>
               ) : null}
-            </div>
+            </div> */}
+             <div class="sm:col-span-2 ">
+                                       <label
+                class="block mb-2 text-sm float-left font-medium text-gray-900 dark:text-white"
+                for="file_input">
+                Search Shop
+              </label> 
+                                        <input
+                                            type="text"
+                                            name="o_branch_name"
+                                            id="o_branch_name"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Search shops to edit category"
+                                            required=""
+                                            autoComplete="off"
+                                            onInput={(e) => {
+            
+                                                console.log(search)
+                                                if (e.target.value) {
+                                                    setTyping(true)
+                                                    op.current.show(e)
+                                                }
+                                                else {
+                                                    setTyping(false)
+                                                    op.current.hide(e)
+                                                }
+                                            }
+            
+                                            }
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                        />
+                                        <OverlayPanel className="w-[47%] border-2 bg-gray-50 border-[#c1bef1]" ref={op}>
+                                            {shops.map((item, i) =>
+                                                <li
+                                                    key={i}
+                                                    onClick={(e) => {
+                                                        op.current.hide(e);
+                                                        setSearch(item?.company_name)
+                                                        setShopID(item?.id)
+                                                    }}
+                                                    style={{ listStyle: 'none' }}
+                                                    class="pb-3 cursor-pointer hover:bg-[#c1bef1] group active:bg-blue-900 rounded-md hover:duration-300 sm:py-1.5"
+                                                >
+                                                    <p class="text-sm p-0.5 w-full text-blue-900 group-active:text-white truncate dark:text-white">
+            
+                                                        {item?.company_name}
+                                                    </p>
+                                                </li>
+                                            )}
+                                            {shops.length == 0 && loading && typing && <span> <LoadingOutlined /> </span>}
+                                            {shops.length == 0 && !loading && <span> No Shops Found! </span>}
+                                        </OverlayPanel>
+                                      
+                                    </div>
             <div className="w-full">
               <label
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

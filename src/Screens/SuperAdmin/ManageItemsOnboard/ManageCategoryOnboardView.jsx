@@ -7,6 +7,7 @@ import CATEGORIES from "../../../Assets/Images/categories.png"
 import { LoadingOutlined } from "@ant-design/icons";
 import { Message } from "../../../Components/Message";
 import { useNavigate } from "react-router-dom";
+import { Spin, Tooltip } from "antd";
 
 function ManageCategoryOnboardView() {
     const op = useRef(null);
@@ -42,14 +43,17 @@ function ManageCategoryOnboardView() {
         }
     }
     const handleDtChange = (event, index) => {
-        console.log(event, index)
         let data = [...categoryList];
         data[index][event.target.name] = event.target.value;
         setCategoryList(data);
     }
+
+
     const updateCategoryList = () => {
+        setLoading(true)
         axios.post(url + '/admin/S_Admin/add_edit_category_list', { categoryDt: categoryList, created_by: localStorage.getItem('user_id') }).then(res => {
             console.log(res)
+            setLoading(false)
             if (res.data.suc == 1) {
                 setCategoryList([])
                 setSearch("")
@@ -58,7 +62,9 @@ function ManageCategoryOnboardView() {
         }).catch(err => { })
     }
     return (
-        <>
+        <Spin spinning={loading}   indicator={
+                <LoadingOutlined style={{ fontSize: 70, color: "#404198" }} spin />
+              }>
             <section class="flex items-start my-5 bg-gray-50 dark:bg-gray-900">
                 <div class="w-full max-w-screen-xl px-4 mx-auto ">
                     <div class="relative overflow-hidden bg-blue-900 text-white shadow-md dark:bg-gray-800 sm:rounded-lg">
@@ -116,7 +122,11 @@ function ManageCategoryOnboardView() {
                             <button type="button"
                                 onClick={() => navigation('/home/SuperAdmin/manageitems/categoriesadd')}
                                 class="flex items-center bg-white h-10 w-10 rounded-full justify-center px-4 py-4 text-sm font-medium text-blue-900 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                        <Tooltip title="Add Category">
+                                
                                 <AddOutlined />
+                            </Tooltip>
+
                             </button>
                             <button type="button"
                                 class="flex items-center bg-white h-10 w-10 rounded-full justify-center px-4 py-4 text-sm font-medium text-blue-900 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
@@ -169,7 +179,8 @@ function ManageCategoryOnboardView() {
                     </div>
                 </>
             }
-        </>
+        {/* </> */}
+        </Spin>
     )
 }
 
