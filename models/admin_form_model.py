@@ -502,3 +502,12 @@ class RenewalReport(BaseModel):
     from_date:date
     to_date:date
     comp_id:int
+
+class CategoryUpdate(BaseModel):
+    comp_id:int
+    sl_no:int
+    category_name:str
+
+class CategoryLst(BaseModel):
+    categoryDt:List[CategoryUpdate]
+    created_by:str

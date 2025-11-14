@@ -4,7 +4,7 @@ import mysql.connector
 from pathlib import Path
 from models.master_model import createResponse
 from models.masterApiModel import db_select, db_Insert
-from models.admin_form_model import SearchShop,userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
+from models.admin_form_model import CategoryLst,SearchShop,userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
 from utils import get_hashed_password,verify_password
 from datetime import datetime
 from typing import Annotated, Union, Optional
@@ -399,6 +399,22 @@ async def add_edit_category(
     where = f"comp_id={comp_id} and sl_no={catg_id}" if int(catg_id) >0 else None
     flag = 1 if int(catg_id)>0 else 0
     res_dt = await db_Insert(table_name,fields,values,where,flag)
+    
+    return res_dt
+
+superadminRouter.post('/S_Admin/add_edit_category_list')
+async def add_edit_category(categories:CategoryLst):
+    current_datetime = datetime.now()
+    formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+    table_name = "md_category"
+
+    for category in categories.categoryDt:
+
+        fields = f"category_name ='{category.category_name}',modified_by = '{categories.created_by}', modified_at = '{formatted_dt}'"
+        values = f""
+        where = f"comp_id={category.comp_id} and sl_no={category.sl_no}" 
+        flag = 1
+        res_dt = await db_Insert(table_name,fields,values,where,flag)
     
     return res_dt
 
