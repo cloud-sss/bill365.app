@@ -402,7 +402,7 @@ async def add_edit_category(
     
     return res_dt
 
-superadminRouter.post('/S_Admin/add_edit_category_list')
+@superadminRouter.post('/S_Admin/add_edit_category_list')
 async def add_edit_category(categories:CategoryLst):
     current_datetime = datetime.now()
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
