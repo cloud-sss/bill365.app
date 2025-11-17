@@ -4,7 +4,7 @@ import { OverlayPanel } from 'primereact/overlaypanel';
 import { useEffect, useRef, useState } from "react";
 import { url } from "../../../Address/baseURL";
 import CATEGORIES from "../../../Assets/Images/categories.png"
-import { LoadingOutlined } from "@ant-design/icons";
+import { FormOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Message } from "../../../Components/Message";
 import { useNavigate } from "react-router-dom";
 import { Spin, Tooltip } from "antd";
@@ -77,7 +77,7 @@ function ManageCategoryOnboardView() {
                                 name="o_branch_name"
                                 id="o_branch_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search shops to edit category"
+                                placeholder="Search shops to edit item"
                                 required=""
                                 autoComplete="off"
                                 onInput={(e) => {
@@ -120,7 +120,7 @@ function ManageCategoryOnboardView() {
                                 {shops.length == 0 && !loading && <span> No Shops Found! </span>}
                             </OverlayPanel>
                             <button type="button"
-                                onClick={() => navigation('/home/SuperAdmin/manageitems/categoriesadd')}
+                                onClick={() => navigation('/home/SuperAdmin/manageitems/categoriesadd/0/0')}
                                 class="flex items-center bg-white h-10 w-10 rounded-full justify-center px-4 py-4 text-sm font-medium text-blue-900 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                         <Tooltip title="Add Category">
                                 
@@ -148,7 +148,7 @@ function ManageCategoryOnboardView() {
                     <div class="w-[80%] bg-neutral-primary-soft mx-auto border border-blue-100 rounded-md shadow-md max-h-96 overflow-y-auto" >
                         <ul role="list" class="space-y-3 p-6 divide-y divide-default">
                             {categoryList.map((item, i) => <li >
-                                <div class="flex items-center text-body my-4">
+                                <div class="flex items-center justify-between text-body my-4">
                                     <img class="w-14 h-14 rounded-full mx-3 bg-blue-100 p-2" src={item.catg_picture ? url + item.catg_picture : CATEGORIES} alt="Default avatar"></img>
                                     <input
                                         type="text"
@@ -160,6 +160,9 @@ function ManageCategoryOnboardView() {
                                         value={item.category_name}
                                         onChange={(text) => handleDtChange(text, i)}
                                     />
+                                    <Tooltip title="View Details">
+                                    <FormOutlined className="text-lg text-blue-900"  onClick={() => navigation('/home/SuperAdmin/manageitems/categoriesadd/'+shopID+'/'+item.sl_no)}/>
+                                   </Tooltip>
                                 </div>
 
                                 {!item.category_name &&<small class="text-red-900 mx-auto">Category name should not be blank!</small>}

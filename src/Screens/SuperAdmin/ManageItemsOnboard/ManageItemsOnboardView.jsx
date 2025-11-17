@@ -250,6 +250,7 @@ function ManageItemsOnboardView() {
                                 }
                                 value={search_item}
                                 onChange={(e) => setSearchItem(e.target.value)}
+                                onFocus={(e)=>op1.current.show(e)}
                             />
                             <OverlayPanel className="w-[28%] border-2 max-h-96 overflow-y-auto bg-gray-50 border-[#c1bef1]" ref={op1}>
                                 {itemList.map((item, i) =>

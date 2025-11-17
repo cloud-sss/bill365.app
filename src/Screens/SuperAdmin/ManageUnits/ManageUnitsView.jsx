@@ -95,7 +95,7 @@ function ManageUnitsView() {
         onPress={() => onPress({ sl_no: 0 })}
       />
       <section class="dark:bg-gray-900 p-3 ">
-        <div className="my-4 w-full">
+        {/* <div className="my-4 w-full">
           <label
             htmlFor="brand"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -119,7 +119,7 @@ function ManageUnitsView() {
           {called && !compId ? (
             <div className="text-red-500 text-sm">Shop Name is required</div>
           ) : null}
-        </div>
+        </div> */}
         <div class="mx-auto w-full">
           <div class="bg-blue-900 dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div class="overflow-x-auto">

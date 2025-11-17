@@ -62,7 +62,7 @@ function ManageUnitsAddEdit() {
     if (Array.isArray(response?.data?.msg)) {
       console.log(response);
       const rsp = {
-        su_comp_id: +response?.data?.msg[0].comp_id,
+        // su_comp_id: +response?.data?.msg[0].comp_id,
         su_unit_name: response?.data?.msg[0].unit_name,
       };
       setValues(rsp);
@@ -85,7 +85,7 @@ function ManageUnitsAddEdit() {
   }, [response]);
 
   const initialValues = {
-    su_comp_id: "",
+    // su_comp_id: "",
     su_unit_name: "",
   };
 
@@ -96,14 +96,13 @@ function ManageUnitsAddEdit() {
     userId = localStorage.getItem("user_id");
     callApi("/admin/S_Admin/add_edit_unit", 1, {
       sl_no: +params.id,
-      comp_id: +values?.su_comp_id,
+      comp_id: 0,
       unit_name: values?.su_unit_name,
       created_by: userId,
     });
   };
 
   const validationSchema = Yup.object({
-    su_comp_id: Yup.string().required("Company is required."),
     su_unit_name: Yup.string().required("Unit name is required."),
   });
 
@@ -145,7 +144,7 @@ function ManageUnitsAddEdit() {
           </h2>
           <form onSubmit={formik.handleSubmit}>
             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-              <div>
+              {/* <div>
                 <label
                   for="su_comp_id"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -171,8 +170,8 @@ function ManageUnitsAddEdit() {
                     {formik.errors.su_comp_id}
                   </div>
                 ) : null}
-              </div>
-              <div class="w-full">
+              </div> */}
+              <div class="w-full sm:col-span-2">
                 <label
                   for="su_unit_name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

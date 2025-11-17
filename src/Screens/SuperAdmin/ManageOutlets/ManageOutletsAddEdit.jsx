@@ -140,7 +140,7 @@ function ManageOutletsAddEdit() {
       comp_id: +values?.o_comp_id,
       branch_name: values?.o_branch_name,
       branch_address: values?.o_branch_address,
-      location: +values?.o_location,
+      location: 0,
       contact_person: values?.o_email_id,
       phone_no: +values?.o_phone_no,
       email_id: values?.o_email_id,
@@ -271,7 +271,7 @@ function ManageOutletsAddEdit() {
                   </div>
                 ) : null}
               </div>
-              <div>
+              {/* <div>
                 <label
                   for="o_location"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -290,16 +290,15 @@ function ManageOutletsAddEdit() {
                       {item?.location_name}
                     </option>
                   ))}
-                  {/* <option value="Y">Yes</option>
-                  <option value="N">No</option> */}
+                 
                 </select>
                 {formik.errors.o_location && formik.touched.o_location ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.o_location}
                   </div>
                 ) : null}
-              </div>
-              <div class="w-full">
+              </div> */}
+              <div class="w-full col-span-2">
                 <label
                   for="o_contact_person"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

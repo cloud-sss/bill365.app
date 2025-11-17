@@ -90,7 +90,7 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
                                     <option selected="">Select User Type</option>
                                     <option value="U">User</option>
                                     <option value="M">Manager</option>
-                                    <option value="A">Admin</option>
+                                    {/* <option value="A">Admin</option> */}
                                 </select>
                               {item?.user_type?.trim()==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">User type is required.</p>}
 

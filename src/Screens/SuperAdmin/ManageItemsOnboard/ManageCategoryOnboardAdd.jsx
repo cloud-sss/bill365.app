@@ -46,9 +46,9 @@ function ManageCategoryOnboardAdd() {
   useEffect(() => {
     console.log(params);
     comp = localStorage.getItem("comp_id");
-    if (params.id > 0)
+    if (params.comp_id > 0)
       callApi(
-        `/admin/S_Admin/select_category?comp_id=${params.id2}&catg_id=${params.id}`,
+        `/admin/S_Admin/select_category?comp_id=${params.comp_id}&catg_id=${params.catg_id}`,
         0
       );
     // setDataSet(response?.data?.msg)
@@ -63,6 +63,11 @@ function ManageCategoryOnboardAdd() {
       .then((res) => {
         setShops(res?.data?.msg);
         console.log(res);
+        if(params.comp_id>0){
+          setShopID(params.comp_id)
+          console.log(res?.data?.msg.filter(item=>item.id==+params.comp_id).company_name)
+          setSearch(res?.data?.msg?.filter(e=>e.id==+params.comp_id)[0].company_name)
+        }
       })
       .catch((err) => {
         Message("error", err);
@@ -111,7 +116,7 @@ function ManageCategoryOnboardAdd() {
     }
   }, [response]);
    useEffect(() => {
-        if (search.length > 2) {
+        if (search?.length > 2) {
             axios.post(url + '/admin/S_Admin/search_shop', { company_name: search }).then(res => {
                 setShops(res?.data?.msg)
                 console.log(res)
@@ -133,7 +138,7 @@ function ManageCategoryOnboardAdd() {
       var data = new FormData();
       if (croppedImage) data.append("file", file);
       data.append("comp_id", +shopID);
-      data.append("catg_id", 0);
+      data.append("catg_id", params.catg_id>0?params.catg_id:0);
       data.append("category_name", catgName);
       data.append("created_by", userId);
 
@@ -199,6 +204,7 @@ function ManageCategoryOnboardAdd() {
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search shops to edit category"
                                             required=""
+                                            disabled={params.comp_id > 0 ? true : false}
                                             autoComplete="off"
                                             onInput={(e) => {
             

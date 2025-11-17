@@ -11,6 +11,7 @@ import Backbtn from "../../../Components/Backbtn";
 import { url } from "../../../Address/baseURL";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { LoadingOutlined } from "@ant-design/icons";
+import { use } from "react";
 
 
 function ManageItemsOnboardAdd() {
@@ -51,15 +52,18 @@ function ManageItemsOnboardAdd() {
                 console.log(resp);
                 setDataSet(resp?.data?.msg);
             });
-        axios
+       
+    }, []);
+    useEffect(() => {
+         axios
             .post(url + "/admin/category_list", {
-                comp_id: +localStorage.getItem("comp_id"),
+                comp_id: +shopID,
             })
             .then((resp) => {
                 console.log(resp);
                 setCat(resp?.data?.msg);
             });
-    }, []);
+    }, [shopID]);
        useEffect(() => {
         if (search.length > 2) {
             axios.post(url + '/admin/S_Admin/search_shop', { company_name: search }).then(res => {

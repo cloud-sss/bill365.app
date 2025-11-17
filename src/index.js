@@ -372,7 +372,8 @@ const router = createBrowserRouter([
                 element: <RenewReport />,
               },
              
-            ],
+            ]
+          },{
              path: "manageitems",
 
             element: <ManageItemsOnboardComp />,
@@ -382,7 +383,7 @@ const router = createBrowserRouter([
                 element: <ManageCategoryOnboardView />,
               },
                {
-                path: "categoriesadd",
+                path: "categoriesadd/:comp_id/:catg_id",
                 element: <ManageCategoryOnboardAdd />,
               },
                {
