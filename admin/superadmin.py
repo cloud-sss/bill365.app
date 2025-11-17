@@ -338,11 +338,21 @@ async def add_edit_settings(data:AddEditSettings):
 # =======================================================================================================
 # Manage Unit
 
+# @superadminRouter.get('/S_Admin/select_unit')
+# async def select_unit(comp_id:int,unit_id:int):
+#     select = "sl_no,comp_id,unit_name"
+#     table_name = "md_unit"
+#     where = f"comp_id={comp_id} AND sl_no={unit_id}" if comp_id>0 and unit_id>0 else f"comp_id={comp_id}" if comp_id>0 else f""
+#     order = "order by comp_id"
+#     flag = 1
+#     res_dt = await db_select(select,table_name,where,order,flag)
+#     return res_dt
+
 @superadminRouter.get('/S_Admin/select_unit')
 async def select_unit(comp_id:int,unit_id:int):
     select = "sl_no,comp_id,unit_name"
     table_name = "md_unit"
-    where = f"comp_id={comp_id} AND sl_no={unit_id}" if comp_id>0 and unit_id>0 else f"comp_id={comp_id}" if comp_id>0 else f""
+    where = f"sl_no={unit_id}" if unit_id>0 else f""
     order = "order by comp_id"
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
