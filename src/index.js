@@ -11,6 +11,7 @@ import { Democontext, loadingContext } from "./Context/Democontext";
 import Loader from "./Components/Loader";
 import Noresult from "./Screens/Noresult/Noresult";
 import Bill from "./Screens/Bill/Bill";
+const ManageCategoryUpload = lazy(()=>import("./Screens/SuperAdmin/ManageItemsOnboard/ManageCategoryUpload"));
 const ManageItemsOnboardAdd =lazy(()=>import("./Screens/SuperAdmin/ManageItemsOnboard/ManageItemsOnboardAdd"));
 const ManageItemsOnboardView = lazy(()=>import("./Screens/SuperAdmin/ManageItemsOnboard/ManageItemsOnboardView"))
 const OnboardingComp = lazy(()=>import("./Screens/SuperAdmin/Onboarding/OnboardingComp"));
@@ -385,6 +386,10 @@ const router = createBrowserRouter([
                {
                 path: "categoriesadd/:comp_id/:catg_id",
                 element: <ManageCategoryOnboardAdd />,
+              },
+               {
+                path: "categoryupload",
+                element: <ManageCategoryUpload />,
               },
                {
                 path: "items",

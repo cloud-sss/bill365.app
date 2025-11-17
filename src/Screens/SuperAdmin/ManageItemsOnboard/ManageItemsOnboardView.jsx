@@ -175,7 +175,7 @@ function ManageItemsOnboardView() {
                                 name="o_branch_name"
                                 id="o_branch_name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search shops to edit category"
+                                placeholder="Search shops to edit item"
                                 required=""
                                 autoComplete="off"
                                 onInput={(e) => {
@@ -284,8 +284,12 @@ function ManageItemsOnboardView() {
 
                             </button>
                             <button type="button"
+                                onClick={()=>navigation('/home/superadmin/manageitems/manageitemadd')}
                                 class="flex items-center bg-white h-10 w-10 rounded-full justify-center px-4 py-4 text-sm font-medium text-blue-900 rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                                <Tooltip title="Upload Items">
+
                                 <UploadFileOutlined />
+                                </Tooltip>
                             </button>
                         </div>
 

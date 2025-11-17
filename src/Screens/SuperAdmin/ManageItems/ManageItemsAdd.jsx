@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -13,11 +13,18 @@ import Backbtn from "../../../Components/Backbtn";
 import DownloadIcon from "@mui/icons-material/FileDownload";
 import { Link } from "react-router-dom";
 import ITEMS_MASTER_XLSX from "../../../Assets/Data/Files/item_master.xlsx";
+import {LoadingOutlined} from "@ant-design/icons"
+import { OverlayPanel } from "primereact/overlaypanel";
 
 function ManageItemsAdd() {
   const params = useParams();
   const { response, callApi } = useAPI();
   const navigation = useNavigate();
+  const [typing, setTyping] = useState(false)
+  const op = useRef(null);
+  const [loading,setLoading] = useState(false)
+  const [search, setSearch] = useState("")
+  const [shopID, setShopID] = useState(0)
 
   const [file, setFile] = useState(null);
   const [data, setData] = useState([]);
@@ -162,6 +169,14 @@ function ManageItemsAdd() {
 
     callApi("/admin/S_Admin/insert_item_excel", 1, data);
   };
+     useEffect(() => {
+          if (search?.length > 2) {
+              axios.post(url + '/admin/S_Admin/search_shop', { company_name: search }).then(res => {
+                  setShops(res?.data?.msg)
+                  console.log(res)
+              }).catch(err => { })
+          }
+      }, [search])
 
   return (
     <>
@@ -174,7 +189,7 @@ function ManageItemsAdd() {
           </h2>
           {/* <form onSubmit={formik.handleSubmit}> */}
           <div className="grid gap-2 sm:grid-cols-3 sm:gap-6 align-baseline justify-center">
-            <div>
+            {/* <div>
               <label
                 htmlFor="brand"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -200,6 +215,63 @@ function ManageItemsAdd() {
                   Shop Name is required
                 </div>
               ) : null}
+            </div> */}
+            <div class="sm:col-span-2 ">
+                                <label
+                                    class="block mb-2 text-sm float-left font-medium text-gray-900 dark:text-white"
+                                    for="file_input">
+                                    Search Shop
+                                </label>
+                                <input
+                                    type="text"
+                                    name="o_branch_name"
+                                    id="o_branch_name"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Search shops to edit category"
+                                    required=""
+                                    autoComplete="off"
+                                    onInput={(e) => {
+
+                                        console.log(search)
+                                        if (e.target.value) {
+                                            
+                                            op.current.show(e)
+                                        }
+                                        else {
+                                            
+                                            op.current.hide(e)
+                                        }
+                                    }
+
+                                    }
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                                <OverlayPanel className="w-[31%] border-2 bg-gray-50 border-[#c1bef1]" ref={op}>
+                                    {shops.map((item, i) =>
+                                        <li
+                                            key={i}
+                                            onClick={(e) => {
+                                                op.current.hide(e);
+                                                setSearch(item?.company_name)
+                                                setShopID(item?.id)
+                                            }}
+                                            style={{ listStyle: 'none' }}
+                                            class="pb-3 cursor-pointer hover:bg-[#c1bef1] group active:bg-blue-900 rounded-md hover:duration-300 sm:py-1.5"
+                                        >
+                                            <p class="text-sm p-0.5 w-full text-blue-900 group-active:text-white truncate dark:text-white">
+
+                                                {item?.company_name}
+                                            </p>
+                                        </li>
+                                    )}
+                                    {shops.length == 0 && loading && typing && <span> <LoadingOutlined /> </span>}
+                                    {shops.length == 0 && !loading && <span> No Shops Found! </span>}
+                                </OverlayPanel>
+
+                            </div>
+            <div>
+
             </div>
             {/* <div>
               <label
@@ -230,7 +302,7 @@ function ManageItemsAdd() {
               ) : null}
             </div> */}
 
-            <div className="w-full">
+            <div className="w-full sm:col-span-2 ">
               <label
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 for="file_input">
