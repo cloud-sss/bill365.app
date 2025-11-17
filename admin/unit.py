@@ -9,12 +9,24 @@ unitRouter = APIRouter()
 # ==================================================================================================
 # Get Unit List
 
+# @unitRouter.post('/unit_list')
+# async def unit_list(data:CompId):
+
+#     select = "sl_no,unit_name,created_by,created_at, modified_by,modified_at"
+#     table_name = f"md_unit"
+#     where = f"comp_id={data.comp_id}"
+#     order = ""
+#     flag = 1
+#     res_dt = await db_select(select,table_name,where,order,flag)
+    
+#     return res_dt
+
 @unitRouter.post('/unit_list')
 async def unit_list(data:CompId):
 
     select = "sl_no,unit_name,created_by,created_at, modified_by,modified_at"
     table_name = f"md_unit"
-    where = f"comp_id={data.comp_id}"
+    where = f""
     order = ""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
