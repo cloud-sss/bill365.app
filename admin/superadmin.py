@@ -759,3 +759,31 @@ async def categorywise_items(data:Item):
             res_dt = {"suc": 0, "msg": err}
         
     return res_dt
+
+
+@superadminRouter.post('/S_Admin/insert_category_excel')
+async def insert_excel(
+    comp_id: int = Form(...),
+    created_by: str = Form(...),
+    file: UploadFile = File
+):
+    res_dt3 = []
+    current_datetime = datetime.now()
+    formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+    contents = await file.read()
+    df = read_excel(BytesIO(contents))
+    # print(df,"==============")
+    data = df.to_dict(orient="records")
+    # return data
+    # print(df)
+    for row in data:
+        table_name = "md_category"
+        fields = "comp_id,category_name,created_by,created_dt"
+        values =f"{comp_id},{row['category_name']}, '{created_by}','{formatted_dt}'"
+        where = None
+        order = f""
+        flag = 0
+        res_dt = await db_Insert(table_name,fields,values,where,flag)
+        
+     
+    return res_dt
