@@ -784,6 +784,5 @@ async def insert_excel(
         order = f""
         flag = 0
         res_dt = await db_Insert(table_name,fields,values,where,flag)
-        
      
     return res_dt
