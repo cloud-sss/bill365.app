@@ -58,6 +58,31 @@ async def user_login(data_login:UserLogin):
 
     return res_dt
 
+
+@userRouter.post('/user_login_phone')
+async def user_login(data_login:UserLogin):
+    # pwd = get_hashed_password(data_login.password)
+    # return data_login
+    # print(data_login)
+    res_dt = {}
+    select = "a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user"
+    table_name = "md_user a, md_branch b, md_company c"
+    where = f"a.phone_no='{data_login.user_id}' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.admin_flag='Y'"
+    order = f''
+    flag = 0
+    result = await db_select(select,table_name,where,order,flag)
+    if(result['suc'] > 0 and result['suc'] < 2):
+        if(verify_password(data_login.password, result['msg']['password'])):
+            res_dt = {"suc": 1, "msg": [result['msg']]}
+        else:
+            res_dt = {"suc": 2, "msg": "Please check your userID or password"}
+    elif(result['suc'] == 2):
+        res_dt = {"suc": 2, "msg": "Please check your userID or password"}
+    else:
+        res_dt = {"suc": 0, "msg": "No Data Found"}
+
+    return res_dt
+
 # ==================================================================================================
 # Outlet Details
 
