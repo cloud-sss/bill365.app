@@ -271,7 +271,7 @@ async def add__edit_outlet(data:OutletList):
 async def select_header_footer(comp_id:int):
     select = "a.comp_id,b.company_name,a.header1,a.on_off_flag1,a.header2,a.on_off_flag2,a.footer1,a.on_off_flag3,a.footer2,a.on_off_flag4"
     table_name = "md_header_footer a, md_company b"
-    where = f"a.comp_id = b.id and a.comp_id={comp_id}" if comp_id>0 else f"a.comp_id=b.id"
+    where = f"a.comp_id = b.id and a.comp_id={comp_id} and b.active_flag='Y'" if comp_id>0 else f"a.comp_id=b.id and b.active_flag='Y'"
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
@@ -307,7 +307,7 @@ async def add_edit_header_footer(data:AddHeaderFooter):
 async def select_settings(comp_id:int):
     select = "a.comp_id,b.company_name,a.custom_sl_flag,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag"
     table_name = "md_receipt_settings a, md_company b"
-    where = f"a.comp_id=b.id and a.comp_id={comp_id}" if comp_id>0 else f"a.comp_id=b.id"
+    where = f"a.comp_id=b.id and a.comp_id={comp_id} and b.active_flag='Y'" if comp_id>0 else f"a.comp_id=b.id and b.active_flag='Y'"
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
