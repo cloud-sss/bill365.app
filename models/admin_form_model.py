@@ -396,7 +396,7 @@ class AddEditUserList(BaseModel):
     user_name:str
     user_type:str
     phone_no:int
-
+    admin_flag:str
 
 class userList(BaseModel):
     userDt:List[AddEditUserList]

@@ -182,8 +182,8 @@ async def add_edit_user(data:userList):
         res_dt = await db_select(select,table_name,where,order,flag)
         print('res_dt=',res_dt)
         table_name = f"md_user"
-        fields = f"comp_id,br_id,user_name,user_type,user_id,phone_no,device_id,active_flag,login_flag,created_by, created_dt"
-        values = f"{data.comp_id},{res_dt['msg'][0]['id']},'{user.user_name}','{user.user_type}','{user.phone_no}','{user.phone_no}','0','Y','N','{data.created_by}', '{formatted_dt}'"
+        fields = f"comp_id,br_id,user_name,user_type,user_id,phone_no,device_id,active_flag,login_flag,created_by, created_dt,admin_flag"
+        values = f"{data.comp_id},{res_dt['msg'][0]['id']},'{user.user_name}','{user.user_type}','{user.phone_no}','{user.phone_no}','0','Y','N','{data.created_by}', '{formatted_dt}','{user.admin_flag}'"
         where = None
         order = ""
         flag =  0
