@@ -779,7 +779,7 @@ async def insert_excel(
     for row in data:
         table_name = "md_category"
         fields = "comp_id,category_name,created_by,created_at"
-        values =f"{comp_id},{row['category_name']}, '{created_by}','{formatted_dt}'"
+        values =f"{comp_id},'{row['category_name']}', '{created_by}','{formatted_dt}'"
         where = None
         order = f""
         flag = 0
