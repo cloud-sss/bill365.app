@@ -274,9 +274,11 @@ async def login(data_login:UserLogin):
         # print(query,'query')
         records = cursor.fetchone()
         result2 = createResponse(records, cursor.column_names, 0)
+        print(result2)
         if result2 and data_login.fcm_token != result2['fcm_token']:
             conn = connect()
             cursor = conn.cursor()
+            print(data_login.fcm_token)
             query = f"update md_user set fcm_token='{data_login.fcm_token}' where user_id='{data_login.user_id}'"
             if result2['fcm_token']:
                 message = messaging.Message(
