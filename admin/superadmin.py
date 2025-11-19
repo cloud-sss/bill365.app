@@ -792,7 +792,7 @@ async def insert_excel(
 async def select_user(company_name:ShopName):
     select = "count(*) as cnt"
     table_name = "md_company"
-    where = f"company_name like '%{company_name.company_name}%'"
+    where = f"company_name = '%{company_name.company_name}%'"
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
@@ -802,7 +802,7 @@ async def select_user(company_name:ShopName):
 async def select_user(company_email:ShopEmail):
     select = "count(*) as cnt"
     table_name = "md_company"
-    where = f"email_id like '%{company_email.company_email}%'"
+    where = f"email_id = '%{company_email.company_email}%'"
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
@@ -812,7 +812,7 @@ async def select_user(company_email:ShopEmail):
 async def select_user(company_phone:ShopNumber):
     select = "count(*) as cnt"
     table_name = "md_company"
-    where = f"phone_no like '%{company_phone.company_phone}%'"
+    where = f"phone_no = '%{company_phone.company_phone}%'"
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
@@ -822,7 +822,7 @@ async def select_user(company_phone:ShopNumber):
 async def select_user(company_phone:ShopNumber):
     select = "count(*) as cnt"
     table_name = "md_branch"
-    where = f"phone_no like '%{company_phone.company_phone}%'"
+    where = f"phone_no = '%{company_phone.company_phone}%'"
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
@@ -832,7 +832,7 @@ async def select_user(company_phone:ShopNumber):
 async def select_user(company_email:ShopEmail):
     select = "count(*) as cnt"
     table_name = "md_branch"
-    where = f"email_id like '%{company_email.company_email}%'"
+    where = f"email_id = '%{company_email.company_email}%'"
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
