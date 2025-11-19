@@ -280,16 +280,16 @@ async def login(data_login:UserLogin):
             cursor = conn.cursor()
             print(data_login.fcm_token)
             query = f"update md_user set fcm_token='{data_login.fcm_token}' where user_id='{data_login.user_id}'"
-            if result2['fcm_token']:
-                message = messaging.Message(
-                    token=result2['fcm_token'],
-                    notification=messaging.Notification(
-                        title="Logout Alert!",
-                        body="Your device will be logged out soon!"
-            ),
-            data= {}
-            )
-                response = messaging.send(message)
+            # if result2['fcm_token']:
+            #     message = messaging.Message(
+            #         token=result2['fcm_token'],
+            #         notification=messaging.Notification(
+            #             title="Logout Alert!",
+            #             body="Your device will be logged out soon!"
+            # ),
+            # data= {}
+            # )
+            #     response = messaging.send(message)
             cursor.execute(query)
             # print(query)
             conn.commit()
