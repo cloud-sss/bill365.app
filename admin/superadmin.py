@@ -792,7 +792,7 @@ async def insert_excel(
 async def select_user(company_name:ShopName):
     select = "count(*)"
     table_name = "md_company"
-    where = f"company name like '%{company_name.company_name}%'"
+    where = f"company_name like '%{company_name.company_name}%'"
     order = f""
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
@@ -808,7 +808,7 @@ async def select_user(company_email:ShopEmail):
     res_dt = await db_select(select,table_name,where,order,flag)
     return res_dt
 
-@superadminRouter.post('/S_Admin/check_email')
+@superadminRouter.post('/S_Admin/check_phone')
 async def select_user(company_phone:ShopNumber):
     select = "count(*)"
     table_name = "md_company"
