@@ -299,6 +299,7 @@ async def login(data_login:UserLogin):
         if cursor.rowcount>0:
             conn.close()
             cursor.close()
+            print(result1['no_of_user'] ,result['max_user'])
             if result1['no_of_user'] <= result['max_user']:
                 res_dt = {"suc": 1, "msg": result, "user": result1['no_of_user']+1}
                
