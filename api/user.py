@@ -280,16 +280,16 @@ async def login(data_login:UserLogin):
             cursor = conn.cursor()
             print(data_login.fcm_token)
             query = f"update md_user set fcm_token='{data_login.fcm_token}' where user_id='{data_login.user_id}'"
-            # if result2['fcm_token']:
-            #     message = messaging.Message(
-            #         token=result2['fcm_token'],
-            #         notification=messaging.Notification(
-            #             title="Logout Alert!",
-            #             body="Your device will be logged out soon!"
-            # ),
-            # data= {}
-            # )
-            #     response = messaging.send(message)
+            if result2['fcm_token']:
+                message = messaging.Message(
+                    token=result2['fcm_token'],
+                    notification=messaging.Notification(
+                        title="Logout Alert!",
+                        body="Your device will be logged out soon!"
+            ),
+            data= {}
+            )
+                response = messaging.send(message)
             cursor.execute(query)
             # print(query)
             conn.commit()
@@ -343,11 +343,11 @@ async def logout(flag:LoginFlag):
 @userRouter.get('/send_otp/{phone_no}') 
 async def OTP(phone_no:int):
     otp = random.randint(1000, 9999)
-    print(otp)
+    # print(otp)
     default_text = f"https://bulksms.sssplsales.in/api/api_http.php?username=SYNERGIC&password=SYN@526RGC&senderid=SYNGIC&to={phone_no}&text=OTP for mobile verification is {otp}. This code is valid for 5 minutes. Please do not share this OTP with anyone.-SYNGIC&route=Informative&type=text"
     try:
         response = requests.get(default_text)
-        print(response)
+        # print(response)
         send_msg = response.text
     except Exception as e:
         send_msg = f"Error sending SMS: {str(e)}"
