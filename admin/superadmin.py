@@ -790,7 +790,7 @@ async def insert_excel(
 
 @superadminRouter.post('/S_Admin/check_shop')
 async def select_user(company_name:ShopName):
-    select = "count(*)"
+    select = "count(*) as cnt"
     table_name = "md_company"
     where = f"company_name like '%{company_name.company_name}%'"
     order = f""
@@ -800,7 +800,7 @@ async def select_user(company_name:ShopName):
 
 @superadminRouter.post('/S_Admin/check_email')
 async def select_user(company_email:ShopEmail):
-    select = "count(*)"
+    select = "count(*) as cnt"
     table_name = "md_company"
     where = f"email_id like '%{company_email.company_email}%'"
     order = f""
@@ -810,7 +810,7 @@ async def select_user(company_email:ShopEmail):
 
 @superadminRouter.post('/S_Admin/check_phone')
 async def select_user(company_phone:ShopNumber):
-    select = "count(*)"
+    select = "count(*) as cnt"
     table_name = "md_company"
     where = f"phone_no like '%{company_phone.company_phone}%'"
     order = f""
