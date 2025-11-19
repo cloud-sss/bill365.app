@@ -817,3 +817,23 @@ async def select_user(company_phone:ShopNumber):
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
     return res_dt
+
+@superadminRouter.post('/S_Admin/check_phone_cp')
+async def select_user(company_phone:ShopNumber):
+    select = "count(*) as cnt"
+    table_name = "md_branch"
+    where = f"phone_no like '%{company_phone.company_phone}%'"
+    order = f""
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
+    return res_dt
+
+@superadminRouter.post('/S_Admin/check_email_cp')
+async def select_user(company_email:ShopEmail):
+    select = "count(*) as cnt"
+    table_name = "md_branch"
+    where = f"email_id like '%{company_email.company_email}%'"
+    order = f""
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
+    return res_dt
