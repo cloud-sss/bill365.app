@@ -418,6 +418,8 @@ class AddEditOutletS(BaseModel):
     contact_person:str | None
     phone_no:int | None
     email_id:str | None
+    created_by:str
+
 
 class AddEditOutletSList(BaseModel):
     br_id:int
