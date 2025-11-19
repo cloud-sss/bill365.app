@@ -511,3 +511,12 @@ class CategoryUpdate(BaseModel):
 class CategoryLst(BaseModel):
     categoryDt:List[CategoryUpdate]
     created_by:str
+
+class ShopName(BaseModel):
+    company_name:str
+
+class ShopEmail(BaseModel):
+    company_email:str
+
+class ShopNumber(BaseModel):
+    company_phone:str

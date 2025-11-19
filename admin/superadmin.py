@@ -4,7 +4,7 @@ import mysql.connector
 from pathlib import Path
 from models.master_model import createResponse
 from models.masterApiModel import db_select, db_Insert
-from models.admin_form_model import CategoryLst,SearchShop,userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
+from models.admin_form_model import ShopName,ShopEmail,ShopNumber,CategoryLst,SearchShop,userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
 from utils import get_hashed_password,verify_password
 from datetime import datetime
 from typing import Annotated, Union, Optional
@@ -785,4 +785,35 @@ async def insert_excel(
         flag = 0
         res_dt = await db_Insert(table_name,fields,values,where,flag)
      
+    return res_dt
+
+
+@superadminRouter.post('/S_Admin/check_shop')
+async def select_user(company_name:ShopName):
+    select = "count(*)"
+    table_name = "md_company"
+    where = f"company name like '%{company_name.company_name}%'"
+    order = f""
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
+    return res_dt
+
+@superadminRouter.post('/S_Admin/check_email')
+async def select_user(company_email:ShopEmail):
+    select = "count(*)"
+    table_name = "md_company"
+    where = f"email_id like '%{company_email.company_email}%'"
+    order = f""
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
+    return res_dt
+
+@superadminRouter.post('/S_Admin/check_email')
+async def select_user(company_phone:ShopNumber):
+    select = "count(*)"
+    table_name = "md_company"
+    where = f"phone_no like '%{company_phone.company_phone}%'"
+    order = f""
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
     return res_dt
