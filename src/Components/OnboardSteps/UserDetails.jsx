@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Message } from "../../Components/Message";
+import { Switch } from "antd";
 
 function UserDetails({ data, submit_user, reset_user, outletData }) {
+    console.log(outletData)
     const [users, setUsers] = useState(() => outletData);
 
     const handleReset = () => {
@@ -9,7 +11,10 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
     };
 
     const handleSubmit = () => {
-        if (users.filter(item => item?.user_name?.trim() === "").length == 0 || users.filter(item => item?.user_type.trim() === "").length == 0) {
+        console.log(users?.filter(item => item?.user_name=='').length)
+        console.log(users)
+        // console.log(users.filter(item => item?.user_name?.trim() === "").length,users.filter(item => item?.user_type.trim() === "").length)
+        if (users?.filter(item=>item?.user_name).length>0 && users?.filter(item => item?.user_name=='').length == 0 && users?.filter(item => item?.user_type === "").length == 0) {
             submit_user(users);
         }
         else {
@@ -21,9 +26,11 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
 
 
     const handleDtChange = (index, event) => {
+
         let data = [...users];
         data[index][event.target.name] = event.target.value;
         setUsers(data);
+        console.log(data)
     }
 
 
@@ -31,8 +38,8 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
     return (
         <section class="bg-white dark:bg-gray-900">
             <div class="py-4 px-4 mx-auto max-w-2xl">
-              
-                <form >
+
+                {/* <form > */}
 
                     {users?.map((item, i) => (
 
@@ -69,11 +76,12 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
                                     placeholder="User name"
                                     required=""
                                 />
-                            {item?.user_name?.trim()==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">User name is required.</p>}
+                                {item?.user_name?.trim() === "" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">User name is required.</p>}
 
                             </div>
 
-                            <div class="w-full sm:col-span-2">
+                            <div class="w-full sm:col-span-2 mt-6">
+
                                 <label
                                     for="contact_person"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -92,11 +100,35 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
                                     <option value="M">Manager</option>
                                     {/* <option value="A">Admin</option> */}
                                 </select>
-                              {item?.user_type?.trim()==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">User type is required.</p>}
+                                {item?.user_type?.trim() === "" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">User type is required.</p>}
 
+                                <span className="float-end text-xs flex justify-center items-center mt-2 gap-2">
+                                    Admin? 
+                                    {/* <Switch name="admin_flag" size="small" onChange={(event)=>handleDtChange(i,event)} checkedChildren="Yes" unCheckedChildren="No" defaultChecked={users.length==1} /> */}
+                                    <input
+                                        type="checkbox"
+                                        name="admin_flag"
+                                        id="admin_flag"
+                                        disabled={item.user_type!='M'?true:false}
+                                        class="rounded-md active:border-0 active:ring-0 focus:ring-0 focus:border-0"
+                                        onChange={(event) => {
+                                            console.log(event.target.checked)
+                                            // handleDtChange(i, event);
+
+                                            let data = [...users];
+                                            data[i][event.target.name] = event.target.checked?'Y':'N';
+                                            setUsers(data);
+                                            console.log(data)
+                                        }}
+                                        checked={item?.admin_flag=='Y'?true:false}
+                                        placeholder="User name"
+                                        required=""
+                                    />
+
+                                </span>
 
                             </div>
-                         
+
                         </div>
                     ))}
 
@@ -110,12 +142,12 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
 
                         <button
                             onClick={() => handleSubmit()}
-                            type="submit"
+                            // type="submit"
                             className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
                             Save & Next
                         </button>
                     </div>
-                </form>
+                {/* </form> */}
             </div>
         </section>
 

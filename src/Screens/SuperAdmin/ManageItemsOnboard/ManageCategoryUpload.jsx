@@ -96,7 +96,7 @@ function ManageCategoryUpload() {
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         setFile(file);
-
+        console.log(file)
         const reader = new FileReader();
         reader.onload = (event) => {
             const arrayBuffer = event.target.result;
@@ -150,7 +150,7 @@ function ManageCategoryUpload() {
         setCalled(true);
         // comp = localStorage.getItem("comp_id");
         userId = localStorage.getItem("user_id");
-
+        console.log(data, file)
         // axios
         //   .post("http://your-backend-api-endpoint", data)
         //   .then((response) => {
@@ -162,13 +162,15 @@ function ManageCategoryUpload() {
 
         var newFile = new File([file], "data" + ".xlsx");
 
-        var data = new FormData();
-        data.append("comp_id", +shopID);
-        // data.append("catg_id", +categoryId);
-        data.append("created_by", userId);
-        data.append("file", newFile);
+        var data1 = new FormData();
+        data1.append("comp_id", +shopID);
+        data1.append("created_by", userId);
+        data1.append("file", newFile);
         console.log(data)
-        // callApi("/admin/S_Admin/insert_item_excel", 1, data);
+        // for (let pair of data1.entries()) {
+        //     console.log(pair[0] + ": ", pair[1]);
+        // }
+        callApi("/admin/S_Admin/insert_category_excel", 1, data1);
     };
     useEffect(() => {
         if (search?.length > 2) {
@@ -319,6 +321,7 @@ function ManageCategoryUpload() {
                                 //   console.log(e.target.files);
                                 //   setSelectedFile(e.target.files[0]);
                                 // }}
+                                disabled={shopID==0 || shopID==null || shopID==undefined}
                                 onChange={handleFileUpload}
                             />
                             <p
@@ -350,6 +353,7 @@ function ManageCategoryUpload() {
             )} */}
                         <button
                             onClick={handleSendData}
+                            disabled={shopID==0 || shopID==null || shopID==undefined}
                             type="submit"
                             className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
                             Submit
@@ -366,7 +370,6 @@ function ManageCategoryUpload() {
                                 headers={[
                                     { name: "catg_id", value: "ID" },
                                     { name: "category_name", value: "Category" },
-                                    // { name: "stock", value: "Stock" },
                                 ]}
                                 data={data}
                             />

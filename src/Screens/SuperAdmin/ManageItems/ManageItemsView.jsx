@@ -54,7 +54,7 @@ function ManageItemsView() {
   useEffect(() => {
     // comp = localStorage.getItem("comp_id");
     let compIdx = compId ?? localStorage.getItem("compIdx") ?? undefined;
-    if (!compIdx) return;
+    if (!compIdx || compId==null) return;
 
     callApi(`/admin/S_Admin/item_detail?comp_id=${compId}`, 0);
     // callApi(`/admin/S_Admin/select_one_outlet?comp_id=${0}&br_id=${0}`, 0);

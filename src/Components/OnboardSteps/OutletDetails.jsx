@@ -15,6 +15,11 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
   const { response, callApi } = useAPI();
   console.log(data,shopData)
   console.log("limit=", limit);
+  const [countPhoneLoad, setCountPhoneLoad] = useState(false);
+  const [phoneCount, setPhoneCount] = useState(0);
+  const [countEmailLoad, setCountEmailLoad] = useState(false);
+  const [emailCount, setEmailCount] = useState(0);
+  const navigation = useNavigate();
   // const [resp,setRestp]=useState()
   const [isReport, setIsReport] = useState(false);
   const [isCalled, setCalled] = useState(false);
@@ -27,7 +32,8 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
     branch_address: shopData?.sh_address,
     contact_person: shopData?.sh_contact_person,
     phone_no: shopData?.sh_phone_no,
-    email_id: shopData?.sh_email_id
+    email_id: shopData?.sh_email_id,
+    admin_flag:'N'
   }]);
   const [shops, setShops] = useState(() => []);
   const [locations, setLocations] = useState(() => []);
@@ -238,11 +244,19 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
                   onChange={(event) => {
                     handleDtChange(i, event);
                   }}
+                  onBlur={(e)=>{console.log(e.target.value);
+                  setCountPhoneLoad(true)
+                  axios.post(url + "/admin/S_Admin/check_phone_cp", {company_phone: e.target.value}).then(res=>{console.log(res);
+                    setCountPhoneLoad(false)
+                    setPhoneCount(res?.data?.msg[0]?.cnt)
+                   })
+                  }}
                   value={item.phone_no}
                   placeholder="98500XXXXX"
                   required=""
                 />
                 {item?.phone_no==="" && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Phone no. is required.</p>}
+                {phoneCount>0 && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Phone no. already exists!</p>}
 
               </div>
               <div class="w-full">
@@ -259,10 +273,18 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
                   onChange={(event) => {
                     handleDtChange(i, event);
                   }}
+                  onBlur={(e)=>{console.log(e.target.value);
+                  setCountEmailLoad(true)
+                  axios.post(url + "/admin/S_Admin/check_email_cp", {company_email: e.target.value}).then(res=>{console.log(res);
+                    setCountEmailLoad(false)
+                    setEmailCount(res?.data?.msg[0]?.cnt)
+                   })
+                  }}
                   value={item.email_id}
                   placeholder="abc@def.com"
                   required=""
                 />
+                {emailCount>0 && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Email already exists!</p>}
 
               </div>
             </div>
@@ -280,7 +302,8 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
            <button
               onClick={() => handleSubmit()}
               type="submit"
-              className="inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+              disabled={countPhoneLoad || phoneCount>0 || countEmailLoad || emailCount>0}
+              className="disabled:bg-blue-100 inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
               Save & Next
             </button>
 
