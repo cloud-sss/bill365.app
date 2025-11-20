@@ -368,7 +368,6 @@ function ManageCategoryUpload() {
                                 onPress={() => null}
 
                                 headers={[
-                                    { name: "catg_id", value: "ID" },
                                     { name: "category_name", value: "Category" },
                                 ]}
                                 data={data}

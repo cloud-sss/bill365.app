@@ -67,21 +67,23 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
 
   const initialValues = {
     // sm_comp_id: "",
-    sm_rcv_cash_flag: data?.sm_rcv_cash_flag || "",
-    sm_rcpt_type: data?.sm_rcpt_type || "",
-    sm_gst_flag: data?.sm_gst_flag || "",
+    sm_rcv_cash_flag: data?.sm_rcv_cash_flag || "Y",
+    sm_rcpt_type: data?.sm_rcpt_type || "P",
+    sm_gst_flag: data?.sm_gst_flag || "N",
     sm_gst_type: data?.sm_gst_type || "",
-    sm_unit_flag: data?.sm_unit_flag || "",
-    sm_cust_inf: data?.sm_cust_inf || "",
-    sm_pay_mode: data?.sm_pay_mode || "",
-    sm_discount_flag: data?.sm_discount_flag || "",
-    sm_stock_flag: data?.sm_stock_flag || "",
+    sm_unit_flag: data?.sm_unit_flag || "Y",
+    sm_cust_inf: data?.sm_cust_inf || "Y",
+    sm_pay_mode: data?.sm_pay_mode || "Y",
+    sm_discount_flag: data?.sm_discount_flag || "N",
+    sm_stock_flag: data?.sm_stock_flag || "N",
     sm_discount_type: data?.sm_discount_type || "",
     sm_discount_position: data?.sm_discount_position || "",
-    sm_price_type: data?.sm_price_type || "",
-    sm_refund_days: data?.sm_refund_days || "",
-    sm_kot_flag: data?.sm_kot_flag || "",
+    sm_price_type: data?.sm_price_type || "M",
+    sm_refund_days: data?.sm_refund_days || "1",
+    sm_kot_flag: data?.sm_kot_flag || "N",
     sl_flag: data?.sl_flag || "N",
+    sm_stock_alert_flag: data?.sm_stock_alert_flag || "N",
+    sm_stock_alert_prtg: data?.sm_stock_alert_prtg || "100",
   };
 
   const onSubmit = (values) => {
@@ -116,19 +118,35 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
     sm_rcv_cash_flag: Yup.string().required("Received cash flag is required."),
     sm_rcpt_type: Yup.string().required("Receipt type is required."),
     sm_gst_flag: Yup.string().required("GST Flag is required."),
-    sm_gst_type: Yup.string().required("GST Type is required."),
+    sm_gst_type: Yup.string().when("sm_gst_flag", {
+      is: "Y",
+      then: () => Yup.string().required("GST type is required"),
+      otherwise: () => Yup.string(),
+    }),
     sm_unit_flag: Yup.string().required("Unit Flag is required."),
     sm_cust_inf: Yup.string().required("Customer Info is required."),
     sm_pay_mode: Yup.string().required("Pay mode is required."),
     sm_discount_flag: Yup.string().required("Discount is required."),
     sm_stock_flag: Yup.string().required("Stock Flag is required."),
-    sm_discount_type: Yup.string().required("Discount type is required."),
-    sm_discount_position: Yup.string().required(
-      "Discount position is required."
-    ),
+    sm_discount_type: Yup.string().when("sm_discount_flag", {
+      is: "Y",
+      then: () => Yup.string().required("Discount type is required"),
+      otherwise: () => Yup.string(),
+    }),
+    sm_discount_position: Yup.string().when("sm_discount_flag", {
+      is: "Y",
+      then: () => Yup.string().required("Discount position is required"),
+      otherwise: () => Yup.string(),
+    }),
     sm_price_type: Yup.string().required("Price type is required."),
     sm_refund_days: Yup.number().required("Refund days is required."),
     sm_kot_flag: Yup.string().required("KOT Flag is required."),
+    sm_stock_alert_prtg: Yup.string().when("sm_stock_alert_flag", {
+      is: "Y",
+      then: () => Yup.string().required("Percentage is required!"),
+      otherwise: () => Yup.string(),
+    }),
+   
   });
 
   const [formValues, setValues] = useState(initialValues);
@@ -247,7 +265,7 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
                   </div>
                 ) : null}
               </div>
-              <div>
+              {formik.values.sm_gst_flag =='Y' && <div>
                 <label
                   for="sm_gst_type"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -269,7 +287,7 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
                     {formik.errors.sm_gst_type}
                   </div>
                 ) : null}
-              </div>
+              </div>}
               <div>
                 <label
                   for="sm_unit_flag"
@@ -386,7 +404,7 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
                   </div>
                 ) : null}
               </div>
-              <div>
+              {formik.values.sm_discount_flag=='Y' && <div>
                 <label
                   for="sm_discount_type"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -409,8 +427,8 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
                     {formik.errors.sm_discount_type}
                   </div>
                 ) : null}
-              </div>
-              <div>
+              </div>}
+               {formik.values.sm_discount_flag=='Y' && <div>
                 <label
                   for="sm_discount_position"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -433,7 +451,7 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
                     {formik.errors.sm_discount_position}
                   </div>
                 ) : null}
-              </div>
+              </div>}
               <div>
                 <label
                   for="sm_price_type"
@@ -504,7 +522,7 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
                   </div>
                 ) : null}
               </div>
-               <div className="sm:col-span-2">
+               <div className={formik.values.sm_gst_flag=='Y'?"sm:col-span-2":"w-full"}>
                 <label
                   for="sl_flag"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -525,6 +543,54 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
                 formik.touched.sl_flag ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.sl_flag}
+                  </div>
+                ) : null}
+              </div>
+               <div className={"w-full"}>
+                <label
+                  for="sl_flag"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Stock Alert
+                </label>
+                <select
+                  id="sm_stock_alert_flag"
+                  name="sm_stock_alert_flag"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.sm_stock_alert_flag}>
+                  <option selected="">Stock Alert</option>
+                  <option value="Y">On</option>
+                  <option value="N">Off</option>
+                </select>
+                {formik.errors.sm_stock_alert_flag &&
+                formik.touched.sm_stock_alert_flag ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.sm_stock_alert_flag}
+                  </div>
+                ) : null}
+              </div>
+               <div className={"w-full"}>
+                <label
+                  for="sl_flag"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Stock (%) point for alert
+                </label>
+                <input
+                  type="number"
+                  name="sm_stock_alert_prtg"
+                  id="sm_stock_alert_prtg"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.sm_stock_alert_prtg}
+                  placeholder="%"
+                  required=""
+                />
+                {formik.errors.sm_stock_alert_prtg &&
+                formik.touched.sm_stock_alert_prtg ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.sm_stock_alert_prtg}
                   </div>
                 ) : null}
               </div>

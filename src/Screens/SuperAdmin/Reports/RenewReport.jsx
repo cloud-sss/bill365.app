@@ -122,15 +122,15 @@ function RenewReport() {
                 // onclick={() => onPress({ id: 0 })}
                 flag={1}
                 headers={[
-                  { name: "id", value: "#" },
+                  { name: "serial_number", value: "#" },
                   { name: "company_name", value: "Store" },
+                  { name: "last_billing", value: "Last Billing" },
+                  { name: "next_bill_date", value: "Next Billing" },
                   { name: "phone_no", value: "Phone No." },
                   { name: "address", value: "Address" },
                   { name: "email_id", value: "Email" },
                   { name: "max_user", value: "Max User" },
                   { name: "max_outlet", value: "Max Outlet" },
-                  { name: "last_billing", value: "Last Billing" },
-                  { name: "next_bill_date", value: "Next Billing" },
                   { name: "sales_person", value: "Sales Person" },
                   { name: "contact_person", value: "Contact Person" },
                 ]}

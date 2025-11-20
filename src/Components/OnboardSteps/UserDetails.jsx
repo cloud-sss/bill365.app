@@ -14,7 +14,7 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
         console.log(users?.filter(item => item?.user_name=='').length)
         console.log(users)
         // console.log(users.filter(item => item?.user_name?.trim() === "").length,users.filter(item => item?.user_type.trim() === "").length)
-        if (users?.filter(item=>item?.user_name).length>0 && users?.filter(item => item?.user_name=='').length == 0 && users?.filter(item => item?.user_type === "").length == 0) {
+        if (users?.filter(item=>item?.contact_person).length>0 && users?.filter(item => item?.contact_person=='').length == 0 && users?.filter(item => item?.user_type === "").length == 0) {
             submit_user(users);
         }
         else {
@@ -66,13 +66,14 @@ function UserDetails({ data, submit_user, reset_user, outletData }) {
                                 </label>
                                 <input
                                     type="text"
-                                    name="user_name"
-                                    id="user_name"
+                                    name="contact_person"
+                                    id="contact_person"
+                                    disabled
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     onChange={(event) => {
                                         handleDtChange(i, event);
                                     }}
-                                    value={item?.user_name}
+                                    value={item?.contact_person}
                                     placeholder="User name"
                                     required=""
                                 />

@@ -88,6 +88,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
     contact_person: "",
     phone_no: "",
     email_id: "",
+    admin_flag:'N'
   };
   const addDt = () => {
     setOutlets([...outlets, initialValues]);
@@ -210,7 +211,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
                 />
               </div>
 
-              <div class="w-full sm:col-span-2">
+              <div class="w-full">
                 <label
                   for="contact_person"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -259,7 +260,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
                 {phoneCount>0 && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Phone no. already exists!</p>}
 
               </div>
-              <div class="w-full">
+              {/* <div class="w-full">
                 <label
                   for="email_id"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -286,7 +287,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
                 />
                 {emailCount>0 && <p class="mt-2 text-sm text-red-600 dark:text-red-400">Email already exists!</p>}
 
-              </div>
+              </div> */}
             </div>
           ))}
             {/* {outlets.length>limit &&           <Alert className="my-4" message={`Mismatch in no. of outlets!`} type="error" />} */}
@@ -302,7 +303,7 @@ function OutletDetails({ submit_outlet, reset_outlet, limit ,data,shopData}) {
            <button
               onClick={() => handleSubmit()}
               type="submit"
-              disabled={countPhoneLoad || phoneCount>0 || countEmailLoad || emailCount>0}
+              disabled={countPhoneLoad || phoneCount>0}
               className="disabled:bg-blue-100 inline-flex bg-blue-900 items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-full focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
               Save & Next
             </button>

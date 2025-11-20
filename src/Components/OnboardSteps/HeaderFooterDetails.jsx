@@ -3,8 +3,6 @@
 import { Switch } from "antd";
 import React, { useEffect, useState } from "react";
 import useAPI from "../../Hooks/useApi";
-import { DurationMessage } from "../../Components/DurationMessage";
-import { Message } from "../../Components/Message";
 import { useNavigate } from "react-router-dom";
 
 function HeaderFooterDetails({ submit_headerfooter, reset_headerfooter,data }) {
@@ -84,7 +82,20 @@ const { response, callApi } = useAPI();
     //   modified_by: localStorage.getItem("email_id"),
     // });
   };
- 
+ useEffect(()=>{
+    if(f1==false){
+        setF1Text('')
+    }
+    if(f2==false){
+        setF2Text('')
+    }
+    if(f3==false){
+        setF3Text('')
+    }
+    if(f4==false){
+        setF4Text('')
+    }
+ },[f1,f2,f3,f4])
 
   return (
     <>
@@ -107,6 +118,7 @@ const { response, callApi } = useAPI();
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 maxLength="25"
                 value={f1Text}
+                disabled={f1==false}
                 onChange={(f1Text) => setF1Text(f1Text.target.value)}
                 placeholder="Product brand"
                 required=""
@@ -143,6 +155,7 @@ const { response, callApi } = useAPI();
                 onChange={(f2Text) => setF2Text(f2Text.target.value)}
                 placeholder="Product brand"
                 required=""
+                disabled={f2==false}
               />
               <p
                 id="helper-text-explanation"
@@ -176,6 +189,7 @@ const { response, callApi } = useAPI();
                 onChange={(f3Text) => setF3Text(f3Text.target.value)}
                 placeholder="Product brand"
                 required=""
+                disabled={f3==false}
               />
               <p
                 id="helper-text-explanation"
@@ -209,6 +223,7 @@ const { response, callApi } = useAPI();
                 onChange={(f4Text) => setF4Text(f4Text.target.value)}
                 placeholder="Product brand"
                 required=""
+                disabled={f4==false}
               />
               <p
                 id="helper-text-explanation"

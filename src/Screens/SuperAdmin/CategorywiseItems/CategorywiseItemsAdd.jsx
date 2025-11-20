@@ -13,6 +13,7 @@ import { url } from "../../../Address/baseURL";
 import { DurationMessage } from "../../../Components/DurationMessage";
 import { Transfer } from "antd";
 
+
 function CategorywiseItemsAdd() {
   const navigation = useNavigate();
 
@@ -37,11 +38,11 @@ function CategorywiseItemsAdd() {
   //     description: `description of content${i + 1}`,
   //   }));
 
-  const rawItemsData = items?.map((item, i) => ({
-    key: parseInt(item?.item_id),
-    title: item?.item_name,
-    disabled: item?.catg_id !== 0 || !catgId,
-  }));
+ const rawItemsData = items?.filter((item) => item?.catg_id == 0).map((item, i) => ({
+  key: parseInt(item?.item_id),
+  title: item?.item_name,
+  disabled: item?.catg_id != 0,
+}));
 
   const initialTargetKeys = rawItemsData;
   // ?.filter((item) => Number(item.key) > 10)
@@ -55,12 +56,17 @@ function CategorywiseItemsAdd() {
     console.log("direction:", direction);
     console.log("moveKeys:", moveKeys);
     setTargetKeys(nextTargetKeys);
+    
   };
   const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
     console.log("sourceSelectedKeys:", sourceSelectedKeys);
     console.log("targetSelectedKeys:", targetSelectedKeys);
     setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+    console.log("target:", targetSelectedKeys);
   };
+  useEffect(()=>{
+     setTargetKeys(rawItemsData.filter(item=>item.catg_id==catgId))
+  },[catgId])
   const onScroll = (direction, e) => {
     // console.log("direction:", direction);
     // console.log("target:", e.target);

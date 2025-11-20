@@ -23,22 +23,28 @@ function Signin() {
     email: "",
     password: "",
   };
-  const onSubmit = (values) => {
-    SignIn(values);
+  const initialValuesPhone = {
+    phone_no: "",
+    password: "",
   };
-  useEffect(() => {
-    if (!localStorage.getItem("email_id")) {
-      console.log(location);
-      setTimeout(() => {
-        Message("info", "Welcome back, admin!");
-      }, 1000);
-    } else {
-      // navigate("home/report/daybook");
-      navigate("home");
-    }
-  }, []);
+  const onSubmit = (values) => {
+    // SignIn(values);
+    SignInPhone(values)
+  };
+  // useEffect(() => {
+  //   if (!localStorage.getItem("user_id")) {
+  //     console.log(location);
+  //     setTimeout(() => {
+  //       Message("info", "Welcome back, admin!");
+  //     }, 1000);
+  //   } else {
+  //     // navigate("home/report/daybook");
+  //     navigate("home");
+  //   }
+  // }, []);
   useEffect(() => {
     if (response?.data?.suc == 1 && response?.data?.msg.length > 0 && called) {
+      console.log(response)
       localStorage.setItem("address", response?.data?.msg[0].address);
       localStorage.setItem(
         "branch_address",
@@ -53,9 +59,13 @@ function Signin() {
       localStorage.setItem("comp_id", response?.data?.msg[0].comp_id);
       localStorage.setItem("phone_no", response?.data?.msg[0].phone_no);
       localStorage.setItem("email_id", response?.data?.msg[0].email_id);
+      localStorage.setItem("user_id", response?.data?.msg[0].phone_no);
+
       setCalled(false);
+      debugger;
       // navigate("home/report/daybook");
       navigate("home");
+      debugger;
     } else {
       if (called) Message("error", "Incorrect credentials!");
       setCalled(false);
@@ -71,6 +81,15 @@ function Signin() {
     });
     setCalled(true);
   };
+  const SignInPhone = (values) => {
+    localStorage.setItem("user_id", values.phone_no);
+
+    callApi("/admin/user_login_phone", 1, {
+      user_id: values.phone_no,
+      password: values.password,
+    });
+    setCalled(true);
+  };
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -78,10 +97,15 @@ function Signin() {
       .email("Not a correct a email format"),
     password: Yup.string().required("Password is required"),
   });
+  const validationSchemaPhone = Yup.object({
+    phone_no: Yup.string()
+      .required("Phone is required"),
+    password: Yup.string().required("Password is required"),
+  });
   const formik = useFormik({
-    initialValues,
+    initialValues:initialValuesPhone,
     onSubmit,
-    validationSchema,
+    validationSchemaPhone,
     validateOnMount: true,
   });
   return (
@@ -189,7 +213,7 @@ function Signin() {
                 </div>
                 <form onSubmit={formik.handleSubmit} className="w-full py-6">
                   <div className="pt-6 block">
-                    <label className="text-sm text-gray-600">Your email</label>
+                    {/* <label className="text-sm text-gray-600">Your email</label>
                     <input
                       type="text"
                       name="email"
@@ -202,6 +226,21 @@ function Signin() {
                     {formik.errors.email && formik.touched.email ? (
                       <div className="text-red-500 text-sm">
                         {formik.errors.email}
+                      </div>
+                    ) : null} */}
+                    <label className="text-sm text-gray-600">Your phone</label>
+                    <input
+                      type="text"
+                      name="phone_no"
+                      value={formik.values.phone_no}
+                      className="block border-gray-300 text-[13px] pt-2 p-1 rounded-lg h- w-full border "
+                      placeholder="name@company.com"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.errors.phone_no && formik.touched.phone_no ? (
+                      <div className="text-red-500 text-sm">
+                        {formik.errors.phone_no}
                       </div>
                     ) : null}
                   </div>

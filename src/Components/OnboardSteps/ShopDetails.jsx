@@ -67,6 +67,7 @@ function ShopDetails({ submit_shop,data }) {
     sh_max_user: Yup.number().min(1).max(20).required("Max. user is required."),
     sh_max_outlet: Yup.number().min(1).max(20).required('Max. outlet is required.'),
     sh_sales_person: Yup.string().required("Sales person is required."),
+    sh_contact_person: Yup.string().required("Contact person is required."),
     sh_last_billing: Yup.string().required("Last billing date is required."),
   });
 

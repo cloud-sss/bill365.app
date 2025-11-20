@@ -109,7 +109,7 @@ function ManageShopsAddEdit() {
       id: +params.id,
       company_name: values?.sh_company_name,
       address: values?.sh_address,
-      location:  0, //ami korechhi besh korechhi
+      location: 0, //ami korechhi besh korechhi
       contact_person: values?.sh_contact_person,
       phone_no: +values?.sh_phone_no,
       email_id: values?.sh_email_id,
@@ -177,7 +177,7 @@ function ManageShopsAddEdit() {
                   required=""
                 />
                 {formik.errors.sh_company_name &&
-                formik.touched.sh_company_name ? (
+                  formik.touched.sh_company_name ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.sh_company_name}
                   </div>
@@ -251,7 +251,7 @@ function ManageShopsAddEdit() {
                   <option value="N">No</option>
                 </select>
                 {formik.errors.sh_active_flag &&
-                formik.touched.sh_active_flag ? (
+                  formik.touched.sh_active_flag ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.sh_active_flag}
                   </div>
@@ -392,7 +392,7 @@ function ManageShopsAddEdit() {
                   required=""
                 />
                 {formik.errors.sh_contact_person &&
-                formik.touched.sh_contact_person ? (
+                  formik.touched.sh_contact_person ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.sh_contact_person}
                   </div>
@@ -425,7 +425,7 @@ function ManageShopsAddEdit() {
                   </div>
                 ) : null}
               </div>
-<div class="w-full ">
+              <div class="w-full ">
                 <label
                   for="sh_last_billing"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

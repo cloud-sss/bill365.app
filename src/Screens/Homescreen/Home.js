@@ -27,8 +27,8 @@ function Home() {
   );
 
   useEffect(() => {
-    console.log(!localStorage.getItem("email_id"));
-    if (!localStorage.getItem("email_id")) {
+    console.log(!localStorage.getItem("user_id"));
+    if (!localStorage.getItem("user_id")) {
       navigate("/");
     }
   }, []);
@@ -36,8 +36,8 @@ function Home() {
   return (
     <>
       <div>
-        {localStorage.getItem("email_id") && <Header />}
-        {localStorage.getItem("email_id") && <SidebarComp />}
+        {localStorage.getItem("user_id") && <Header />}
+        {localStorage.getItem("user_id") && <SidebarComp />}
 
         <div className="p-6 sm:ml-64 bg-blue-300 min-h-screen">
           <div

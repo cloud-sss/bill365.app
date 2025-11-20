@@ -90,6 +90,8 @@ function OnboardingForm() {
                                     kot_flag: values?.sm_kot_flag,
                                     created_by: localStorage.getItem("user_id"),
                                     custom_sl_flag: values?.sl_flag,
+                                    stock_alert_flag: values?.sm_stock_alert_flag,
+                                    stock_alert_prtg: +values?.sm_stock_alert_prtg,
 
 
 

@@ -30,6 +30,7 @@ function ManageItemsOnboardAdd() {
     const [dataSet, setDataSet] = useState();
     const [outlets, setOutlets] = useState(() => []);
     const [category, setCat] = useState();
+    const [discount_flag,setDiscountFlag] = useState(false)
     var comp, userId;
 
     useEffect(() => {
@@ -118,7 +119,7 @@ function ManageItemsOnboardAdd() {
         i_name: "",
         i_hsn: "",
         i_price: "",
-        i_discount: "",
+        i_discount: 0,
         i_cgst: "",
         i_sgst: "",
         i_unit: "",
@@ -146,6 +147,13 @@ function ManageItemsOnboardAdd() {
         });
     };
 
+    useEffect(() => {
+        axios.get(url + `/admin/S_Admin/select_settings?comp_id=${shopID}`).then(res=>{
+            console.log(res)
+            setDiscountFlag(res?.data?.msg[0]?.discount_flag=='N'?true:false)
+        })
+    },[shopID])
+
     const validationSchema = Yup.object({
         i_name: Yup.string().required("Name is required"),
         // i_br_id: Yup.number().required("Branch is required"),
@@ -154,13 +162,25 @@ function ManageItemsOnboardAdd() {
         i_unit: Yup.number().required("Unit is required"),
         i_discount: Yup.number().required("Discount is required"),
         i_cgst: Yup.number().required("CGST is required"),
-        i_sgst: Yup.number().required("SGST is required"),
+         i_sgst: Yup.number().required("SGST is required"),
+        
         i_cat: Yup.number().required("Category is required"),
     });
     const [formValues, setValues] = useState(initialValues);
     console.log(formValues);
     const formik = useFormik({
         initialValues: params.id > 0 ? formValues : initialValues,
+          validate: (values) => {
+      const errors = {};
+      console.log(values);
+      if (+values.i_cgst != +values.i_sgst) {
+        errors.i_sgst = "GSTs don't match";
+        errors.i_cgst = "GSTs don't match";
+        // If "extra" is selected, enforce either (CGST + SGST) or IGST
+      }
+
+      return errors;
+    },
         onSubmit,
         validationSchema,
         enableReinitialize: true,
@@ -293,7 +313,7 @@ function ManageItemsOnboardAdd() {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="$2999"
+                                    placeholder="₹2999"
                                     required=""
                                 />
                                 {formik.errors.i_price && formik.touched.i_price ? (
@@ -370,6 +390,7 @@ function ManageItemsOnboardAdd() {
                                     type="number"
                                     name="i_discount"
                                     id="i_discount"
+                                    disabled={discount_flag}
                                     value={formik.values.i_discount}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -389,7 +410,7 @@ function ManageItemsOnboardAdd() {
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     CGST
                                 </label>
-                                <input
+                                {/* <input
                                     type="number"
                                     name="i_cgst"
                                     id="i_cgst"
@@ -399,7 +420,25 @@ function ManageItemsOnboardAdd() {
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="CGST"
                                     required=""
-                                />
+                                /> */}
+                                  <select
+                                    name="i_cgst"
+                                    id="i_cgst"
+                                    value={formik.values.i_cgst}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option selected="0">0</option>
+                                    <option selected="2.5">2.5</option>
+                                    <option selected="5">5</option>
+                                    <option selected="18">18</option>
+                                    <option selected="40">40</option>
+                                    
+                                    {/* <option value="TV">TV/Monitors</option>
+                        <option value="PC">PC</option>
+                        <option value="GA">Gaming/Console</option>
+                        <option value="PH">Phones</option> */}
+                                </select>
                                 {formik.errors.i_cgst && formik.touched.i_cgst ? (
                                     <div className="text-red-500 text-sm">
                                         {formik.errors.i_cgst}
@@ -412,17 +451,24 @@ function ManageItemsOnboardAdd() {
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     SGST
                                 </label>
-                                <input
-                                    type="number"
+                                <select
                                     name="i_sgst"
                                     id="i_sgst"
                                     value={formik.values.i_sgst}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="SGST"
-                                    required=""
-                                />
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option selected="0">0</option>
+                                    <option selected="2.5">2.5</option>
+                                    <option selected="5">5</option>
+                                    <option selected="18">18</option>
+                                    <option selected="40">40</option>
+                                    
+                                    {/* <option value="TV">TV/Monitors</option>
+                        <option value="PC">PC</option>
+                        <option value="GA">Gaming/Console</option>
+                        <option value="PH">Phones</option> */}
+                                </select>
                                 {formik.errors.i_sgst && formik.touched.i_sgst ? (
                                     <div className="text-red-500 text-sm">
                                         {formik.errors.i_sgst}

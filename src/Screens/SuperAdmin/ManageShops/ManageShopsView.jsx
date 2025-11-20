@@ -49,7 +49,7 @@ function ManageShopsView() {
 
   useEffect(() => {
     // comp = localStorage.getItem("comp_id");
-    callApi(`/admin/S_Admin/select_shop?id=${0}`, 0);
+    callApi(`/admin/S_Admin/select_shop_list?id=${0}`, 0);
   }, []);
 
   const onPress = (data) => {
