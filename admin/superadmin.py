@@ -735,7 +735,7 @@ async def catg_list(comp_id:int):
 @superadminRouter.get('/S_Admin/renewal_report')
 async def catg_list():
   
-    select = f"company_name,address,contact_person,phone_no,email_id,max_user,max_outlet,FORMAT(last_billing, 'dd-MM-yyyy') AS last_billing,FORMAT(DATE_ADD(last_billing, INTERVAL 1 YEAR),'dd-MM-yyyy') AS next_bill_date,sales_person,active_flag"
+    select = f"company_name,address,contact_person,phone_no,email_id,max_user,max_outlet,FORMAT(last_billing, '%d-%m-%Y') AS last_billing,FORMAT(DATE_ADD(last_billing, INTERVAL 1 YEAR),'%d-%m-%Y') AS next_bill_date,sales_person,active_flag"
     table_name = "md_company"
     where = f"active_flag='Y'"
     order = f''
