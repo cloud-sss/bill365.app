@@ -155,7 +155,7 @@ async def edit_user(data:EditUser):
 async def user_profile(data:UserProfile):
     select = "user_name,user_id,phone_no,email_id"
     table_name = "md_user"
-    where = f"comp_id = {data.comp_id} and user_id = '{data.user_id}' and user_type = 'A'"
+    where = f"comp_id = {data.comp_id} and user_id = '{data.user_id}' and admin_flag = 'Y'"
     order = f''
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
