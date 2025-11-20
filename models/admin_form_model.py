@@ -469,6 +469,8 @@ class AddEditSettings(BaseModel):
     kot_flag:str
     created_by:str
     custom_sl_flag:str
+    stock_alert_flag:str
+    stock_alert_prtg:int
 
 class AddEditUnit(BaseModel):
     sl_no:int
