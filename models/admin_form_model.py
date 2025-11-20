@@ -427,7 +427,7 @@ class AddEditOutletSList(BaseModel):
     branch_address:str | None
     contact_person:str | None
     phone_no:int | None
-    email_id:str | None
+    # email_id:str | None
 
 class OutletList(BaseModel):
     outletDt:List[AddEditOutletSList]
