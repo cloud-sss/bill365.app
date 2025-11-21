@@ -779,7 +779,7 @@ async def categorywise_items(data:Item):
         except mysql.connector.Error as err:
             res_dt1 = {"suc": 0, "msg": err}
         
-    return res_dt
+    return res_dt1 if data.item_id_lft else res_dt
 
 
 @superadminRouter.post('/S_Admin/insert_category_excel')
