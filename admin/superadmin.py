@@ -4,7 +4,7 @@ import mysql.connector
 from pathlib import Path
 from models.master_model import createResponse
 from models.masterApiModel import db_select, db_Insert
-from models.admin_form_model import ShopName,ShopEmail,ShopNumber,CategoryLst,SearchShop,userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
+from models.admin_form_model import ItemLeft,ShopName,ShopEmail,ShopNumber,CategoryLst,SearchShop,userList,AddEditLocation,RenewalReport,OutletList,AddEditCompany,AddEditUser,AddEditOutletS,OneOutlet,AddHeaderFooter,AddEditSettings,AddEditUnit,Excel,EditItemDtls,Item
 from utils import get_hashed_password,verify_password
 from datetime import datetime
 from typing import Annotated, Union, Optional
@@ -754,13 +754,24 @@ async def catg_list():
     return res_dt
 
 @superadminRouter.post("/S_Admin/categorywise_items")
-async def categorywise_items(data:Item):
+async def categorywise_items(data:Item,dataLeft:ItemLeft):
     res_dt={}
 
     for nm in data.item_id:
         try: 
             table_name = "md_items"
             fields = f"catg_id={data.catg_id}"
+            values = None
+            where = f"comp_id={data.comp_id} AND id={nm}"
+            flag = 1
+            res_dt= await db_Insert(table_name,fields,values,where,flag)
+        except mysql.connector.Error as err:
+            res_dt = {"suc": 0, "msg": err}
+
+    for nm in dataLeft.item_id:
+        try: 
+            table_name = "md_items"
+            fields = f"catg_id={0}"
             values = None
             where = f"comp_id={data.comp_id} AND id={nm}"
             flag = 1

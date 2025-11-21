@@ -502,6 +502,11 @@ class Item(BaseModel):
     catg_id: int
     item_id: list = []
 
+class ItemLeft(BaseModel):
+    comp_id: int
+    catg_id: int
+    item_id: list = []
+
 class RenewalReport(BaseModel):
     from_date:date
     to_date:date
