@@ -754,7 +754,7 @@ async def catg_list():
     return res_dt
 
 @superadminRouter.post("/S_Admin/categorywise_items")
-async def categorywise_items(data:Item,dataLeft:ItemLeft):
+async def categorywise_items(data:Item):
     res_dt={}
 
     for nm in data.item_id:
@@ -768,7 +768,7 @@ async def categorywise_items(data:Item,dataLeft:ItemLeft):
         except mysql.connector.Error as err:
             res_dt = {"suc": 0, "msg": err}
 
-    for nm in dataLeft.item_id:
+    for nm in data.item_id_lft:
         try: 
             table_name = "md_items"
             fields = f"catg_id={0}"
