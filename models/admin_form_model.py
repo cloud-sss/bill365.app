@@ -501,6 +501,7 @@ class Item(BaseModel):
     comp_id: int
     catg_id: int
     item_id: list = []
+    item_id_lft: list = []
 
 class ItemLeft(BaseModel):
     comp_id: int
