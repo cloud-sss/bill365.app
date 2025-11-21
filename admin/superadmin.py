@@ -756,7 +756,7 @@ async def catg_list():
 @superadminRouter.post("/S_Admin/categorywise_items")
 async def categorywise_items(data:Item):
     res_dt={}
-
+    suc=0
     for nm in data.item_id:
         try: 
             table_name = "md_items"
@@ -765,6 +765,7 @@ async def categorywise_items(data:Item):
             where = f"comp_id={data.comp_id} AND id={nm}"
             flag = 1
             res_dt= await db_Insert(table_name,fields,values,where,flag)
+            suc+=res_dt["suc"]
         except mysql.connector.Error as err:
             res_dt = {"suc": 0, "msg": err}
 
@@ -776,10 +777,12 @@ async def categorywise_items(data:Item):
             where = f"comp_id={data.comp_id} AND id={nm}"
             flag = 1
             res_dt1= await db_Insert(table_name,fields,values,where,flag)
+            suc+=res_dt1["suc"]
         except mysql.connector.Error as err:
             res_dt1 = {"suc": 0, "msg": err}
         
-    return res_dt1 if data.item_id_lft else res_dt
+    return {"suc":1,"msg":'Success'} if suc>0 else {"suc":0,"msg":'Failed'}
+
 
 
 @superadminRouter.post('/S_Admin/insert_category_excel')
