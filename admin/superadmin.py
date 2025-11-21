@@ -253,9 +253,6 @@ async def add__edit_outlet(data:AddEditOutletS):
 
     return res_dt
 
-
-
-
 @superadminRouter.post('/S_Admin/add_edit_outlet_list')
 async def add__edit_outlet(data:OutletList):
     current_datetime = datetime.now()
