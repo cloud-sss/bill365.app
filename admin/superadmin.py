@@ -775,9 +775,9 @@ async def categorywise_items(data:Item):
             values = None
             where = f"comp_id={data.comp_id} AND id={nm}"
             flag = 1
-            res_dt= await db_Insert(table_name,fields,values,where,flag)
+            res_dt1= await db_Insert(table_name,fields,values,where,flag)
         except mysql.connector.Error as err:
-            res_dt = {"suc": 0, "msg": err}
+            res_dt1 = {"suc": 0, "msg": err}
         
     return res_dt
 
