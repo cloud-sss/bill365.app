@@ -40,7 +40,7 @@ async def add_unit(add_unit:AddUnit):
 async def unit_list(comp_id:int):
     conn = connect()
     cursor = conn.cursor()
-    query = f"SELECT * FROM md_unit WHERE comp_id = {comp_id}"
+    query = f"SELECT * FROM md_unit"
     cursor.execute(query)
     records = cursor.fetchall()
     result = createResponse(records, cursor.column_names, 1)
@@ -57,7 +57,7 @@ async def edit_unit(edit:EditUnit):
         formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
         conn = connect()
         cursor = conn.cursor()
-        query = f"UPDATE md_unit SET unit_name='{edit.unit_name}', modified_by='{edit.modified_by}', modified_at='{formatted_dt}' WHERE sl_no={edit.sl_no} and comp_id={edit.comp_id}"
+        query = f"UPDATE md_unit SET unit_name='{edit.unit_name}', modified_by='{edit.modified_by}', modified_at='{formatted_dt}' WHERE sl_no={edit.sl_no} "
         cursor.execute(query)
         conn.commit()
         conn.close()
