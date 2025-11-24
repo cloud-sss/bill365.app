@@ -47,10 +47,9 @@ async def edit_header_footer(edit:EditHeaderFooter):
     query = f"UPDATE md_header_footer SET header1 = '{edit.header1}', on_off_flag1 = '{edit.on_off_flag1}', header2 = '{edit.header2}', on_off_flag2 = '{edit.on_off_flag2}', footer1 = '{edit.footer1}', on_off_flag3 = '{edit.on_off_flag3}', footer2 = '{edit.footer2}', on_off_flag4 = '{edit.on_off_flag4}', created_by = '{edit.created_by}', created_at = '{formatted_datetime}' WHERE comp_id = {edit.comp_id}"
     cursor.execute(query)
     conn.commit()
-    conn.close()
-    cursor.close()
-    # print(cursor.rowcount)
-    # print(query)
+    
+    print(cursor.rowcount)
+    print(query)
     if cursor.rowcount>0:
         resData= {
         "status":1,
@@ -58,6 +57,8 @@ async def edit_header_footer(edit:EditHeaderFooter):
         }
     else:
         resData= {"status":0, "data":"data not edited"}
+    conn.close()
+    cursor.close()
        
     return resData
 

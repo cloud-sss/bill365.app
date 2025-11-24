@@ -304,7 +304,7 @@ async def login(data_login:UserLogin):
                 res_dt = {"suc": 1, "msg": result, "user": result1['no_of_user']+1}
                
             else:
-                 res_dt = {"suc": 0, "msg": "Max user limit reached"}
+                res_dt = {"suc": 0, "msg": "Max user limit reached"}
         
         else:
             res_dt = {"suc": 0, "msg": "error while selecting no_of_user"}
