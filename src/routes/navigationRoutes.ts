@@ -44,6 +44,7 @@ const navigationRoutes = {
   // refundItemsReportScreen: "RefundItemsReportScreen",
   headerFooterScreen: "HeaderFooterScreen",
   manageProductsScreen: "ManageProductsScreen",
+  productTransferScreen: "ProductTransferScreen",
   manageCategoriesScreen: "ManageCategoriesScreen",
   manageUnitsScreen: "ManageUnitsScreen",
   inventoryScreen: "InventoryScreen",

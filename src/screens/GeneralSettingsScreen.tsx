@@ -62,12 +62,11 @@ export default function GeneralSettingsScreen() {
     () => receiptSettings?.kot_flag || "N",
   )
   const [low_stock,setLowStock] = useState<"Y" | "N">(
-    // () => receiptSettings?.low_stock_flag || "N",
-    () =>  "N",
+    () => receiptSettings?.stock_alert_flag || "N",
   )
     const [low_stock_prtg,setLowStockPrtg] = useState<number>(
-    // () => receiptSettings?.low_stock_flag || "N",
-    () =>  100,
+    () => receiptSettings?.stock_alert_prtg || 100,
+    // () =>  100,
   )
   const [refundTime, setRefundTime] = useState<number>(
     () => receiptSettings?.refund_days || 1,
@@ -488,8 +487,8 @@ export default function GeneralSettingsScreen() {
             }}
           />
           <Divider />
-          <List.Item
-            title="Minimum % for low alert"
+          {low_stock == 'Y' && <List.Item
+            title="Minimum % for alert"
            
             left={props => <List.Icon {...props} icon="cash-refund" />}
             right={props => {
@@ -509,7 +508,7 @@ export default function GeneralSettingsScreen() {
               color:
                 priceType === "A" ? theme.colors.primary : theme.colors.orange,
             }}
-          />
+          />}
         </View>
       </ScrollView>
     </SafeAreaView>

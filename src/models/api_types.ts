@@ -83,6 +83,8 @@ export type ReceiptSettingsData = {
   footer2: string
   on_off_flag4: "Y" | "N"
   kot_flag: "Y" | "N"
+  stock_alert_flag: "Y" | "N"
+  stock_alert_prtg: number
 }
 
 /**
