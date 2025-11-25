@@ -183,6 +183,9 @@ class GeneralSettings(BaseModel):
     kot_flag:str
     modified_by:str
     custom_sl_flag:str
+    stock_alert_flag:str
+    stock_alert_prtg:int
+
 
 class AddItem(BaseModel):
     comp_id:int
