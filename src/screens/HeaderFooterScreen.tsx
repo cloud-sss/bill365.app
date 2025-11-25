@@ -111,7 +111,22 @@ export default function HeaderFooterScreen() {
 
   const remainingChars = (maxChars: number, text: string) =>
     maxChars - text.length
-
+  useEffect(()=>{
+    if(!isHeader1On) setHeader1("")
+    
+  },[isHeader1On])
+  useEffect(()=>{
+    if(!isHeader2On) setHeader2("")
+    
+  },[isHeader2On])
+  useEffect(()=>{
+    if(!isFooter1On) setFooter1("")
+    
+  },[isFooter1On])
+  useEffect(()=>{
+    if(!isFooter2On) setFooter2("")
+    
+  },[isFooter2On])
   return (
     <SafeAreaView
       style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
@@ -238,6 +253,7 @@ export default function HeaderFooterScreen() {
                 value={header1}
                 keyboardType="default"
                 maxLength={MAX_LENGTH}
+                disabled={!isHeader1On}
                 autoFocus
                 mode="outlined"
               />
@@ -263,6 +279,7 @@ export default function HeaderFooterScreen() {
                 value={header2}
                 keyboardType="default"
                 maxLength={MAX_LENGTH}
+                disabled={!isHeader2On}
                 mode="outlined"
               />
             </View>
@@ -287,6 +304,7 @@ export default function HeaderFooterScreen() {
                 value={footer1}
                 keyboardType="default"
                 maxLength={MAX_LENGTH}
+                disabled={!isFooter1On}
                 mode="outlined"
               />
             </View>
@@ -311,6 +329,7 @@ export default function HeaderFooterScreen() {
                 value={footer2}
                 keyboardType="default"
                 maxLength={MAX_LENGTH}
+                disabled={!isFooter2On}
                 mode="outlined"
               />
             </View>

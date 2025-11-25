@@ -38,38 +38,46 @@ export default function GeneralSettingsScreen() {
   const [isDisabled, setIsDisabled] = useState(() => false)
 
   const [rcptType, setRcptType] = useState<"P" | "B" | "S">(
-    () => receiptSettings?.rcpt_type,
+    () => receiptSettings?.rcpt_type || "P",
   )
   const [receiptFlag, setReceiptFlag] = useState<"Y" | "N">(
-    () => receiptSettings?.rcpt_flag,
+    () => receiptSettings?.rcpt_flag || "Y",
   )
   const [stockFlag, setStockFlag] = useState<"Y" | "N">(
-    () => receiptSettings?.stock_flag,
+    () => receiptSettings?.stock_flag || "N",
   )
   const [customerInfo, setCustomerInfo] = useState<"Y" | "N">(
-    () => receiptSettings?.cust_inf,
+    () => receiptSettings?.cust_inf || "Y",
   )
   const [payMode, setPayMode] = useState<"Y" | "N">(
-    () => receiptSettings?.pay_mode,
+    () => receiptSettings?.pay_mode || "Y",
   )
   const [priceType, setPriceType] = useState<"A" | "M">(
-    () => receiptSettings?.price_type,
+    () => receiptSettings?.price_type || "M",
   )
   const [cashFlag, setCashFlag] = useState<"Y" | "N">(
-    () => receiptSettings?.rcv_cash_flag,
+    () => receiptSettings?.rcv_cash_flag || "Y",
   )
   const [kot, setKot] = useState<"Y" | "N">(
-    () => receiptSettings?.kot_flag,
+    () => receiptSettings?.kot_flag || "N",
+  )
+  const [low_stock,setLowStock] = useState<"Y" | "N">(
+    // () => receiptSettings?.low_stock_flag || "N",
+    () =>  "N",
+  )
+    const [low_stock_prtg,setLowStockPrtg] = useState<number>(
+    // () => receiptSettings?.low_stock_flag || "N",
+    () =>  100,
   )
   const [refundTime, setRefundTime] = useState<number>(
-    () => receiptSettings?.refund_days,
+    () => receiptSettings?.refund_days || 1,
   )
   const [unitFlag, setUnitFlag] = useState<"Y" | "N">(
     receiptSettings?.unit_flag,
   )
 
    const [custom_sl_flag, setCust_sl_flag] = useState(
-    receiptSettings?.custom_sl_flag,
+    receiptSettings?.custom_sl_flag || "N",
   )
 
   let receiptTypeArr = [
@@ -105,6 +113,11 @@ export default function GeneralSettingsScreen() {
    let custom_sl_flagArr = [
     { icon: "check-outline", title: "On", func: () => setCust_sl_flag("Y") },
     { icon: "close-outline", title: "Off", func: () => setCust_sl_flag("N") },
+  ]
+
+    let low_stock_flagArr = [
+    { icon: "check-outline", title: "On", func: () => setLowStock("Y") },
+    { icon: "close-outline", title: "Off", func: () => setLowStock("N") },
   ]
 
   let priceAutoManualArr = [
@@ -150,7 +163,9 @@ export default function GeneralSettingsScreen() {
       modified_by: loginStore?.user_name,
       unit_flag: unitFlag,
       refund_days: refundTime,
-      custom_sl_flag: custom_sl_flag
+      custom_sl_flag: custom_sl_flag,
+      stock_alert_flag: low_stock,
+      stock_alert_prtg: low_stock_prtg
     }
 
     console.log("==========+++++++++++=+===+++++++++======", editedGeneralSettings)
@@ -454,6 +469,47 @@ export default function GeneralSettingsScreen() {
             }}
           />
           <Divider />
+           <List.Item
+            title="Low Stock Alert"
+            description={
+              low_stock === "Y"
+                ? "Allowed"
+                : low_stock === "N"
+                  ? "Denied"
+                  : "Error Occurred!"
+            }
+            left={props => <List.Icon {...props} icon="badge-account-outline" />}
+            right={props => {
+              return <MenuPaper menuArrOfObjects={low_stock_flagArr} />
+            }}
+            descriptionStyle={{
+              color:
+                low_stock === "Y" ? theme.colors.green : theme.colors.error,
+            }}
+          />
+          <Divider />
+          <List.Item
+            title="Minimum % for low alert"
+           
+            left={props => <List.Icon {...props} icon="cash-refund" />}
+            right={props => {
+              return (
+                <InputPaper
+                  keyboardType="numeric"
+                  label="%"
+                  mode="outlined"
+                  value={low_stock_prtg}
+                  onChangeText={(txt: number) => setLowStockPrtg(txt)}
+                  customStyle={{ height: normalize(35) }}
+                  maxLength={3}
+                />
+              )
+            }}
+            descriptionStyle={{
+              color:
+                priceType === "A" ? theme.colors.primary : theme.colors.orange,
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

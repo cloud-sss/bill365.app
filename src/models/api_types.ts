@@ -119,6 +119,8 @@ export type GeneralSettingsEditCredentials = {
   refund_days: number
   modified_by: string
   custom_sl_flag: string
+  stock_alert_flag:string
+  stock_alert_prtg:number
 }
 
 export type DiscountSettingsEditCredentials = {

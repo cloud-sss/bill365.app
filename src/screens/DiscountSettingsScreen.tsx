@@ -37,7 +37,7 @@ export default function DiscountSettingsScreen() {
   const [isDisabled, setIsDisabled] = useState(() => false)
 
   const [discountFlag, setDiscountFlag] = useState<"Y" | "N">(
-    () => receiptSettings?.discount_flag,
+    () => receiptSettings?.discount_flag || 'N',
   )
   const [discountType, setDiscountType] = useState<"P" | "A">(
     () => receiptSettings?.discount_type,

@@ -70,7 +70,7 @@ export default function ManageProductsScreen() {
 
   const [categoryName, setCategoryName] = useState<string>(() => "") // not sent to api (adding product)
   const [categoryId, setCategoryId] = useState<number>(() => undefined)
-
+  const [discountFlag,setDiscountFlag] = useState(false)
   let unitMenuArr = []
   for (const unit of units) {
     unitMenuArr.push({
@@ -78,7 +78,10 @@ export default function ManageProductsScreen() {
       func: () => handleSetUnitNameAndId(unit?.unit_name, unit?.sl_no),
     })
   }
-
+ useEffect(()=>{
+  console.log('receiptsettings',receiptSettings)
+  setDiscountFlag(receiptSettings?.discount_flag === 'Y' ? true : false)
+ },[])
   let categoryMenuArr = []
   for (const category of categories) {
     categoryMenuArr.push({
@@ -238,6 +241,10 @@ export default function ManageProductsScreen() {
       return
     }
 
+    if (CGST != SGST) {
+      ToastAndroid.show("GST values must be equal", ToastAndroid.SHORT)
+      return
+    }
     await sendAddedItem(addedProductObject)
       .then(res => {
         ToastAndroid.show("Product has been added.", ToastAndroid.SHORT)
@@ -477,11 +484,24 @@ export default function ManageProductsScreen() {
             }}>
             {/* {receiptSettings?.gst_flag === "Y" && ( */}
             <View style={{ width: "50%" }}>
-              <InputPaper
+              {/* <InputPaper
                 label="CGST (%)"
                 onChangeText={(txt: number) => setCGST(txt)}
                 value={CGST}
                 keyboardType="numeric"
+                mode="outlined"
+              /> */}
+              <MenuPaper
+                title={`${CGST}` || "CGST (%)"}
+                menuArrOfObjects={[
+                  { title: "0%", func: () => setCGST(0) },
+                  { title: "2.5%", func: () => setCGST(2.5) },
+                  { title: "5%", func: () => setCGST(5) },
+                  { title: "18%", func: () => setCGST(18) },
+                  { title: "40%", func: () => setCGST(40) },
+                ]}
+                customStyle={{ borderRadius: 4 }}
+                textColor={theme.colors.primary}
                 mode="outlined"
               />
             </View>
@@ -489,11 +509,24 @@ export default function ManageProductsScreen() {
 
             {/* {receiptSettings?.gst_flag === "Y" && ( */}
             <View style={{ width: "50%" }}>
-              <InputPaper
+              {/* <InputPaper
                 label="SGST (%)"
                 onChangeText={(txt: number) => setSGST(txt)}
                 value={SGST}
                 keyboardType="numeric"
+                mode="outlined"
+              /> */}
+               <MenuPaper
+                title={`${SGST}` || "SGST (%)"}
+                menuArrOfObjects={[
+                  { title: "0%", func: () => setSGST(0) },
+                  { title: "2.5%", func: () => setSGST(2.5) },
+                  { title: "5%", func: () => setSGST(5) },
+                  { title: "18%", func: () => setSGST(18) },
+                  { title: "40%", func: () => setSGST(40) },
+                ]}
+                customStyle={{ borderRadius: 4 }}
+                textColor={theme.colors.primary}
                 mode="outlined"
               />
             </View>
@@ -631,6 +664,7 @@ export default function ManageProductsScreen() {
                 }
                 onChangeText={(txt: number) => setDiscount(txt)}
                 value={discount}
+                disabled={!discountFlag}
                 keyboardType="numeric"
                 mode="outlined"
               />
@@ -647,25 +681,58 @@ export default function ManageProductsScreen() {
             }}>
             {/* {receiptSettings?.gst_flag === "Y" && ( */}
             <View style={{ width: "50%" }}>
-              <InputPaper
+              {/* <InputPaper
                 selectTextOnFocus
                 label="CGST (%)"
                 onChangeText={(txt: number) => setCGST(txt)}
                 value={CGST}
                 keyboardType="numeric"
                 mode="outlined"
+              /> */}
+              <MenuPaper
+                title={`${CGST}` || "CGST (%)"}
+                menuArrOfObjects={[
+                  { title: "0%", func: () => setCGST(0) },
+                  { title: "2.5%", func: () => setCGST(2.5) },
+                  { title: "5%", func: () => setCGST(5) },
+                  { title: "18%", func: () => setCGST(18) },
+                  { title: "40%", func: () => setCGST(40) },
+                ]}
+                customStyle={{ borderRadius: 4 }}
+                textColor={theme.colors.primary}
+                mode="outlined"
               />
+              {/* <MenuPaper
+                title={"CGST (%)"}
+                menuArrOfObjects={[{title:'18%'}]}
+                customStyle={{ borderRadius: 4 }}
+                textColor={theme.colors.primary}
+                mode="outlined"
+              /> */}
             </View>
             {/* )} */}
 
             {/* {receiptSettings?.gst_flag === "Y" && ( */}
             <View style={{ width: "50%" }}>
-              <InputPaper
+              {/* <InputPaper
                 selectTextOnFocus
                 label="SGST (%)"
                 onChangeText={(txt: number) => setSGST(txt)}
                 value={SGST}
                 keyboardType="numeric"
+                mode="outlined"
+              /> */}
+              <MenuPaper
+                title={`${SGST}` || "SGST (%)"}
+                menuArrOfObjects={[
+                  { title: "0%", func: () => setSGST(0) },
+                  { title: "2.5%", func: () => setSGST(2.5) },
+                  { title: "5%", func: () => setSGST(5) },
+                  { title: "18%", func: () => setSGST(18) },
+                  { title: "40%", func: () => setSGST(40) },
+                ]}
+                customStyle={{ borderRadius: 4 }}
+                textColor={theme.colors.primary}
                 mode="outlined"
               />
             </View>

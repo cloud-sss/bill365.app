@@ -2,7 +2,7 @@ import navigationRoutes from "../../routes/navigationRoutes"
 
 export const SETTINGS_SCREEN_DATA = [
   { "text": "My Profile", "icon": "account-circle-outline", "route": navigationRoutes.profileScreen },
-  { "text": "Manage Units", "icon": "weight-kilogram", "route": navigationRoutes.manageUnitsScreen },
+  // { "text": "Manage Units", "icon": "weight-kilogram", "route": navigationRoutes.manageUnitsScreen },
   { "text": "Manage Products", "icon": "circle-edit-outline", "route": navigationRoutes.manageProductsScreen },
   { "text": "Manage Categories", "icon": "view-dashboard-edit-outline", "route": navigationRoutes.manageCategoriesScreen },
   { "text": "Inventory", "icon": "archive-outline", "route": navigationRoutes.inventoryScreen },
