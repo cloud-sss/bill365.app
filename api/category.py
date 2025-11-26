@@ -1,13 +1,14 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,File, UploadFile, Depends, Form
 from config.database import connect
 from models.master_model import createResponse
 from models.form_model import SearchByCategory, EditCategory, AddCategory
 from datetime import datetime
-
+from typing import Optional
 from urllib.parse import quote
-
+import os
 # testing git
 categoryRouter = APIRouter()
+UPLOAD_FOLDER = "upload_file"
 
 @categoryRouter.get('/category_list/{comp_id}')
 async def category_list(comp_id:int):
@@ -100,4 +101,67 @@ async def add_category(add_cat:AddCategory):
             "status":0,
             "data":"Category Not Added"
         }
+    return resData
+
+async def uploadfile(file):
+    current_datetime = datetime.now()
+    receipt = int(round(current_datetime.timestamp()))
+    modified_filename = f"{receipt}_{file.filename}"
+    res = ""
+    try:
+        file_location = os.path.join(UPLOAD_FOLDER, modified_filename)
+        print(file_location)
+        
+        with open(file_location, "wb") as f:
+            f.write(await file.read())
+        
+        res = modified_filename
+        print(res)
+    except Exception as e:
+        # res = e.args
+        res = ""
+    finally:
+        return res
+
+@categoryRouter.post('/add_category_test')
+async def add_edit_category(
+    comp_id: str = Form(...),
+    catg_id: str = Form(...),
+    category_name: str = Form(...),
+    created_by: str = Form(...),
+    file: Optional[UploadFile] = File(None)
+    ):
+    print(file)
+    fileName = None if not file else await uploadfile(file)
+    print(fileName,"mmmmmmmmmm")
+    conn = connect()
+    cursor = conn.cursor()
+    current_datetime = datetime.now()
+    formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+    # table_name = "md_category"
+    # catg_pic = f", catg_picture = '/uploads/{fileName}'" if fileName != None else ''
+    # catg_pic1 = f",'/uploads/{fileName}'" if fileName != None else ', ""'
+    # fields = f"category_name ='{category_name}' {catg_pic}, modified_by = '{created_by}', modified_at = '{formatted_dt}'" if int(catg_id)>0 else "comp_id,category_name,catg_picture,created_by,created_at"
+    # values = f"{comp_id},'{category_name}' {catg_pic1}, '{created_by}','{formatted_dt}'"
+    # where = f"comp_id={comp_id} and sl_no={catg_id}" if int(catg_id) >0 else None
+    # flag = 1 if int(catg_id)>0 else 0
+    # res_dt = await db_Insert(table_name,fields,values,where,flag)
+    catg_pic1 = f",'/uploads/{fileName}'" if fileName != None else ', ""'
+
+    query = f"INSERT INTO md_category(comp_id, category_name, catg_picture,created_by, created_at) VALUES ({comp_id}, '{category_name}','{catg_pic1}' , '{created_by}', '{formatted_dt}')"
+    cursor.execute(query)
+    conn.commit()
+    conn.close()
+    cursor.close()
+    if cursor.rowcount>0:
+        resData={
+            "status":1,
+            "data":"Category Added Successfully"
+        }
+    else:
+        resData={
+            "status":0,
+            "data":"Category Not Added"
+        }
+    
     return resData
