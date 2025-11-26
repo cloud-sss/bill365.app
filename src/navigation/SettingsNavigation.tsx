@@ -16,7 +16,7 @@ import DiscountSettingsScreen from "../screens/DiscountSettingsScreen"
 import GstSettingsScreen from "../screens/GstSettingsScreen"
 import UPIGenerateScreen from "../screens/UPIGenerateScreen"
 import ManageCategoriesScreen from "../screens/ManageCategoriesScreen"
-import ProductTransferScreen from "../screens/ProductTransferScreen"
+// import ProductTransferScreen from "../screens/ProductTransferScreen"
 
 export default function SettingsNavigation() {
   const Stack = createNativeStackNavigator()
@@ -88,10 +88,7 @@ export default function SettingsNavigation() {
         name={navigationRoutes.upiGenerateScreen}
         component={UPIGenerateScreen}
       />
-       <Stack.Screen
-        name={navigationRoutes.productTransferScreen}
-        component={ProductTransferScreen}
-      />
+     
       {/* <Stack.Screen
         name={navigationRoutes.changePinScreen}
         component={ChangePinScreen}

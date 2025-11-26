@@ -304,6 +304,8 @@ export default function InventoryScreen() {
             <View>
               <Text variant="titleMedium">{product?.item_name}</Text>
             </View>
+            <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>{receiptSettings.stock_alert_prtg > stock && receiptSettings.stock_alert_flag === "Y" ? "Low stock!" : ""}</Text>
+
           </View>
 
           {receiptSettings?.unit_flag === "Y" && (
@@ -333,6 +335,8 @@ export default function InventoryScreen() {
             </View>
             <View>
               <Text variant="labelMedium">{stock}</Text>
+
+
             </View>
           </View>
 
