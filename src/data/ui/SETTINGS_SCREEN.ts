@@ -10,5 +10,5 @@ export const SETTINGS_SCREEN_DATA = [
   { "text": "Logo Upload", "icon": "alien-outline", "route": navigationRoutes.logoUploadScreen },
   { "text": "UPI Generate", "icon": "bank-transfer", "route": navigationRoutes.upiGenerateScreen },
   { "text": "Printer Connect", "icon": "printer", "route": navigationRoutes.printMain },
-  { "text": "Transfer Products", "icon": "circle-edit-outline", "route": navigationRoutes.productTransferScreen }
+  // { "text": "Transfer Products", "icon": "circle-edit-outline", "route": navigationRoutes.productTransferScreen }
 ]

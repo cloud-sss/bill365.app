@@ -510,7 +510,10 @@ function ProductsScreen() {
                 style={{ color: theme.colors.primary }}>
                 {product?.item_name}
               </Text>
+
             </View>
+          <Text variant="labelMedium" style={{ color: "red",backgroundColor:"pink" }}>{(receiptSettings.stock_alert_prtg> stock || receiptSettings.stock_alert_prtg>updatedStock) && receiptSettings?.stock_alert_flag === "Y"? "Low stock!":""}</Text>
+
           </View>
 
           <View
@@ -608,6 +611,7 @@ function ProductsScreen() {
                 }}>
                 <Text variant="labelMedium">STOCK AVAILABLE</Text>
                 <Text variant="labelMedium">{updatedStock || stock}</Text>
+                
               </View>
             </View>
           )}

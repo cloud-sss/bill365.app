@@ -488,14 +488,14 @@ export default function GeneralSettingsScreen() {
           />
           <Divider />
           {low_stock == 'Y' && <List.Item
-            title="Minimum % for alert"
+            title="Minimum qty. for alert"
            
             left={props => <List.Icon {...props} icon="cash-refund" />}
             right={props => {
               return (
                 <InputPaper
                   keyboardType="numeric"
-                  label="%"
+                  label="qty."
                   mode="outlined"
                   value={low_stock_prtg}
                   onChangeText={(txt: number) => setLowStockPrtg(txt)}
