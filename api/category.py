@@ -130,6 +130,7 @@ async def add_edit_category(
     created_by: str = Form(...),
     category_picture: Optional[UploadFile] = File(None)
     ):
+    print("api has been hit")
     print(category_picture)
     fileName = None if not category_picture else await uploadfile(category_picture)
     print(fileName,"mmmmmmmmmm")
