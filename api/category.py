@@ -131,20 +131,13 @@ async def add_edit_category(
     category_picture: Optional[UploadFile] = File(None)
     ):
     print(category_picture)
-    fileName = None if not file else await uploadfile(category_picture)
+    fileName = None if not category_picture else await uploadfile(category_picture)
     print(fileName,"mmmmmmmmmm")
     conn = connect()
     cursor = conn.cursor()
     current_datetime = datetime.now()
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-    # table_name = "md_category"
-    # catg_pic = f", catg_picture = '/uploads/{fileName}'" if fileName != None else ''
-    # catg_pic1 = f",'/uploads/{fileName}'" if fileName != None else ', ""'
-    # fields = f"category_name ='{category_name}' {catg_pic}, modified_by = '{created_by}', modified_at = '{formatted_dt}'" if int(catg_id)>0 else "comp_id,category_name,catg_picture,created_by,created_at"
-    # values = f"{comp_id},'{category_name}' {catg_pic1}, '{created_by}','{formatted_dt}'"
-    # where = f"comp_id={comp_id} and sl_no={catg_id}" if int(catg_id) >0 else None
-    # flag = 1 if int(catg_id)>0 else 0
-    # res_dt = await db_Insert(table_name,fields,values,where,flag)
+   
     catg_pic1 = f",'/uploads/{fileName}'" if fileName != None else ', ""'
 
     query = f"INSERT INTO md_category(comp_id, category_name, catg_picture,created_by, created_at) VALUES ({comp_id}, '{category_name}','{catg_pic1}' , '{created_by}', '{formatted_dt}')"
