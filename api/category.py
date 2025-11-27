@@ -126,13 +126,12 @@ async def uploadfile(file):
 @categoryRouter.post('/add_category_test')
 async def add_edit_category(
     comp_id: str = Form(...),
-    catg_id: str = Form(...),
     category_name: str = Form(...),
     created_by: str = Form(...),
-    file: Optional[UploadFile] = File(None)
+    category_picture: Optional[UploadFile] = File(None)
     ):
-    print(file)
-    fileName = None if not file else await uploadfile(file)
+    print(category_picture)
+    fileName = None if not file else await uploadfile(category_picture)
     print(fileName,"mmmmmmmmmm")
     conn = connect()
     cursor = conn.cursor()
