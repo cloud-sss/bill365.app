@@ -766,11 +766,18 @@ async def stock_in(
 
         if res_dt['suc']>0:
         # print(row)
+            # table_name1 = "td_stock"
+            # fields1 = f"stock = {row['stock']}, created_by='{created_by}', created_dt='{formatted_dt}'"
+            # values1 = None
+            # where1 = f"comp_id = {comp_id} and br_id = {br_id} and item_id = {row['item_id']}"
+            # flag1 = 1
+            # res_dt2= await db_Insert(table_name1,fields1,values1,where1,flag1)
+
             table_name1 = "td_stock"
-            fields1 = f"stock = {row['stock']}, created_by='{created_by}', created_dt='{formatted_dt}'"
-            values1 = None
-            where1 = f"comp_id = {comp_id} and br_id = {br_id} and item_id = {row['item_id']}"
-            flag1 = 1
+            fields1 = f"stock, created_by, created_dt"
+            values1 = f"{row['stock']}, '{created_by}', date('{formatted_dt}')"
+            where1 = None
+            flag1 = 0
             res_dt2= await db_Insert(table_name1,fields1,values1,where1,flag1)
 
             if res_dt2['suc']>0:
