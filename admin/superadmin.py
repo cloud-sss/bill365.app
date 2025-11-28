@@ -544,25 +544,25 @@ async def insert_excel(
             order = f""
             flag = 0
             res_dt1 = await db_Insert(table_name,fields,values,where,flag)
-            if res_dt1["suc"] > 0:
-                select = "id"
-                table_name = "md_branch"
-                where = f"comp_id = {comp_id}"
-                order = f''
-                flag = 1
-                res_dt2 = await db_select(select,table_name,where,order,flag)
-                print(res_dt2)
-                if res_dt2["suc"]>0:
-                    for i in res_dt2["msg"]:
+            # if res_dt1["suc"] > 0:
+            #     select = "id"
+            #     table_name = "md_branch"
+            #     where = f"comp_id = {comp_id}"
+            #     order = f''
+            #     flag = 1
+            #     res_dt2 = await db_select(select,table_name,where,order,flag)
+            #     print(res_dt2)
+            #     if res_dt2["suc"]>0:
+            #         for i in res_dt2["msg"]:
                         
-                        table_name2 = "td_stock"
-                        fields2 = "comp_id, br_id, item_id, stock, created_by, created_dt"
-                        values2 = f"{comp_id},{i['id']},{res_dt['lastId']},'0','{created_by}','{formatted_dt}'"
-                        where2 = None
-                        flag2 = 0
-                        res_dt3= await db_Insert(table_name2,fields2,values2,where2,flag2)
+            #             table_name2 = "td_stock"
+            #             fields2 = "comp_id, br_id, item_id, stock, created_by, created_dt"
+            #             values2 = f"{comp_id},{i['id']},{res_dt['lastId']},'0','{created_by}','{formatted_dt}'"
+            #             where2 = None
+            #             flag2 = 0
+            #             res_dt3= await db_Insert(table_name2,fields2,values2,where2,flag2)
         
-    return res_dt3
+    return res_dt1
 # **************************************************************************************************************
 
 # @superadminRouter.post('/S_Admin/insert_item_excel')
