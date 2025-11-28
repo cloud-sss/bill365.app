@@ -739,6 +739,52 @@ async def stock_in(
                     print(err)
     return res_dt3
 
+
+@superadminRouter.post('/S_Admin/stock_open')
+async def stock_in(
+    comp_id: int = Form(...),
+    br_id: int = Form(...),
+    # catg_id: int = Form(...),
+    created_by: str = Form(...),
+    file: UploadFile = File
+):
+    current_datetime = datetime.now()
+    formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+    contents = await file.read()
+    df = read_excel(BytesIO(contents))
+    data = df.to_dict(orient="records")
+    res_dt3 = {}
+
+    for row in data:
+        select = f"price, cgst, sgst"
+        table_name = "md_item_rate"
+        where = f"item_id = {row['item_id']}"
+        order = f''
+        flag = 1
+        res_dt = await db_select(select,table_name,where,order,flag)
+       
+
+        if res_dt['suc']>0:
+        # print(row)
+            table_name1 = "td_stock"
+            fields1 = f"stock = {row['stock']}, created_by='{created_by}', created_dt='{formatted_dt}'"
+            values1 = None
+            where1 = f"comp_id = {comp_id} and br_id = {br_id} and item_id = {row['item_id']}"
+            flag1 = 1
+            res_dt2= await db_Insert(table_name1,fields1,values1,where1,flag1)
+
+            if res_dt2['suc']>0:
+                try:
+                    table_name2 = "td_stock_in"
+                    fields2 = f"comp_id, br_id, in_date, item_id, in_price, in_cgst, in_sgst, qty"
+                    values2 = f"{comp_id}, {br_id}, date('{formatted_dt}'), {row['item_id']}, {res_dt['msg'][0]['price']}, {res_dt['msg'][0]['cgst']}, {res_dt['msg'][0]['sgst']}, {row['stock']}"
+                    where2 = None
+                    flag2 = 0
+                    res_dt3= await db_Insert(table_name2,fields2,values2,where2,flag2)
+                except mysql.connector.Error as err:
+                    print(err)
+    return res_dt3
+
 @superadminRouter.get('/S_Admin/catg_list')
 async def catg_list(comp_id:int):
     select = f"sl_no catg_id,category_name"
