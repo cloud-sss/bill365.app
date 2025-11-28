@@ -82,24 +82,24 @@ async def add_edit_items(data:AddEditItem):
             where1 = None
             flag1 = 0
             res_dt1= await db_Insert(table_name1,fields1,values1,where1,flag1)
-            if res_dt1["suc"] > 0:
-                select = "id"
-                table_name = "md_branch"
-                where = f"comp_id = {data.comp_id}"
-                order = f''
-                flag = 1
-                res_dt3 = await db_select(select,table_name,where,order,flag)
-                if res_dt3["suc"]>0:
-                    for i in res_dt3["msg"]:
+            # if res_dt1["suc"] > 0:
+            #     select = "id"
+            #     table_name = "md_branch"
+            #     where = f"comp_id = {data.comp_id}"
+            #     order = f''
+            #     flag = 1
+            #     res_dt3 = await db_select(select,table_name,where,order,flag)
+            #     if res_dt3["suc"]>0:
+            #         for i in res_dt3["msg"]:
                         
-                        table_name2 = "td_stock"
-                        fields2 = "comp_id, br_id, item_id, stock, created_by, created_dt"
-                        values2 = f"{data.comp_id},{i['id']},{res_dt['lastId']},'0','{data.created_by}','{formatted_dt}'"
-                        where2 = None
-                        flag2 = 0
-                        res_dt2= await db_Insert(table_name2,fields2,values2,where2,flag2)
+            #             table_name2 = "td_stock"
+            #             fields2 = "comp_id, br_id, item_id, stock, created_by, created_dt"
+            #             values2 = f"{data.comp_id},{i['id']},{res_dt['lastId']},'0','{data.created_by}','{formatted_dt}'"
+            #             where2 = None
+            #             flag2 = 0
+            #             res_dt2= await db_Insert(table_name2,fields2,values2,where2,flag2)
     
-    return res_dt2
+    return res_dt1
 
 # ===================================================================================================
 # All Category List
