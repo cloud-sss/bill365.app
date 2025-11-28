@@ -659,6 +659,16 @@ async def item_stock_dtls(comp_id:int,br_id:int):
     res_dt = await db_select(select,table_name,where,order,flag)
     return res_dt
 
+@superadminRouter.get('/S_Admin/fetch_item_stock_add')
+async def item_stock_dtls(comp_id:int,br_id:int):
+    select = f"a.id item_id, a.item_name, b.stock, c.price, c.cgst, c.sgst, c.discount"
+    table_name = "md_items a, td_stock b, md_item_rate c"
+    where = f"a.id=b.item_id and a.id=c.item_id and a.comp_id=b.comp_id and a.comp_id=c.comp_id and a.comp_id = {comp_id} and b.br_id = {br_id}"
+    order = f''
+    flag = 1
+    res_dt = await db_select(select,table_name,where,order,flag)
+    return res_dt
+
 # @superadminRouter.post('/S_Admin/stock_in')
 # async def stock_in(
 #     comp_id: int = Form(...),
