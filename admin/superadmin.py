@@ -663,7 +663,7 @@ async def item_stock_dtls(comp_id:int,br_id:int):
 async def item_stock_dtls(comp_id:int,br_id:int):
     select = f"a.id item_id, a.item_name, 0 stock, b.price, b.cgst, b.sgst, b.discount"
     table_name = "md_items a, md_item_rate b"
-    where = f"a.id=b.item_id and a.comp_id = {comp_id} and b.br_id = {br_id}"
+    where = f"a.id=b.item_id and a.comp_id = {comp_id} and a.br_id = {br_id}"
     order = f''
     flag = 1
     res_dt = await db_select(select,table_name,where,order,flag)
