@@ -774,8 +774,8 @@ async def stock_in(
             # res_dt2= await db_Insert(table_name1,fields1,values1,where1,flag1)
 
             table_name1 = "td_stock"
-            fields1 = f"stock, created_by, created_dt"
-            values1 = f"{row['stock']}, '{created_by}', date('{formatted_dt}')"
+            fields1 = f"comp_id, br_id, item_id, stock, created_by, created_dt"
+            values1 = f"{comp_id}, {br_id},row['item_id'],{row['stock']}, '{created_by}', date('{formatted_dt}')"
             where1 = None
             flag1 = 0
             res_dt2= await db_Insert(table_name1,fields1,values1,where1,flag1)
