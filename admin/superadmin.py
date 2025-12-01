@@ -181,7 +181,7 @@ async def add_edit_user(data:AddEditUser):
 async def add_edit_user(data:userList):
     current_datetime = datetime.now()
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-
+    pwd = get_hashed_password(1234)
     for user in data.userDt:
         
         select1 = "id"
@@ -192,8 +192,8 @@ async def add_edit_user(data:userList):
         res_dt1 = await db_select(select1,table_name1,where1,order1,flag1)
         # print('res_dt=',res_dt)
         table_name = f"md_user"
-        fields = f"comp_id,br_id,user_name,user_type,user_id,phone_no,device_id,active_flag,login_flag,created_by, created_dt,admin_flag"
-        values = f"{data.comp_id},{res_dt1['msg'][0]['id']},'{user.contact_person}','{user.user_type}','{user.phone_no}','{user.phone_no}','0','Y','N','{data.created_by}', '{formatted_dt}','{user.admin_flag}'"
+        fields = f"comp_id,br_id,user_name,user_type,user_id,phone_no,device_id,active_flag,login_flag,created_by, created_dt,admin_flag,password"
+        values = f"{data.comp_id},{res_dt1['msg'][0]['id']},'{user.contact_person}','{user.user_type}','{user.phone_no}','{user.phone_no}','0','Y','N','{data.created_by}', '{formatted_dt}','{user.admin_flag}',{pwd}"
         where = None
         order = ""
         flag =  0
