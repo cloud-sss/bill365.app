@@ -340,15 +340,11 @@ function ManageShopsAddEdit() {
                 <label
                   for="u_user_id"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  {userTypeText === "PHONE_NO"
-                    ? "User ID (Phone Number)"
-                    : userTypeText === "EMAIL"
-                    ? "User ID (Email)"
-                    : "User ID"}
+                 Phone No.
                 </label>
                 <input
                   disabled={userTypeText === "NONE"}
-                  type={userTypeText === "PHONE_NO" ? "text" : "email"}
+                  type={"Phone No."}
                   name="u_user_id"
                   id="u_user_id"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -357,18 +353,14 @@ function ManageShopsAddEdit() {
                   value={formik.values.u_user_id}
                   // placeholder="98367XXXXX or abc@email.com"
                   placeholder={
-                    userTypeText === "PHONE_NO"
-                      ? "98367XXXXX"
-                      : userTypeText === "EMAIL"
-                      ? "abc@email.com"
-                      : "Choose User Type"
+                   "Phone No."
                   }
                   required=""
                 />
-                <div className="text-blue-600 text-xs">
+                {/* <div className="text-blue-600 text-xs">
                   For Admin User, write Email. For normal User/Manager, write
                   Phone Number.
-                </div>
+                </div> */}
                 {formik.errors.u_user_id && formik.touched.u_user_id ? (
                   <div className="text-red-500 text-sm">
                     {formik.errors.u_user_id}
@@ -421,7 +413,7 @@ function ManageShopsAddEdit() {
                   </div>
                 ) : null}
               </div> */}
-              {formik.values.u_user_type === "A" && (
+              {/* {formik.values.u_user_type === "A" && ( */}
                 <div class="w-full">
                   <label
                     for="u_password"
@@ -445,7 +437,6 @@ function ManageShopsAddEdit() {
                     </div>
                   ) : null}
                 </div>
-              )}
               {params.id != 0 && (
                 <>
                   <div>

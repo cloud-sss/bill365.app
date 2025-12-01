@@ -11,6 +11,7 @@ import axios from "axios";
 import { url } from "../../../Address/baseURL";
 import Backbtn from "../../../Components/Backbtn";
 import DownloadIcon from "@mui/icons-material/FileDownload";
+import STOCK_MASTER_XLSX from "../../../Assets/Data/Files/stock_master.xlsx";
 
 function ManageStockAdd() {
   const params = useParams();
@@ -158,7 +159,7 @@ function ManageStockAdd() {
     data.append("created_by", userId);
     data.append("file", newFile);
 
-    callApi("/admin/S_Admin/stock_in", 1, data);
+    callApi("/admin/S_Admin/stock_open", 1, data);
 
     // console.log("RRRRRRRRRRRRRR", res)
     // if (response?.data?.msg?.suc == 1) {
@@ -195,7 +196,7 @@ function ManageStockAdd() {
 
     axios
       .get(
-        `${url}/admin/S_Admin/item_stock?comp_id=${+compId}&br_id=${+branchId}`
+        `${url}/admin/S_Admin/fetch_item_stock_add?comp_id=${+compId}&br_id=${+branchId}`
       )
       .then((res) => {
         setItemStockData(
@@ -303,6 +304,16 @@ function ManageStockAdd() {
                 id="file_input_help">
                 Only .xlsx, .xls is allowed.
               </p>
+               {/* <div className="mt-5">
+                            <a
+                                target="_blank"
+                                href={STOCK_MASTER_XLSX}
+                                className="mb-4 inline-flex bg-blue-900 items-center justify-center sm:mr-14 px-5 py-2.5 mt-2 sm:mt-2 text-sm font-medium text-center text-white bg-primary-700 rounded-full h-10 w-10  focus:ring-4 mx-3 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                                download>
+                                <DownloadIcon />
+                            </a>
+                        </div> */}
+                    
             </div>
 
             {/* <div>
@@ -349,6 +360,10 @@ function ManageStockAdd() {
                   { name: "item_id", value: "Item ID" },
                   { name: "item_name", value: "Item Name" },
                   { name: "stock", value: "Stock" },
+                  { name: "price", value: "Price" },
+                  { name: "sgst", value: "SGST" },
+                  { name: "cgst", value: "CGST"},
+                  { name: "discount", value: "Discount" },
                 ]}
                 data={data}
               />
@@ -367,13 +382,18 @@ function ManageStockAdd() {
                 // onclick={() => onPress()}
                 flag={1}
                 headers={[
-                  { name: "item_id", value: "#" },
+                  { name: "item_id", value: "Item ID" },
                   { name: "item_name", value: "Item Name" },
                   { name: "stock", value: "Stock" },
+                  { name: "price", value: "Price" },
+                  { name: "sgst", value: "SGST" },
+                  { name: "cgst", value: "CGST"},
+                  { name: "discount", value: "Discount" },
                 ]}
                 data={itemStockData}
                 disabled
               />
+
             </div>
           </div>
         )}

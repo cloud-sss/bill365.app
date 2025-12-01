@@ -38,17 +38,14 @@ function CategorywiseItemsAdd() {
   //     description: `description of content${i + 1}`,
   //   }));
 
- const rawItemsData = items?.filter((item) => item?.catg_id == 0).map((item, i) => ({
-  key: parseInt(item?.item_id),
-  title: item?.item_name,
-  disabled: item?.catg_id != 0,
-}));
+  const rawItemsData = items
+    ?.filter((item) => item.catg_id == 0 || item.catg_id == catgId)
+    .map((item, i) => ({
+      key: parseInt(item?.item_id),
+      title: item?.item_name,
+    }));
 
-  const initialTargetKeys = rawItemsData;
-  // ?.filter((item) => Number(item.key) > 10)
-  // ?.map((item) => item.key);
-
-  const [targetKeys, setTargetKeys] = useState(initialTargetKeys);
+  const [targetKeys, setTargetKeys] = useState([]);
   const [selectedKeys, setSelectedKeys] = useState([]);
   //   const [disabledItem, setDisabledItem] = useState(false);
   const onChange = (nextTargetKeys, direction, moveKeys) => {
@@ -56,7 +53,8 @@ function CategorywiseItemsAdd() {
     console.log("direction:", direction);
     console.log("moveKeys:", moveKeys);
     setTargetKeys(nextTargetKeys);
-    
+    if (direction == 'left')
+      setSelectedKeys(moveKeys);
   };
   const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
     console.log("sourceSelectedKeys:", sourceSelectedKeys);
@@ -64,9 +62,16 @@ function CategorywiseItemsAdd() {
     setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
     console.log("target:", targetSelectedKeys);
   };
-  useEffect(()=>{
-     setTargetKeys(rawItemsData.filter(item=>item.catg_id==catgId))
-  },[catgId])
+  useEffect(() => {
+    if (catgId && items.length > 0) {
+      const keys = items
+        .filter((item) => item.catg_id == catgId)
+        .map((item) => parseInt(item.item_id));
+      setTargetKeys(keys);
+    } else {
+      setTargetKeys([]);
+    }
+  }, [catgId, items]);
   const onScroll = (direction, e) => {
     // console.log("direction:", direction);
     // console.log("target:", e.target);
@@ -117,6 +122,7 @@ function CategorywiseItemsAdd() {
       comp_id: +compId,
       catg_id: +catgId,
       item_id: Array.from(targetKeys),
+      item_id_lft: Array.from(selectedKeys),
     };
 
     callApi("/admin/S_Admin/categorywise_items", 1, payload);

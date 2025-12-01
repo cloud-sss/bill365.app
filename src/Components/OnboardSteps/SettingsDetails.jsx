@@ -548,7 +548,7 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
               </div>
                <div className={"w-full"}>
                 <label
-                  for="sl_flag"
+                  for="sm_stock_alert_flag"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Stock Alert
                 </label>
@@ -572,7 +572,7 @@ function SettingsDetails({ submit_settings,reset_settings,data }) {
               </div>
                <div className={"w-full"}>
                 <label
-                  for="sl_flag"
+                  for="sm_stock_alert_prtg"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Stock (%) point for alert
                 </label>

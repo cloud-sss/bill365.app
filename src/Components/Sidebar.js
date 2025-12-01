@@ -33,6 +33,8 @@ import {
   ContainerOutlined,
   SolutionOutlined,
   DeliveredProcedureOutlined,
+  DollarOutlined,
+  MergeCellsOutlined,
 } from "@ant-design/icons";
 import { Divider, Menu, Switch } from "antd";
 import IMG from "../Assets/Images/mainlogo.png";
@@ -80,7 +82,7 @@ function SidebarComp() {
         </div>
       ),
     },
-  
+
 
     {
       key: "sub1",
@@ -578,7 +580,7 @@ function SidebarComp() {
         />
       ),
       children: [
-       
+
         {
           key: "115",
           icon: <DashboardOutlined />,
@@ -586,140 +588,156 @@ function SidebarComp() {
             <div
               className={
                 location.pathname.includes("home")
-                  ? "font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  ? "font-semibold flex items-center my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }>
               <Link to={"/home"}>Dashboard</Link>
             </div>
           ),
         },
 
-         {
-      key: "rep33",
-      label: "Report",
-      icon: (
-        <FileSearchOutlined
-          className={
-            location.pathname.includes("superadmin")
-              ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-              : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-          }
-        />
-      ),
-      children: [
-       
         {
-          key: "ren-rep",
-          icon: <DashboardOutlined />,
+          key: "onboard",
+          icon: <DeliveredProcedureOutlined />,
           label: (
             <div
               className={
-                location.pathname.includes("home")
+                location.pathname.includes("onboard_form")
                   ? " flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
                   : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }>
-              <Link to={"SuperAdmin/report/renewalreport"}>Renewal Report</Link>
+              <Link to={"superadmin/onboard/onboard_form"}>Onboard</Link>
             </div>
           ),
-        }
-      ]
-    },
-           {
-      key: "onboard",
-      icon: <DeliveredProcedureOutlined  />,
-      label: (
-        <div
-          className={
-            location.pathname.includes("onboard_form")
-              ? " flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
-              : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-          }>
-          <Link to={"superadmin/onboard/onboard_form"}>Onboard</Link>
-        </div>
-      ),
-    },
+        },
 
-       {
-      key: "m-i",
-      label: "Manage Items",
-      icon: (
-        <FileSearchOutlined
-          className={
-            location.pathname.includes("superadmin")
-              ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-              : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-          }
-        />
-      ),
-      children: [
         {
-          key: "18",
+          key: "m-i",
+          label: "Manage Items",
           icon: (
-            <ProductOutlined
+            <FileSearchOutlined
               className={
-                location.pathname.includes("superadmin/manageunits/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                location.pathname.includes("superadmin")
+                  ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+              }
+            />
+          ),
+          children: [
+            {
+              key: "18",
+              icon: (
+                <DollarOutlined 
+                  className={
+                    location.pathname.includes("superadmin/manageunits/view")
+                      ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }
+                />
+              ),
+              label: (
+                <div
+                  className={
+                    location.pathname.includes("superadmin/manageunits/view")
+                      ? " font-semibold flex items-center  my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center   rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }>
+                  <Link to={"superadmin/manageunits/view"}>Units</Link>
+                </div>
+              ),
+            },
+            {
+              key: "man-cat",
+              icon: <AppstoreOutlined/>,
+              label: (
+                <div
+                  className={
+                    location.pathname.includes("home")
+                      ? "flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }>
+                  <Link to={"SuperAdmin/manageitems/categories"}>Categories</Link>
+                </div>
+              ),
+            },
+            {
+              key: "man-it",
+              icon: <ProfileOutlined />,
+              label: (
+                <div
+                  className={
+                    location.pathname.includes("home")
+                      ? " flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }>
+                  <Link to={"SuperAdmin/manageitems/items"}>Items</Link>
+                </div>
+              ),
+            },
+            {
+              key: "199",
+              icon: (
+                <MergeCellsOutlined 
+                  className={
+                    location.pathname.includes("superadmin/categorywiseitems/add")
+                      ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }
+                />
+              ),
+              label: (
+                <div
+                  className={
+                    location.pathname.includes("superadmin/categorywiseitems/add")
+                      ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }>
+                  <Link to={"superadmin/categorywiseitems/add"}>
+                    Categorywise Item Mapping
+                  </Link>
+                </div>
+              ),
+            },
+             {
+          key: "21",
+          icon: (
+            <DatabaseOutlined
+              className={
+                location.pathname.includes("superadmin/managestock/view")
+                  ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }
             />
           ),
           label: (
             <div
               className={
-                location.pathname.includes("superadmin/manageunits/view")
+                location.pathname.includes("superadmin/managestock/view")
                   ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
                   : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }>
-              <Link to={"superadmin/manageunits/view"}>Manage Units</Link>
+              <Link to={"superadmin/managestock/view"}>Manage Stock</Link>
             </div>
           ),
         },
-        {
-          key: "man-cat",
-          icon: <DashboardOutlined />,
-          label: (
-            <div
-              className={
-                location.pathname.includes("home")
-                  ? "flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }>
-              <Link to={"SuperAdmin/manageitems/categories"}>Manage Categories</Link>
-            </div>
-          ),
+            //  {
+            //   key: "man-catadd",
+            //   icon: <DashboardOutlined />,
+            //   label: (
+            //     <div
+            //       className={
+            //         location.pathname.includes("home")
+            //           ? "font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+            //           : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+            //       }>
+            //       <Link to={"SuperAdmin/manageitems/categoriesadd"}>Manage Categories</Link>
+            //     </div>
+
+            //   ),
+            // }
+          ]
         },
-         {
-          key: "man-it",
-          icon: <DashboardOutlined />,
-          label: (
-            <div
-              className={
-                location.pathname.includes("home")
-                  ? " flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }>
-              <Link to={"SuperAdmin/manageitems/items"}>Manage items</Link>
-            </div>
-          ),
-        },
-        //  {
-        //   key: "man-catadd",
-        //   icon: <DashboardOutlined />,
-        //   label: (
-        //     <div
-        //       className={
-        //         location.pathname.includes("home")
-        //           ? "font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
-        //           : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-        //       }>
-        //       <Link to={"SuperAdmin/manageitems/categoriesadd"}>Manage Categories</Link>
-        //     </div>
-            
-        //   ),
-        // }
-      ]
-    },
-    // children:[
+        // children:[
         // {
         //   key: "15",
         //   icon: (
@@ -743,48 +761,63 @@ function SidebarComp() {
         //   ),
         // },
         {
-          key: "12",
+          key: "subshopoutlet",
+          label: "Manage Shops & Outlets",
           icon: (
-            <CalendarOutlined
+            <FileSearchOutlined
               className={
-                location.pathname.includes("superadmin/manageshops/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                location.pathname.includes("superadmin")
+                  ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }
             />
           ),
-          label: (
-            <div
-              className={
-                location.pathname.includes("superadmin/manageshops/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-              }>
-              <Link to={"superadmin/manageshops/view"}> Manage Shops</Link>
-            </div>
-          ),
-        },
-        {
-          key: "13",
-          icon: (
-            <PhoneOutlined
-              className={
-                location.pathname.includes("superadmin/manageoutlets/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }
-            />
-          ),
-          label: (
-            <div
-              className={
-                location.pathname.includes("superadmin/manageoutlets/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }>
-              <Link to={"superadmin/manageoutlets/view"}>Manage Outlets</Link>
-            </div>
-          ),
+          children: [
+            {
+              key: "12",
+              icon: (
+                <CalendarOutlined
+                  className={
+                    location.pathname.includes("superadmin/manageshops/view")
+                      ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }
+                />
+              ),
+              label: (
+                <div
+                  className={
+                    location.pathname.includes("superadmin/manageshops/view")
+                      ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                  }>
+                  <Link to={"superadmin/manageshops/view"}> Shops</Link>
+                </div>
+              ),
+            },
+            {
+              key: "13",
+              icon: (
+                <PhoneOutlined
+                  className={
+                    location.pathname.includes("superadmin/manageoutlets/view")
+                      ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }
+                />
+              ),
+              label: (
+                <div
+                  className={
+                    location.pathname.includes("superadmin/manageoutlets/view")
+                      ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }>
+                  <Link to={"superadmin/manageoutlets/view"}>Outlets</Link>
+                </div>
+              ),
+            }
+          ]
         },
         {
           key: "14",
@@ -792,6 +825,43 @@ function SidebarComp() {
             <UserOutlined
               className={
                 location.pathname.includes("superadmin/manageusers/view")
+                  ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+              }
+            />
+          ),
+          label: (
+            <div
+              className={
+                location.pathname.includes("superadmin/manageusers/view")
+                  ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+              }>
+              <Link to={"superadmin/manageusers/view"}>Manage Users</Link>
+            </div>
+          ),
+
+        },
+       
+          {
+      key: "subsettings",
+      label: "Manage Settings",
+      icon: (
+        <FileSearchOutlined
+          className={
+            location.pathname.includes("superadmin")
+              ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+              : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+          }
+        />
+      ),
+      children: [
+        {
+          key: "17",
+          icon: (
+            <SettingOutlined
+              className={
+                location.pathname.includes("superadmin/managesettings/view")
                   ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
                   : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }
@@ -800,16 +870,15 @@ function SidebarComp() {
           label: (
             <div
               className={
-                location.pathname.includes("superadmin/manageusers/view")
+                location.pathname.includes("superadmin/managesettings/view")
                   ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
                   : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }>
-              <Link to={"superadmin/manageusers/view"}>Manage Users</Link>
+              <Link to={"superadmin/managesettings/view"}>Settings</Link>
             </div>
           ),
-
         },
-        {
+         {
           key: "16",
           icon: (
             <AlignCenterOutlined
@@ -832,34 +901,42 @@ function SidebarComp() {
                   : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }>
               <Link to={"superadmin/manageheaderfooters/view"}>
-                Manage Header/Footer
+                Header & Footer
               </Link>
             </div>
           ),
         },
+      ]},
         {
-          key: "17",
+          key: "rep33",
+          label: "Report",
           icon: (
-            <SettingOutlined
+            <FileSearchOutlined
               className={
-                location.pathname.includes("superadmin/managesettings/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                location.pathname.includes("superadmin")
+                  ? " font-semibold flex items-center my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
+                  : "flex items-center  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
               }
             />
           ),
-          label: (
-            <div
-              className={
-                location.pathname.includes("superadmin/managesettings/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }>
-              <Link to={"superadmin/managesettings/view"}>Manage Settings</Link>
-            </div>
-          ),
+          children: [
+
+            {
+              key: "ren-rep",
+              icon: <DashboardOutlined />,
+              label: (
+                <div
+                  className={
+                    location.pathname.includes("home")
+                      ? " flex items-center p-2 my-2 rounded-lg dark:text-white hover:duration-100  dark:hover:bg-gray-700 group"
+                      : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
+                  }>
+                  <Link to={"SuperAdmin/report/renewalreport"}>Renewal Report</Link>
+                </div>
+              ),
+            }
+          ]
         },
-       
         // {
         //   key: "19",
         //   icon: (
@@ -884,30 +961,7 @@ function SidebarComp() {
         //     </div>
         //   ),
         // },
-        {
-          key: "199",
-          icon: (
-            <AppstoreOutlined
-              className={
-                location.pathname.includes("superadmin/categorywiseitems/add")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }
-            />
-          ),
-          label: (
-            <div
-              className={
-                location.pathname.includes("superadmin/categorywiseitems/add")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }>
-              <Link to={"superadmin/categorywiseitems/add"}>
-                Categorywise Items Add
-              </Link>
-            </div>
-          ),
-        },
+
         // {
         //   key: "20",
         //   icon: (
@@ -931,29 +985,8 @@ function SidebarComp() {
         //   ),
         // },
 
-      // ],
-        {
-          key: "21",
-          icon: (
-            <DatabaseOutlined
-              className={
-                location.pathname.includes("superadmin/managestock/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }
-            />
-          ),
-          label: (
-            <div
-              className={
-                location.pathname.includes("superadmin/managestock/view")
-                  ? " font-semibold flex items-center p-2 my-2 rounded-lg dark:text-white  hover:duration-100  dark:hover:bg-gray-700 group"
-                  : "flex items-center p-2  rounded-lg dark:text-white  hover:duration-100   dark:hover:bg-gray-700 group"
-              }>
-              <Link to={"superadmin/managestock/view"}>Manage Stock</Link>
-            </div>
-          ),
-        },
+        // ],
+      
       ],
     },
 
@@ -1143,7 +1176,7 @@ function SidebarComp() {
       ],
     },
 
-    
+
   ];
   const showDrawer = () => {
     setOpen(true);
@@ -1196,7 +1229,7 @@ function SidebarComp() {
               items={
                 userType !== "S"
                   ? items.filter((item) => item.key !== "sub33")
-                  : items.filter((item) => item.key === "sub33" || item.key==="rep33")
+                  : items.filter((item) => item.key === "sub33" || item.key === "rep33")
               }
             />
           </div>
