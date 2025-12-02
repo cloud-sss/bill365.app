@@ -229,6 +229,14 @@ class UpdateStock(BaseModel):
     user_id:str
     added_stock:int
     removed_stock:int
+
+
+class OpenStock(BaseModel):
+    comp_id:int
+    br_id:int
+    item_id:int
+    user_id:str
+    stock:int
     # flag:int  # 0 = out , 1 = in
 
 class StockReport(BaseModel):

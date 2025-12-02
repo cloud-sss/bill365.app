@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from config.database import connect
 from models.master_model import createResponse
-from models.form_model import InventorySearch,UpdateStock,StockReport
+from models.form_model import OpenStock,InventorySearch,UpdateStock,StockReport
 
 from datetime import datetime
 
@@ -64,3 +64,59 @@ async def stock_report(stk_rep:StockReport):
     conn.close()
     cursor.close()
     return result
+
+
+@stockRouter.post('/stock_open')
+async def update_stock(update:OpenStock):
+    try:
+        current_datetime = datetime.now()
+        formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+        conn = connect()
+        cursor = conn.cursor()
+        query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {update.comp_id}, {update.br_id}, {update.item_id},'O', {update.stock}, date('{formatted_dt}'), '{update.user_id}')"
+        cursor.execute(query)
+        conn.commit()
+        conn.close()
+        cursor.close()
+
+        
+        if cursor.rowcount>0:
+            resData= {  
+            "status":1,
+            "data":"Stock updated Successfully"
+            }
+        else:
+            resData= {
+            "status":0, 
+            "data":"Error while updating Stock"
+            }
+    except:
+        print("An exception occurred")
+    # finally:
+    #     return resData
+    
+
+    try:
+        current_datetime = datetime.now()
+        formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+        conn = connect()
+        cursor = conn.cursor()
+        query = f"Insert td_stock (comp_id,br_id,item_id,stock,created_by,created_dt) values ({update.comp_id},{update.br_id},{update.item_id},{update.stock},'{update.user_id}','{formatted_dt}')"
+        cursor.execute(query)
+        conn.commit()
+        conn.close()
+        cursor.close()
+        if cursor.rowcount>0:
+            resData= {  
+            "status":1,
+            "data":"Stock updated Successfully"
+            }
+        else:
+            resData= {
+            "status":0, 
+            "data":"Error while updating Stock"
+            }
+    except:
+        print("An exception occurred")
+    finally:
+        return resData
