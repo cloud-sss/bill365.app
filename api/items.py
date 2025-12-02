@@ -60,11 +60,12 @@ async def add_items(add_item:AddItem):
     query = f"INSERT INTO md_items(comp_id, hsn_code, item_name, unit_id, catg_id, created_by, created_dt) VALUES ({add_item.comp_id}, '{add_item.hsn_code}', '{add_item.item_name}', {add_item.unit_id}, {add_item.catg_id},'{add_item.created_by}', '{formatted_dt}')"
     cursor.execute(query)
     conn.commit()
-    conn.close()
-    cursor.close()
+    
     # print(cursor.rowcount)
     # print(query)
     if cursor.rowcount>0:
+        conn.close()
+        cursor.close()
         conn1 = connect()
         cursor1 = conn1.cursor()
         query1 = f"INSERT INTO md_item_rate (item_id, price, discount, cgst, sgst, created_by, created_dt) VALUES ({cursor.lastrowid}, {add_item.price}, {add_item.discount}, {add_item.cgst}, {add_item.sgst}, '{add_item.created_by}', '{formatted_dt}')"
