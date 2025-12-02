@@ -790,6 +790,17 @@ async def stock_in(
                     res_dt3= await db_Insert(table_name2,fields2,values2,where2,flag2)
                 except mysql.connector.Error as err:
                     print(err)
+
+                try:
+                    table_name2 = "td_stock_ledger"
+                    fields2 = f"stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty,created_dt, created_by"
+                    values2 = f" date('{formatted_dt}'), '{formatted_dt}', {comp_id}, {br_id}, {row['item_id']}, {'O'}, {row['stock']}, date('{formatted_dt}'), '{created_by}'"
+                    where2 = None
+                    flag2 = 0
+                    res_dt3= await db_Insert(table_name2,fields2,values2,where2,flag2)
+                except mysql.connector.Error as err:
+                    print(err)
+
     return res_dt3
 
 @superadminRouter.get('/S_Admin/catg_list')
