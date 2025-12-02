@@ -75,6 +75,7 @@ async def update_stock(update:OpenStock):
         cursor = conn.cursor()
         query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {update.comp_id}, {update.br_id}, {update.item_id},'O', {update.stock}, date('{formatted_dt}'), '{update.user_id}')"
         cursor.execute(query)
+        print(query)
         conn.commit()
         conn.close()
         cursor.close()
@@ -103,6 +104,7 @@ async def update_stock(update:OpenStock):
         cursor = conn.cursor()
         query = f"Insert td_stock (comp_id,br_id,item_id,stock,created_by,created_dt) values ({update.comp_id},{update.br_id},{update.item_id},{update.stock},'{update.user_id}','{formatted_dt}')"
         cursor.execute(query)
+        print(query)
         conn.commit()
         conn.close()
         cursor.close()
