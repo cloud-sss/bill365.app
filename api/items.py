@@ -71,12 +71,12 @@ async def add_items(add_item:AddItem):
         query1 = f"INSERT INTO md_item_rate (item_id, price, sale_price,purchase_price, discount, cgst, sgst, created_by, created_dt) VALUES ({cursor.lastrowid}, {add_item.price},{add_item.sale_price}, {add_item.purchase_price}, {add_item.discount}, {add_item.cgst}, {add_item.sgst}, '{add_item.created_by}', '{formatted_dt}')"
         cursor1.execute(query1)
         conn1.commit()
-        
+        item_id = cursor.lastrowid
         if cursor1.rowcount>0:
             
             conn2 = connect()
             cursor2 = conn2.cursor()
-            query2 = f"INSERT INTO td_stock (comp_id, br_id, item_id, stock, created_by, created_dt) VALUES ({add_item.comp_id}, {add_item.br_id}, {cursor.lastrowid}, {add_item.opening_stock}, '{add_item.created_by}', '{formatted_dt}')"
+            query2 = f"INSERT INTO td_stock (comp_id, br_id, item_id, stock, created_by, created_dt) VALUES ({add_item.comp_id}, {add_item.br_id}, {item_id}, {add_item.opening_stock}, '{add_item.created_by}', '{formatted_dt}')"
             cursor2.execute(query2)
             conn2.commit()
             conn2.close()
@@ -89,7 +89,7 @@ async def add_items(add_item:AddItem):
             formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
             conn = connect()
             cursor = conn.cursor()
-            query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {add_item.comp_id}, {add_item.br_id}, {add_item.created_by},'O', {add_item.opening_stock}, date('{formatted_dt}'), '{add_item.created_by}')"
+            query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {add_item.comp_id}, {add_item.br_id}, {item_id},'O', {add_item.opening_stock}, date('{formatted_dt}'), '{add_item.created_by}')"
             cursor.execute(query)
             print(query)
             conn.commit()
