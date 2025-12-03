@@ -200,6 +200,10 @@ class AddItem(BaseModel):
     discount:float
     cgst:float
     sgst:float
+    barcode:float
+    purchase_price:float
+    sale_price:float
+    opening_stock:int
 
 class CancelBill(BaseModel):
     receipt_no:int

@@ -73,23 +73,34 @@ async def add_items(add_item:AddItem):
         conn1.commit()
         conn1.close()
         cursor1.close()
-        # if cursor1.rowcount>0:
-        #     conn2 = connect()
-        #     cursor2 = conn2.cursor()
-        #     query2 = f"INSERT INTO td_stock (comp_id, br_id, item_id, stock, created_by, created_dt) VALUES ({add_item.comp_id}, {add_item.br_id}, {cursor.lastrowid}, '0', '{add_item.created_by}', '{formatted_dt}')"
-        #     cursor2.execute(query2)
-        #     conn2.commit()
-        #     conn2.close()
-        #     cursor2.close()
-        #     if cursor2.rowcount>0:
-        #         resData={"status":1, "data": "Item and Stock Added Successfully"}
-        #     else:
-        #         resData={"status":0, "data": "No Stock Added"}
-        # else:
-        resData= {"status":0, "data":"Item Rate not Added"}
+        if cursor1.rowcount>0:
+            conn2 = connect()
+            cursor2 = conn2.cursor()
+            query2 = f"INSERT INTO td_stock (comp_id, br_id, item_id, stock, created_by, created_dt) VALUES ({add_item.comp_id}, {add_item.br_id}, {cursor.lastrowid}, {add_item.opening_stock}, '{add_item.created_by}', '{formatted_dt}')"
+            cursor2.execute(query2)
+            conn2.commit()
+            conn2.close()
+            cursor2.close()
+
+            current_datetime = datetime.now()
+            formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+            conn = connect()
+            cursor = conn.cursor()
+            query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {add_item.comp_id}, {add_item.br_id}, {add_item.created_by},'O', {add_item.opening_stock}, date('{formatted_dt}'), '{add_item.created_by}')"
+            cursor.execute(query)
+            print(query)
+            conn.commit()
+           
+            if cursor2.rowcount>0:
+                resData={"status":1, "data": "Item and Stock Added Successfully"}
+            else:
+                resData={"status":0, "data": "No Stock Added"}
+        else:
+            resData= {"status":0, "data":"Item Rate not Added"}
     else:
         resData={"status":-1, "data":"No Data Added"}
-       
+        conn.close()
+        cursor.close()
     return resData
 
 #===============================================================================================

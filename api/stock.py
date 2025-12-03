@@ -66,8 +66,8 @@ async def stock_report(stk_rep:StockReport):
     return result
 
 
-@stockRouter.post('/stock_open')
-async def update_stock(update:OpenStock):
+# @stockRouter.post('/stock_open')
+# async def update_stock(update:OpenStock):
     try:
         current_datetime = datetime.now()
         formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
@@ -79,8 +79,17 @@ async def update_stock(update:OpenStock):
         conn.commit()
         conn.close()
         cursor.close()
-
         
+        try:
+                    table_name2 = "td_stock_in"
+                    fields2 = f"comp_id, br_id, in_date, item_id, in_price, in_cgst, in_sgst, qty"
+                    values2 = f"{comp_id}, {br_id}, date('{formatted_dt}'), {row['item_id']}, {res_dt['msg'][0]['price']}, {res_dt['msg'][0]['cgst']}, {res_dt['msg'][0]['sgst']}, {row['stock']}"
+                    where2 = None
+                    flag2 = 0
+                    res_dt3= await db_Insert(table_name2,fields2,values2,where2,flag2)
+        except mysql.connector.Error as err:
+                    print(err)
+
         if cursor.rowcount>0:
             resData= {  
             "status":1,
