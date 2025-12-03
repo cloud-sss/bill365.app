@@ -71,9 +71,10 @@ async def add_items(add_item:AddItem):
         query1 = f"INSERT INTO md_item_rate (item_id, price, sale_price,purchase_price, discount, cgst, sgst, created_by, created_dt) VALUES ({cursor.lastrowid}, {add_item.price},{add_item.sale_price}, {add_item.purchase_price}, {add_item.discount}, {add_item.cgst}, {add_item.sgst}, '{add_item.created_by}', '{formatted_dt}')"
         cursor1.execute(query1)
         conn1.commit()
-        conn1.close()
-        cursor1.close()
+        
         if cursor1.rowcount>0:
+            conn1.close()
+            cursor1.close()
             conn2 = connect()
             cursor2 = conn2.cursor()
             query2 = f"INSERT INTO td_stock (comp_id, br_id, item_id, stock, created_by, created_dt) VALUES ({add_item.comp_id}, {add_item.br_id}, {cursor.lastrowid}, {add_item.opening_stock}, '{add_item.created_by}', '{formatted_dt}')"
@@ -91,7 +92,7 @@ async def add_items(add_item:AddItem):
             print(query)
             conn.commit()
            
-            if cursor2.rowcount>0:
+            if cursor.rowcount>0:
                 resData={"status":1, "data": "Item and Stock Added Successfully"}
             else:
                 resData={"status":0, "data": "No Stock Added"}
