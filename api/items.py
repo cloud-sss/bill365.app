@@ -73,8 +73,7 @@ async def add_items(add_item:AddItem):
         conn1.commit()
         
         if cursor1.rowcount>0:
-            conn1.close()
-            cursor1.close()
+            
             conn2 = connect()
             cursor2 = conn2.cursor()
             query2 = f"INSERT INTO td_stock (comp_id, br_id, item_id, stock, created_by, created_dt) VALUES ({add_item.comp_id}, {add_item.br_id}, {cursor.lastrowid}, {add_item.opening_stock}, '{add_item.created_by}', '{formatted_dt}')"
@@ -82,7 +81,10 @@ async def add_items(add_item:AddItem):
             conn2.commit()
             conn2.close()
             cursor2.close()
-
+            conn1.close()
+            cursor1.close()
+            conn.close()
+            cursor.close()
             current_datetime = datetime.now()
             formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
             conn = connect()
