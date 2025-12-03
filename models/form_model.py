@@ -200,7 +200,7 @@ class AddItem(BaseModel):
     discount:float
     cgst:float
     sgst:float
-    barcode:float
+    barcode:str
     purchase_price:float
     sale_price:float
     opening_stock:int
