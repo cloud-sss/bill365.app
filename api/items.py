@@ -78,6 +78,7 @@ async def add_items(add_item:AddItem):
             cursor2 = conn2.cursor()
             query2 = f"INSERT INTO td_stock (comp_id, br_id, item_id, stock, created_by, created_dt) VALUES ({add_item.comp_id}, {add_item.br_id}, {item_id}, {add_item.opening_stock}, '{add_item.created_by}', '{formatted_dt}')"
             cursor2.execute(query2)
+            print(query2)
             conn2.commit()
             conn2.close()
             cursor2.close()
