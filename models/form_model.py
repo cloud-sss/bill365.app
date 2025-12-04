@@ -161,6 +161,8 @@ class EditItem(BaseModel):
     barcode:str
     batch_no:str
     expiry_date:str
+    description:str
+    alert:str
     
 class DiscountSettings(BaseModel):
     comp_id:int
