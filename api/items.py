@@ -88,9 +88,10 @@ async def add_items(add_item:AddItem):
             cursor.close()
             current_datetime = datetime.now()
             formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+            formatted_expiry_dt = datetime.strftime(add_item.expiry_dt, "%Y-%m-%d %H:%M:%S")
             conn = connect()
             cursor = conn.cursor()
-            query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty, batch_no, expiry_dt,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {add_item.comp_id}, {add_item.br_id}, {item_id},'O', {add_item.opening_stock},{add_item.batch_no},{add_item.expiry_dt}, date('{formatted_dt}'), '{add_item.created_by}')"
+            query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty, batch_no, expiry_dt,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {add_item.comp_id}, {add_item.br_id}, {item_id},'O', {add_item.opening_stock},{add_item.batch_no},'{formatted_expiry_dt}', '{formatted_dt}', '{add_item.created_by}')"
             cursor.execute(query)
             print(query)
             conn.commit()
