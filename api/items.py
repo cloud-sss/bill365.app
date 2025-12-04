@@ -57,7 +57,7 @@ async def add_items(add_item:AddItem):
     formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
     conn = connect()
     cursor = conn.cursor()
-    query = f"INSERT INTO md_items(comp_id, hsn_code, item_name, bar_code, unit_id, catg_id, created_by, created_dt) VALUES ({add_item.comp_id}, '{add_item.hsn_code}', '{add_item.item_name}','{add_item.barcode}', {add_item.unit_id}, {add_item.catg_id},'{add_item.created_by}', '{formatted_dt}')"
+    query = f"INSERT INTO md_items(comp_id, hsn_code, item_name, bar_code, unit_id, catg_id, description, stock_alert, created_by, created_dt) VALUES ({add_item.comp_id}, '{add_item.hsn_code}', '{add_item.item_name}','{add_item.barcode}', {add_item.unit_id}, {add_item.catg_id},'{add_item.description}','{add_item.alert}','{add_item.created_by}', '{formatted_dt}')"
     cursor.execute(query)
     conn.commit()
     
@@ -90,7 +90,7 @@ async def add_items(add_item:AddItem):
             formatted_dt = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
             conn = connect()
             cursor = conn.cursor()
-            query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {add_item.comp_id}, {add_item.br_id}, {item_id},'O', {add_item.opening_stock}, date('{formatted_dt}'), '{add_item.created_by}')"
+            query = f"insert into td_stock_ledger (stock_trn_dt,stock_trn_id,comp_id, br_id, item_id, transaction_type, stock_qty, batch_no, expiry_dt,created_dt, created_by ) values (date('{formatted_dt}'), '{current_datetime}', {add_item.comp_id}, {add_item.br_id}, {item_id},'O', {add_item.opening_stock},{add_item.batch_no},{add_item.expiry_dt}, date('{formatted_dt}'), '{add_item.created_by}')"
             cursor.execute(query)
             print(query)
             conn.commit()

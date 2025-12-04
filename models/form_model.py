@@ -156,6 +156,11 @@ class EditItem(BaseModel):
     unit_id:int
     catg_id:int
     modified_by:str
+    purchase_price:float    
+    sale_price:float
+    barcode:str
+    batch_no:str
+    expiry_date:str
     
 class DiscountSettings(BaseModel):
     comp_id:int
@@ -194,7 +199,6 @@ class AddItem(BaseModel):
     item_name:str
     unit_id:int
     catg_id:int
-    # unit_name:str
     created_by:str
     price:float
     discount:float
@@ -204,6 +208,10 @@ class AddItem(BaseModel):
     purchase_price:float
     sale_price:float
     opening_stock:int
+    batch_no:str
+    expiry_dt:str
+    description:str
+    alert:str
 
 class CancelBill(BaseModel):
     receipt_no:int
