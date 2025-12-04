@@ -152,15 +152,12 @@ class EditItem(BaseModel):
     discount:float
     cgst:float
     sgst:float
-    # unit_name:str
     unit_id:int
     catg_id:int
     modified_by:str
     purchase_price:float    
-    sale_price:float
+    selling_price:float
     barcode:str
-    batch_no:str
-    expiry_date:str
     description:str
     alert:str
     
