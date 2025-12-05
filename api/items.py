@@ -68,7 +68,7 @@ async def add_items(add_item:AddItem):
         cursor.close()
         conn1 = connect()
         cursor1 = conn1.cursor()
-        query1 = f"INSERT INTO md_item_rate (item_id, price, sale_price,purchase_price, discount, cgst, sgst, created_by, created_dt, sp_gst_flag,pp_gst_flag,) VALUES ({cursor.lastrowid}, {add_item.price},{add_item.sale_price}, {add_item.purchase_price}, {add_item.discount}, {add_item.cgst}, {add_item.sgst}, '{add_item.created_by}', '{formatted_dt}','{add_item.sp_gst_flag}','{add_item.pp_gst_flag}')"
+        query1 = f"INSERT INTO md_item_rate (item_id, price, sale_price,purchase_price, discount, cgst, sgst, created_by, created_dt, sp_gst_flag,pp_gst_flag) VALUES ({cursor.lastrowid}, {add_item.price},{add_item.sale_price}, {add_item.purchase_price}, {add_item.discount}, {add_item.cgst}, {add_item.sgst}, '{add_item.created_by}', '{formatted_dt}','{add_item.sp_gst_flag}','{add_item.pp_gst_flag}')"
         cursor1.execute(query1)
         conn1.commit()
         item_id = cursor.lastrowid
