@@ -160,6 +160,8 @@ class EditItem(BaseModel):
     barcode:str
     description:str
     alert:str
+    sp_gst_flag:str 
+    pp_gst_flag:str
     
 class DiscountSettings(BaseModel):
     comp_id:int
@@ -211,6 +213,8 @@ class AddItem(BaseModel):
     expiry_dt:str
     description:str
     alert:str
+    sp_gst_flag:str 
+    pp_gst_flag:str
 
 class CancelBill(BaseModel):
     receipt_no:int
