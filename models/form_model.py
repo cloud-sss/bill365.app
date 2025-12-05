@@ -215,6 +215,9 @@ class AddItem(BaseModel):
     alert:str
     sp_gst_flag:str 
     pp_gst_flag:str
+    disc_prtg_flag:str
+
+
 
 class CancelBill(BaseModel):
     receipt_no:int
