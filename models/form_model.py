@@ -216,6 +216,7 @@ class AddItem(BaseModel):
     sp_gst_flag:str 
     pp_gst_flag:str
     disc_prtg_flag:str
+    as_on_dt:str
 
 
 
